@@ -36,7 +36,10 @@ const AppDrawer = () => {
             <Toolbar/>
             <List>
                 <ListItem button>
-                    <ListItemText primary={"Home"}/>
+                    <ListItemText primary={"Home"}
+                        onClick={
+                            () => history.push('/')
+                        }/>
                 </ListItem>
             </List>
             <Divider/>
