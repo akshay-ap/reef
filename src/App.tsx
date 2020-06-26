@@ -9,10 +9,11 @@ import ViewAlgorithms from './componenets/algorithms/ViewAlgorithms';
 import CreateAlgorithm from './componenets/algorithms/CreateAlgorithm';
 import CreateAsset from './componenets/assets/CreateAsset';
 import ViewJobs from './componenets/Jobs/ViewJobs';
-import ReefDrawer from './componenets/ReefDrawer';
+import AppDrawer from './componenets/AppDrawer';
 import {makeStyles} from '@material-ui/core/styles';
-import {AppBar, Toolbar, Typography} from '@material-ui/core';
 import {Main} from './componenets/Main';
+import TitleAppBar from './componenets/TitleAppBar';
+import {CssBaseline, Toolbar} from '@material-ui/core';
 
 declare global {
     interface Window {
@@ -35,89 +36,72 @@ const config: Config = {
     verbose: true
 }
 
-const drawerWidth = 160;
-
-const userStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
     container: {
         display: "flex"
     },
     root: {
-        flexGrow: 1
+        display: "flex"
     },
-    menuButton: {
-        marginRight: theme.spacing(2)
-    },
-    title: {
-        flexGrow: 1
-    },
-    appBar: {
-        [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
-            marginLeft: drawerWidth
-        }
-    },
-    toolbar: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: theme.spacing(0, 1),
-        // necessary for content to be below app bar
-        ...theme.mixins.toolbar
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing(3)
     }
 }))
 
 function App() {
-    const classes = userStyles()
+    const classes = useStyles()
 
-    return (<div className={
-        classes.container
-    }>
-        <Router>
-            <Web3Provider>
-                <OceanProvider config={config}>
-                    <AppBar position="fixed"
-                        className={
-                            classes.appBar
-                    }>
-                        <Toolbar>
-                            <Typography variant="h6" noWrap>
-                                Reef
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
+    return (
+        <div className={
+            classes.root
+        }>
+            <CssBaseline/>
 
-                    <ReefDrawer/>
-                    <Switch>
-                        <Route path="/"
-                            exact={true}>
-                            <Main/>
-                        </Route>
-                        <Route path="/assets/view">
-                            <ViewCompute/>
-                        </Route>
-                        <Route path="/assets/create">
-                            <CreateAsset/>
-                        </Route>
-                        <Route path="/algorithms/view">
-                            <ViewAlgorithms/>
-                        </Route>
-                        <Route path="/algorithms/create">
-                            <CreateAlgorithm/>
-                        </Route>
-                        <Route path="/compute/view">
-                            <ViewCompute/>
-                        </Route>
-                        <Route path="/compute/create">
-                            <Compute/>
-                        </Route>
-                        <Route path="/jobs">
-                            <ViewJobs/>
-                        </Route>
-                    </Switch>
-                </OceanProvider>
-            </Web3Provider>
-        </Router>
-    </div>);
+            <Router>
+                <Web3Provider>
+                    <OceanProvider config={config}>
+                        <TitleAppBar/>
+                        <div>
+                            <AppDrawer/>
+                        </div>
+                        <div className={
+                            classes.content
+                        }>
+                            <Toolbar/>
+                            <Switch>
+                                <Route path="/"
+                                    exact={true}>
+                                    <Main/>
+                                </Route>
+                                <Route path="/assets/view">
+                                    <ViewCompute/>
+                                </Route>
+                                <Route path="/assets/create">
+                                    <CreateAsset/>
+                                </Route>
+                                <Route path="/algorithms/view">
+                                    <ViewAlgorithms/>
+                                </Route>
+                                <Route path="/algorithms/create">
+                                    <CreateAlgorithm/>
+                                </Route>
+                                <Route path="/compute/view">
+                                    <ViewCompute/>
+                                </Route>
+                                <Route path="/compute/create">
+                                    <Compute/>
+                                </Route>
+                                <Route path="/jobs">
+                                    <ViewJobs/>
+                                </Route>
+                            </Switch>
+                        </div>
+                    </OceanProvider>
+                </Web3Provider>
+            </Router>
+        </div>
+    );
 }
 
 export default App;

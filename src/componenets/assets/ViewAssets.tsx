@@ -1,6 +1,8 @@
 import React from 'react';
 const ViewAssets = () => {
-    return (<div>ViewAssetspute</div>)
+    return (
+        <div>ViewAssets</div>
+    )
 }
 
 export default ViewAssets

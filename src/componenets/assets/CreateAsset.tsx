@@ -1,6 +1,8 @@
 import React from 'react';
 const CreateAsset = () => {
-    return (<div>CreateAsset</div>)
+    return (
+        <div>CreateAsset</div>
+    )
 }
 
 export default CreateAsset
