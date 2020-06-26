@@ -7,11 +7,21 @@ const useStyles = makeStyles((theme) => ({
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1
+    },
+    title: {
+        flexGrow: 1
+    },
+    status: {
+        marginRight: theme.spacing(2)
     }
 }))
 
 const TitleAppBar = () => {
-    const classes = useStyles()
+    const classes = useStyles();
+
+    const getStatus = () : String => {
+        return 'Loaded'
+    }
 
     return (
         <div className={
@@ -22,9 +32,18 @@ const TitleAppBar = () => {
                     classes.appBar
             }>
                 <Toolbar>
-                    <Typography variant="h6" noWrap>
+                    <Typography variant="h6" noWrap
+                        className={
+                            classes.title
+                    }>
                         Reef
                     </Typography>
+                    <Typography className={
+                        classes.status
+                    }>
+                        Status: {
+                        getStatus()
+                    } </Typography>
                 </Toolbar>
             </AppBar>
         </div>

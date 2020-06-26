@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {ThemeProvider, createMuiTheme} from '@material-ui/core/styles'
+import {MyProvider} from './OceanContext';
 
 const theme = createMuiTheme({
     palette: {
@@ -14,10 +15,15 @@ const theme = createMuiTheme({
     }
 })
 
-ReactDOM.render (<React.StrictMode>
-    <ThemeProvider theme={theme}>
-        <App/>
-    </ThemeProvider>
-</React.StrictMode>, document.getElementById('root'));
+ReactDOM.render (
+    <React.StrictMode>
+        <ThemeProvider theme={theme}>
+            <MyProvider>
+                <App/>
+            </MyProvider>
+        </ThemeProvider>
+    </React.StrictMode>,
+    document.getElementById('root')
+);
 
 serviceWorker.unregister();

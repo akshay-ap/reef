@@ -1,7 +1,5 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import './App.css';
-import {Web3Provider, OceanProvider, Config} from '@oceanprotocol/react'
-import Web3 from 'web3';
 import {Switch, BrowserRouter as Router, Route} from "react-router-dom";
 import Compute from './componenets/compute/Compute';
 import ViewCompute from './componenets/compute/ViewCompute';
@@ -14,6 +12,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import {Main} from './componenets/Main';
 import TitleAppBar from './componenets/TitleAppBar';
 import {CssBaseline, Toolbar} from '@material-ui/core';
+import {MyOceanContext} from './OceanContext';
+import ViewAssets from './componenets/assets/ViewAssets';
 
 declare global {
     interface Window {
@@ -22,18 +22,8 @@ declare global {
     }
 }
 
-if (window.web3) { // web3 = new Web3(window.web3.currentProvider)
+if (window.web3) {
     window.ethereum.enable()
-}
-
-const config: Config = {
-    web3Provider: new Web3(window.web3.currentProvider),
-    nodeUri: 'http://localhost:8545',
-    aquariusUri: 'http://aquarius:5000',
-    brizoUri: 'http://localhost:8030',
-    brizoAddress: '0x00bd138abd70e2f00903268f3db08f2d25677c9e',
-    secretStoreUri: 'http://localhost:12001',
-    verbose: true
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -49,59 +39,65 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
+
 function App() {
     const classes = useStyles()
+    const {loading} = useContext(MyOceanContext)
+    if (window.ethereum === undefined) {
+        return <div>No wallet</div>;
+    }
 
-    return (
-        <div className={
+    const getUI = () => {
+        if (loading) 
+            return <div>Loading</div>
+
+
+        
+
+
+        return <div className={
             classes.root
         }>
             <CssBaseline/>
-
+            <TitleAppBar/>
             <Router>
-                <Web3Provider>
-                    <OceanProvider config={config}>
-                        <TitleAppBar/>
-                        <div>
-                            <AppDrawer/>
-                        </div>
-                        <div className={
-                            classes.content
-                        }>
-                            <Toolbar/>
-                            <Switch>
-                                <Route path="/"
-                                    exact={true}>
-                                    <Main/>
-                                </Route>
-                                <Route path="/assets/view">
-                                    <ViewCompute/>
-                                </Route>
-                                <Route path="/assets/create">
-                                    <CreateAsset/>
-                                </Route>
-                                <Route path="/algorithms/view">
-                                    <ViewAlgorithms/>
-                                </Route>
-                                <Route path="/algorithms/create">
-                                    <CreateAlgorithm/>
-                                </Route>
-                                <Route path="/compute/view">
-                                    <ViewCompute/>
-                                </Route>
-                                <Route path="/compute/create">
-                                    <Compute/>
-                                </Route>
-                                <Route path="/jobs">
-                                    <ViewJobs/>
-                                </Route>
-                            </Switch>
-                        </div>
-                    </OceanProvider>
-                </Web3Provider>
+                <AppDrawer/>
+                <div className={
+                    classes.content
+                }>
+                    <Toolbar/>
+                    <Switch>
+                        <Route path="/"
+                            exact={true}>
+                            <Main/>
+                        </Route>
+                        <Route path="/assets/view">
+                            <ViewAssets/>
+                        </Route>
+                        <Route path="/assets/create">
+                            <CreateAsset/>
+                        </Route>
+                        <Route path="/algorithms/view">
+                            <ViewAlgorithms/>
+                        </Route>
+                        <Route path="/algorithms/create">
+                            <CreateAlgorithm/>
+                        </Route>
+                        <Route path="/compute/view">
+                            <ViewCompute/>
+                        </Route>
+                        <Route path="/compute/create">
+                            <Compute/>
+                        </Route>
+                        <Route path="/jobs">
+                            <ViewJobs/>
+                        </Route>
+                    </Switch>
+                </div>
             </Router>
         </div>
-    );
+    }
+    return(getUI());
 }
 
 export default App;
