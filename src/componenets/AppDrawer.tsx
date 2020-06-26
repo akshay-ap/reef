@@ -35,65 +35,65 @@ const AppDrawer = () => {
         }>
             <Toolbar/>
             <List>
-                <ListItem button>
-                    <ListItemText primary={"Home"}
-                        onClick={
-                            () => history.push('/')
-                        }/>
+                <ListItem button
+                    onClick={
+                        () => history.push('/')
+                }>
+                    <ListItemText primary={"Home"}/>
                 </ListItem>
             </List>
             <Divider/>
             <List>
-                <ListItem button>
-                    <ListItemText primary={"View datasets"}
-                        onClick={
-                            () => history.push('/assets/view')
-                        }/>
+                <ListItem button
+                    onClick={
+                        () => history.push('/assets/view')
+                }>
+                    <ListItemText primary={"View datasets"}/>
                 </ListItem>
-                <ListItem button>
-                    <ListItemText primary={"Create dataset"}
-                        onClick={
-                            () => history.push('/assets/create')
-                        }/>
-                </ListItem>
-            </List>
-            <Divider/>
-            <List>
-                <ListItem button>
-                    <ListItemText primary={"View algorithms"}
-                        onClick={
-                            () => history.push('/algorithms/view')
-                        }/>
-                </ListItem>
-                <ListItem button>
-                    <ListItemText primary={"Create algorithm"}
-                        onClick={
-                            () => history.push('/algorithms/create')
-                        }/>
+                <ListItem button
+                    onClick={
+                        () => history.push('/assets/create')
+                }>
+                    <ListItemText primary={"Create dataset"}/>
                 </ListItem>
             </List>
             <Divider/>
             <List>
-                <ListItem button>
-                    <ListItemText primary={"View compute"}
-                        onClick={
-                            () => history.push('/compute/view')
-                        }/>
+                <ListItem button
+                    onClick={
+                        () => history.push('/algorithms/view')
+                }>
+                    <ListItemText primary={"View algorithms"}/>
                 </ListItem>
-                <ListItem button>
-                    <ListItemText primary={"Create compute"}
-                        onClick={
-                            () => history.push('/compute/create')
-                        }/>
+                <ListItem button
+                    onClick={
+                        () => history.push('/algorithms/create')
+                }>
+                    <ListItemText primary={"Create algorithm"}/>
                 </ListItem>
             </List>
             <Divider/>
             <List>
-                <ListItem button>
-                    <ListItemText primary={"View Jobs"}
-                        onClick={
-                            () => history.push('/jobs')
-                        }/>
+                <ListItem button
+                    onClick={
+                        () => history.push('/compute/view')
+                }>
+                    <ListItemText primary={"View compute"}/>
+                </ListItem>
+                <ListItem button
+                    onClick={
+                        () => history.push('/compute/create')
+                }>
+                    <ListItemText primary={"Create compute"}/>
+                </ListItem>
+            </List>
+            <Divider/>
+            <List>
+                <ListItem button
+                    onClick={
+                        () => history.push('/jobs')
+                }>
+                    <ListItemText primary={"View Jobs"}/>
                 </ListItem>
             </List>
         </Drawer>
