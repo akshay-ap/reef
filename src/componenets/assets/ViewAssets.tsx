@@ -21,7 +21,7 @@ const ViewAssets = () => {
         } else {
             console.log('result undefined')
         }
-    }, [])
+    }, [instance])
 
     return (
         <div>ViewAssets

@@ -15,17 +15,6 @@ import {CssBaseline, Toolbar} from '@material-ui/core';
 import {MyOceanContext} from './OceanContext';
 import ViewAssets from './componenets/assets/ViewAssets';
 
-declare global {
-    interface Window {
-        web3: any;
-        ethereum: any;
-    }
-}
-
-if (window.web3) {
-    window.ethereum.enable()
-}
-
 const useStyles = makeStyles((theme) => ({
     container: {
         display: "flex"
@@ -51,9 +40,7 @@ function App() {
         if (loading) 
             return <div>Loading</div>
 
-
         
-
 
         return <div className={
             classes.root
