@@ -1,5 +1,6 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {DDO} from '@oceanprotocol/squid'
+import {Account} from '@oceanprotocol/squid';
 import {
     Card,
     CardHeader,
@@ -14,6 +15,7 @@ import {
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import asset from '../../data/asset';
+import {MyOceanContext} from '../../OceanContext';
 
 const useStyles = makeStyles({
     title: {
@@ -25,10 +27,24 @@ const AssetDetails = ({assetInfo} : {
     assetInfo: DDO
 }) => {
     const classes = useStyles();
+    const {instance} = useContext(MyOceanContext)
+
+    const consume = async (consumeAsset : DDO) => {
+        const accounts: Account[] | undefined = await instance ?. accounts.list()
+        if (accounts) {
+            const agreement = await instance ?. assets.order(consumeAsset.id, accounts[0])
+            if (agreement) {
+                await instance ?. assets.consume(agreement, consumeAsset.id, accounts[0], '', 0)
+
+            }
+
+        }
+        // consume it
+    }
     return (
         <Card variant="outlined">
             <CardHeader title={
-                    assetInfo.id
+                    assetInfo.service.find(e => e.type == 'metadata') ?. attributes.main.name
                 }
                 action={
                     <div></div>
@@ -39,7 +55,7 @@ const AssetDetails = ({assetInfo} : {
                     }
                     color="textSecondary">
                     {
-                    asset.additionalInformation ?. description
+                    assetInfo.service.find(e => e.type == 'metadata') ?. attributes.main.author
                 } </Typography>
             </CardContent>
             <CardActions>
@@ -47,6 +63,14 @@ const AssetDetails = ({assetInfo} : {
                     View
                 </Button>
 
+                <Button size="small" color="primary"
+                    onClick={
+                        () => {
+                            consume(assetInfo)
+                        }
+                }>
+                    Comsume
+                </Button>
                 <Button size="small" color="primary">
                     Run compute
                 </Button>

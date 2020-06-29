@@ -27,19 +27,14 @@ const ViewAssets = () => {
 
     useEffect(() => {
         console.log('loading assets...')
-        const result = instance ?. assets.query({
-            query: {
-                text: ''
-            }
-        })
+        const result = instance ?. assets.search('Small')
         if (result !== undefined) {
             result.then((r) => {
-                console.log(r)
-                const ddo: DDO = new DDO();
-                ddo.id = "1";
-                r.results.push(ddo)
                 setAssets(r.results)
+                console.log(instance ?. aquarius.retrieveDDO(r.results[0].id))
             })
+
+
         } else {
             console.log('result undefined')
         }

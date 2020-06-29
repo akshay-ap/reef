@@ -1,8 +1,9 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {MyOceanContext} from '../../OceanContext';
-import {Button} from '@material-ui/core';
+import {Button, Grid, TextField, Divider} from '@material-ui/core';
 import {Account} from '@oceanprotocol/squid';
 import asset from '../../data/asset';
+import FormControl from '@material-ui/core/FormControl';
 
 const CreateAsset = () => {
 
@@ -23,11 +24,62 @@ const CreateAsset = () => {
         }
     }
 
+
+    const handleSubmit = (event : React.FormEvent < HTMLFormElement >) => {}
+    // const [mainMetaData, setMainMetaData] = useState < MetaDataMain > ({
+    //     name: 'name',
+    //     type: 'dataset',
+    //     dateCreated: '',
+    //     author: 'author',
+    //     license: 'license',
+    //     price: 'price',
+    //     files: []
+    // });
+
     return (
-        <div>CreateAsset
-            <Button onClick={createAsset}
-                variant="contained">Create</Button>
-        </div>
+        <div>CreateAsset {/* <form onSubmit={handleSubmit}> */}
+            {/* <div>
+                    <TextField value={
+                            mainMetaData.name
+                        }
+                        placeholder="Name"
+                        onChange={
+                            (e) => setMainMetaData((prevstate) => ({
+                                ...prevstate,
+                                name: e.target.value
+                            }))
+                    }></TextField>
+                </div>
+                <div>
+                    <TextField value={
+                            mainMetaData.author
+                        }
+                        placeholder="Author"
+                        onChange={
+                            (e) => setMainMetaData((prevstate) => ({
+                                ...prevstate,
+                                author: e.target.value
+                            }))
+                    }></TextField>
+                </div>
+                <div>
+                    <TextField value={
+                            mainMetaData.license
+                        }
+                        placeholder="License"
+                        onChange={
+                            (e) => setMainMetaData((prevstate) => ({
+                                ...prevstate,
+                                license: e.target.value
+                            }))
+                    }></TextField>
+                </div>
+                <Divider></Divider>
+ */}
+
+            <Button type="submit" variant="contained"
+                onClick={createAsset}>Create</Button>
+            {/* </form> */} </div>
     )
 }
 
