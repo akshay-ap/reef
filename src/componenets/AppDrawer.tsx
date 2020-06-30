@@ -9,6 +9,7 @@ import {
     makeStyles
 } from '@material-ui/core';
 import {useHistory} from 'react-router-dom';
+import StorageIcon from '@material-ui/icons/Storage';
 
 const drawerWidth = '240px';
 
@@ -44,6 +45,9 @@ const AppDrawer = () => {
             </List>
             <Divider/>
             <List>
+                <ListItem>
+                    <StorageIcon/>
+                </ListItem>
                 <ListItem button
                     onClick={
                         () => history.push('/assets/view')

@@ -15,6 +15,13 @@ import {MyOceanContext} from '../../OceanContext';
 const useStyles = makeStyles({
     title: {
         fontSize: 14
+    },
+    card: {
+        background: 'linear-gradient(45deg, #64b5f6 30%, #e3f2fd 90%)'
+    },
+    button: {
+        backgroundColor: '#1a237e',
+        color: 'white'
     }
 });
 
@@ -31,7 +38,10 @@ const AssetDetails = ({assetInfo} : {
         const compute = asset.service.find(e => e.type === 'compute')
         if (compute !== undefined) {
             return (
-                <Button size="small" color="primary"
+                <Button size="small" color="primary" variant="contained"
+                    className={
+                        classes.button
+                    }
                     onClick={runComputeJob}>Run Compute</Button>
             )
         } else {
@@ -55,28 +65,47 @@ const AssetDetails = ({assetInfo} : {
         // consume it
     }
     return (
-        <Card variant="outlined">
+        <Card variant="outlined"
+            className={
+                classes.card
+            }
+            raised={true}>
             <CardHeader title={
                     assetInfo.service.find(e => e.type === 'metadata') ?. attributes.main.name
                 }
                 action={
                     <div></div>
                 }/>
+
             <CardContent>
+
                 <Typography className={
                         classes.title
                     }
                     color="textSecondary">
-                    {
+                    Price: {
+                    assetInfo.service.find(e => e.type === 'metadata') ?. attributes.main.price
+                }</Typography>
+                <Typography className={
+                        classes.title
+                    }
+                    color="textSecondary">
+                    Author: {
                     assetInfo.service.find(e => e.type === 'metadata') ?. attributes.main.author
                 } </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small" color="primary">
+                <Button size="small" color="primary" variant="contained"
+                    className={
+                        classes.button
+                }>
                     View
                 </Button>
 
-                <Button size="small" color="primary"
+                <Button size="small" color="primary" variant="contained"
+                    className={
+                        classes.button
+                    }
                     onClick={
                         () => {
                             consume(assetInfo)

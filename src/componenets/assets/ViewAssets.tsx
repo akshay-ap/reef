@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {MyOceanContext} from '../../OceanContext';
 import {DDO} from '@oceanprotocol/squid';
-import {Grid} from '@material-ui/core';
+import {Grid, Card, CardContent, Typography} from '@material-ui/core';
 import AssetDetails from './AssetDetails';
 
 const ViewAssets = () => {
@@ -25,7 +25,19 @@ const ViewAssets = () => {
     }, [instance])
 
     return (
-        <div>ViewAssets
+        <div>
+            <Grid item
+                spacing={3}>
+                <Card>
+                    <CardContent>
+                        <Typography>
+                            ViewAssets
+                        </Typography>
+
+                    </CardContent>
+                </Card>
+            </Grid>
+            <br/>
             <div>
                 <Grid container>
                     <Grid container direction="column">
