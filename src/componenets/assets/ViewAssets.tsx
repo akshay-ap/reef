@@ -1,24 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {MyOceanContext} from '../../OceanContext';
 import {DDO} from '@oceanprotocol/squid';
-import {
-    Grid,
-    Card,
-    CardContent,
-    InputBase,
-    Button,
-    makeStyles,
-    Theme,
-    createStyles
-} from '@material-ui/core';
+import {Grid} from '@material-ui/core';
 import AssetDetails from './AssetDetails';
-
-const useStyles = makeStyles((theme : Theme) => createStyles({
-    inputRoot: {
-        color: "inherit"
-    }
-
-}));
 
 const ViewAssets = () => {
     const {instance} = useContext(MyOceanContext)
@@ -27,13 +11,13 @@ const ViewAssets = () => {
 
     useEffect(() => {
         console.log('loading assets...')
-        const result = instance ?. assets.search('Small')
+        const result = instance ?. assets.search('xzyabc123')
         if (result !== undefined) {
             result.then((r) => {
-                setAssets(r.results)
-                console.log(instance ?. aquarius.retrieveDDO(r.results[0].id))
+                const a = r.results.filter(r => r.service.find(e => e.attributes.main.type === 'dataset'))
+                console.log(a)
+                setAssets(a)
             })
-
 
         } else {
             console.log('result undefined')
@@ -48,7 +32,7 @@ const ViewAssets = () => {
                         <Grid item container
                             spacing={3}>
                             {
-                            assets.map((value : DDO, index) => (
+                            assets.map((value : DDO) => (
                                 <Grid item
                                     xs={12}
                                     sm={4}

@@ -8,13 +8,20 @@ const ViewAlgorithms = () => {
     const {instance} = useContext(MyOceanContext)
     const [assets, setAssets] = useState < DDO[] > ([]);
 
+
     useEffect(() => {
         console.log('loading assets...')
-        const result = instance ?. assets.search('Small')
+        // const q: SearchQuery = { // text: 'algo-xzyabc123',
+        //     query: {
+        //         type: 'algorithm'
+        //     }
+        // }
+        const result = instance ?. assets.search('algo')
         if (result !== undefined) {
             result.then((r) => {
-                setAssets(r.results)
-                console.log(instance ?. aquarius.retrieveDDO(r.results[0].id))
+                const a = r.results.filter(r => r.service.find(e => e.attributes.main.type === 'algorithm'))
+                setAssets(a)
+                console.log('alogrithm found', a)
             })
 
 

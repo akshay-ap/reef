@@ -38,7 +38,7 @@ const config: Config = {
     verbose: true
 }
 
-// const ocean = await new Ocean.getInstance({
+// const config: Config = {
 //     web3Provider: web3,
 //     nodeUri: 'http://localhost:8545',
 //     aquariusUri: 'http://aquarius:5000',
@@ -46,7 +46,7 @@ const config: Config = {
 //     brizoAddress: '0x00bd138abd70e2f00903268f3db08f2d25677c9e',
 //     secretStoreUri: 'http://localhost:12001',
 //     verbose: true
-// })
+// }
 
 export const MyProvider = ({children} : Props) => {
     const [data, setData] = useState < Ocean | null | any > (null)
