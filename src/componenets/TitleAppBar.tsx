@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {AppBar, Toolbar, Typography, makeStyles} from '@material-ui/core';
+import {MyOceanContext} from '../OceanContext';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,9 +19,12 @@ const useStyles = makeStyles((theme) => ({
 
 const TitleAppBar = () => {
     const classes = useStyles();
-
+    const {instance} = useContext(MyOceanContext)
     const getStatus = () : String => {
-        return 'Loaded'
+        if (instance === undefined) 
+            return 'Not connected'
+        
+        return instance ?. keeper.connected ? 'Connected' : 'Not Connected'
     }
 
     return (
