@@ -13,7 +13,8 @@ import {
     MetaDataMain,
     AdditionalInformation,
     MetaData,
-    CreateProgressStep
+    CreateProgressStep,
+    File
 } from '@oceanprotocol/squid';
 import {asset, assetWithCompute, DataAdditionalInformation} from '../../data/asset';
 import {createStyles, makeStyles, Theme, useTheme} from '@material-ui/core/styles';
@@ -124,15 +125,20 @@ const CreateAsset = () => {
                 Files
             </Typography>
             {
-            mainMetaData.files.map((file) => {
-                return <div>
+            mainMetaData.files.map((file, index) => {
+                return <div key={
+                    file.resourceId
+                }>
                     <Grid item container
                         spacing={3}>
                         <Grid item>
                             <TextField value={
                                     file.url
                                 }
-                                label="URL"/>
+                                label="URL"
+                                onChange={
+                                    e => updateFileInfo(file.resourceId, e.target.value)
+                                }/>
                         </Grid>
                         <Grid item>
                             <TextField value={
@@ -142,28 +148,70 @@ const CreateAsset = () => {
                         </Grid>
                         <Grid item>
                             <TextField value={
-                                    file.checksumType
+                                    file.name
                                 }
-                                label="ChecksumType"/>
+                                label="Name"/>
                         </Grid>
                         <Grid item>
                             <TextField value={
-                                    file.checksum
+                                    file.resourceId
                                 }
-                                label="Checksum"/>
+                                label="ResourceId"/>
                         </Grid>
                         <Grid item>
-                            <IconButton><DeleteForeverIcon/></IconButton>
+                            <IconButton onClick={
+                                () => {
+                                    removeFile(file.resourceId)
+                                }
+                            }><DeleteForeverIcon/></IconButton>
                         </Grid>
                     </Grid>
                 </div>
         })
         }<br/>
-            <Button variant="contained">Add</Button>
+            <Button variant="contained"
+                onClick={addFile}>Add</Button>
         </Paper>
     }
+    const removeFile = (resourceId : string | undefined) => {
+        const filesList = mainMetaData.files.filter(f => f.resourceId !== resourceId);
+        setMainMetaData((prev) => {
+            return {
+                ...prev,
+                files: filesList
+            }
+        })
+    }
 
-    const addFile = () => {}
+    const updateFileInfo = (resourceId : string | undefined, value : string) => {
+        // const file = mainMetaData.files.find(f => f.resourceId === resourceId);
+        // setMainMetaData((prev) => {
+        //     return {
+        //         ...prev,
+        //         files: filesList
+        //     }
+        // })
+    }
+
+    const addFile = () => {
+        const resourceId = Math.random().toString(36).substring(2, 7) + Math.random().toString(36).substring(2, 7);
+        console.log(resourceId)
+        const filesList = [
+            ...mainMetaData.files, {
+                contentType: 'test',
+                url: '',
+                resourceId: resourceId,
+                name: 'na'
+            }
+        ];
+
+        setMainMetaData((prev) => {
+            return {
+                ...prev,
+                files: filesList
+            }
+        })
+    }
 
     const handleSubmit = (event : React.FormEvent < HTMLFormElement >) => {
         event.preventDefault()
