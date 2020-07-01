@@ -8,10 +8,12 @@ import {
     Typography,
     CardActions,
     Button,
-    makeStyles
+    makeStyles,
+    IconButton
 } from '@material-ui/core'
 import {MyOceanContext} from '../../OceanContext';
-
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 const useStyles = makeStyles({
     title: {
         fontSize: 14
@@ -115,7 +117,11 @@ const AssetDetails = ({assetInfo} : {
                 </Button>
                 {
                 isComputable()
-            } </CardActions>
+            }
+                <IconButton><ThumbUpIcon/></IconButton>
+                <IconButton><ThumbDownIcon/></IconButton>
+
+            </CardActions>
         </Card>
     )
 }

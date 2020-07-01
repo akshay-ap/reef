@@ -43,7 +43,7 @@ const config: Config = {
 //     nodeUri: 'http://localhost:8545',
 //     aquariusUri: 'http://aquarius:5000',
 //     brizoUri: 'http://localhost:8030',
-//     brizoAddress: '0x00bd138abd70e2f00903268f3db08f2d25677c9e',
+//     brizoAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0',
 //     secretStoreUri: 'http://localhost:12001',
 //     verbose: true
 // }

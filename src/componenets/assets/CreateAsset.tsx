@@ -3,17 +3,17 @@ import {MyOceanContext} from '../../OceanContext';
 import {
     Button,
     TextField,
-    Divider,
     Typography,
     Grid,
-    FormControl,
-    InputLabel,
-    Select,
-    Input,
-    Chip,
-    MenuItem
+    Paper
 } from '@material-ui/core';
-import {Account, MetaDataMain, AdditionalInformation, MetaData} from '@oceanprotocol/squid';
+import {
+    Account,
+    MetaDataMain,
+    AdditionalInformation,
+    MetaData,
+    CreateProgressStep
+} from '@oceanprotocol/squid';
 import {asset, assetWithCompute, DataAdditionalInformation} from '../../data/asset';
 import {createStyles, makeStyles, Theme, useTheme} from '@material-ui/core/styles';
 import {Tags} from '../../data/Tag';
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme : Theme) => createStyles({
     paper: {
         padding: theme.spacing(2),
         textAlign: 'center',
-        color: theme.palette.text.secondary
+        color: theme.palette.text.primary
     },
     formControl: {
         margin: theme.spacing(1),
@@ -82,9 +82,17 @@ const CreateAsset = () => {
                 main: mainMetaData,
                 additionalInformation: additionInformation
             }
-            const ddo = await instance ?. assets.create(newAsset, accounts[0])
-            console.log('Asset successfully submitted.')
-            console.log(ddo)
+            const p = instance ?. assets.create(newAsset, accounts[0])
+            p ?. then(d => {
+                console.log('d', d)
+            })
+            p ?. subscribe((x : CreateProgressStep) => {
+                console.log('x', x)
+            })
+            // .subscribe((p : CreateProgressStep) => {
+            //     console.log('Asset successfully submitted.', p)
+            // })
+
         } else {
             console.log("No accounts")
         }
@@ -135,119 +143,147 @@ const CreateAsset = () => {
     //     }));
     // };
 
-    const getMetaData = () => {}
-    return (
-        <div className={
-            classes.root
-        }>CreateAsset
-            <form onSubmit={handleSubmit}>
+    const getMetaData = () => {
+        return (
+            <Paper className={
+                classes.paper
+            }>
                 <Typography>
                     MetaData
                 </Typography>
-                <Grid container>
-
-                    <Grid item container
-                        spacing={3}>
-                        <Grid item>
-                            <TextField value={
-                                    mainMetaData.name
-                                }
-                                label="Name"
-                                onChange={
-                                    (event) => {
-                                        const {value} = event.target;
-                                        setMainMetaData((prevstate) => ({
-                                            ...prevstate,
-                                            name: value
-                                        }))
-                                    }
-                            }></TextField>
-                    </Grid>
+                <br/>
+                <Grid item container
+                    spacing={3}>
                     <Grid item>
                         <TextField value={
-                                mainMetaData.author
+                                mainMetaData.name
                             }
-                            label="Author"
+                            label="Name"
                             onChange={
                                 (event) => {
                                     const {value} = event.target;
                                     setMainMetaData((prevstate) => ({
                                         ...prevstate,
-                                        author: value
+                                        name: value
                                     }))
                                 }
                         }></TextField>
                 </Grid>
                 <Grid item>
                     <TextField value={
-                            mainMetaData.license
+                            mainMetaData.author
                         }
-                        label="License"
+                        label="Author"
                         onChange={
                             (event) => {
                                 const {value} = event.target;
                                 setMainMetaData((prevstate) => ({
                                     ...prevstate,
-                                    license: value
+                                    author: value
                                 }))
                             }
                     }></TextField>
             </Grid>
             <Grid item>
                 <TextField value={
-                        mainMetaData.price
+                        mainMetaData.license
                     }
-                    label="Price"
+                    label="License"
                     onChange={
                         (event) => {
                             const {value} = event.target;
                             setMainMetaData((prevstate) => ({
                                 ...prevstate,
-                                price: value
+                                license: value
+                            }))
+                        }
+                }></TextField>
+        </Grid>
+        <Grid item>
+            <TextField value={
+                    mainMetaData.price
+                }
+                label="Price"
+                onChange={
+                    (event) => {
+                        const {value} = event.target;
+                        setMainMetaData((prevstate) => ({
+                            ...prevstate,
+                            price: value
+                        }))
+                    }
+            }></TextField>
+    </Grid>
+</Grid></Paper>
+        )
+    }
+
+    const getAdditionalInfo = () => {
+        return <Paper className={
+            classes.paper
+        }>
+            <Typography>
+                Additional information
+            </Typography>
+            <br/>
+            <Grid item container
+                spacing={3}>
+
+                <Grid item>
+                    <TextField label="Description"
+                        onChange={
+                            (e) => {
+                                const {value} = e.target;
+                                setAdditionInformation((prevstate) => ({
+                                    ...prevstate,
+                                    description: value
+                                }))
+                            }
+                    }></TextField>
+            </Grid>
+            <Grid item>
+                <TextField label="CopyrightHolder"
+                    onChange={
+                        (e) => {
+                            const {value} = e.target;
+
+                            setAdditionInformation((prevstate) => ({
+                                ...prevstate,
+                                copyrightHolder: value
                             }))
                         }
                 }></TextField>
         </Grid>
     </Grid>
-    <Grid item container
-        spacing={1}>
-        {
-        getFiles()
-    } </Grid>
-    <Grid item>
-        <Typography variant="h6">
-            Additional info
-        </Typography>
-    </Grid>
-    <Grid item container
-        spacing={3}>
+</Paper>
+    }
+    return (
+        <div className={
+            classes.root
+        }>CreateAsset
+            <form onSubmit={handleSubmit}>
 
-        <Grid item>
-            <TextField label="Description"
-                onChange={
-                    (e) => {
-                        const {value} = e.target;
-                        setAdditionInformation((prevstate) => ({
-                            ...prevstate,
-                            description: value
-                        }))
-                    }
-            }></TextField>
-    </Grid>
-    <Grid item>
-        <TextField label="CopyrightHolder"
-            onChange={
-                (e) => {
-                    const {value} = e.target;
+                <Grid container>
+                    <Grid item>
+                        {
+                        getMetaData()
+                    }</Grid>
 
-                    setAdditionInformation((prevstate) => ({
-                        ...prevstate,
-                        copyrightHolder: value
-                    }))
-                }
-        }></TextField>
-</Grid></Grid></Grid><Button type="submit" variant="contained">Create</Button><br/><Button type="submit" variant="contained"
-    onClick={createAssetWithCompute}>Create with compute</Button></form></div>
+                    {/* <Grid container
+                        spacing={1}>
+                        <Paper> {
+                            getFiles()
+                        }</Paper>
+                    </Grid> */}
+                    <Grid item>
+                        {
+                        getAdditionalInfo()
+                    } </Grid>
+                </Grid>
+                <Button type="submit" variant="contained">Create</Button><br/><Button type="submit" variant="contained"
+                    onClick={createAssetWithCompute}>Create with compute</Button>
+            </form>
+        </div>
 
     )
 }
