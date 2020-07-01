@@ -5,7 +5,8 @@ import {
     TextField,
     Typography,
     Grid,
-    Paper
+    Paper,
+    IconButton
 } from '@material-ui/core';
 import {
     Account,
@@ -17,6 +18,7 @@ import {
 import {asset, assetWithCompute, DataAdditionalInformation} from '../../data/asset';
 import {createStyles, makeStyles, Theme, useTheme} from '@material-ui/core/styles';
 import {Tags} from '../../data/Tag';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const useStyles = makeStyles((theme : Theme) => createStyles({
     root: {
@@ -115,18 +117,50 @@ const CreateAsset = () => {
     }
 
     const getFiles = () => {
-        return <Grid item>
+        return <Paper className={
+            classes.paper
+        }>
+            <Typography>
+                Files
+            </Typography>
             {
             mainMetaData.files.map((file) => {
-
                 return <div>
-                    <TextField value={
-                            file.url
-                        }
-                        label="File"></TextField>
+                    <Grid item container
+                        spacing={3}>
+                        <Grid item>
+                            <TextField value={
+                                    file.url
+                                }
+                                label="URL"/>
+                        </Grid>
+                        <Grid item>
+                            <TextField value={
+                                    file.contentType
+                                }
+                                label="ContentType"/>
+                        </Grid>
+                        <Grid item>
+                            <TextField value={
+                                    file.checksumType
+                                }
+                                label="ChecksumType"/>
+                        </Grid>
+                        <Grid item>
+                            <TextField value={
+                                    file.checksum
+                                }
+                                label="Checksum"/>
+                        </Grid>
+                        <Grid item>
+                            <IconButton><DeleteForeverIcon/></IconButton>
+                        </Grid>
+                    </Grid>
                 </div>
         })
-        } </Grid>
+        }<br/>
+            <Button variant="contained">Add</Button>
+        </Paper>
     }
 
     const addFile = () => {}
@@ -260,31 +294,46 @@ const CreateAsset = () => {
     return (
         <div className={
             classes.root
-        }>CreateAsset
+        }>
             <form onSubmit={handleSubmit}>
+                {/* 
+               <Button type="submit" variant="contained"
+                    onClick={createAssetWithCompute}>Create with compute</Button> */}
 
-                <Grid container>
-                    <Grid item>
-                        {
-                        getMetaData()
-                    }</Grid>
-
-                    {/* <Grid container
-                        spacing={1}>
-                        <Paper> {
+                <div className={
+                    classes.root
+                }>
+                    <Grid container
+                        spacing={3}>
+                        <Grid item
+                            xs={3}>
+                            <Paper className={
+                                classes.paper
+                            }>CreateAsset</Paper>
+                        </Grid>
+                        <Grid item
+                            xs={12}>
+                            {
+                            getMetaData()
+                        } </Grid>
+                        <Grid item
+                            xs={12}>
+                            {
+                            getAdditionalInfo()
+                        } </Grid>
+                        <Grid item
+                            xs={12}>
+                            {
                             getFiles()
-                        }</Paper>
-                    </Grid> */}
-                    <Grid item>
-                        {
-                        getAdditionalInfo()
-                    } </Grid>
-                </Grid>
-                <Button type="submit" variant="contained">Create</Button><br/><Button type="submit" variant="contained"
-                    onClick={createAssetWithCompute}>Create with compute</Button>
+                        } </Grid>
+                        <Grid item
+                            xs={3}>
+                            <Button type="submit" variant="contained">Create</Button>
+                        </Grid>
+                    </Grid>
+                </div>
             </form>
         </div>
-
     )
 }
 export default CreateAsset

@@ -44,7 +44,7 @@ const AssetDetails = ({assetInfo} : {
                     className={
                         classes.button
                     }
-                    onClick={runComputeJob}>Run Compute</Button>
+                    onClick={runComputeJob}>Compute</Button>
             )
         } else {
             return null
