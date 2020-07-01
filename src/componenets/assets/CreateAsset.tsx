@@ -13,8 +13,8 @@ import {
     Chip,
     MenuItem
 } from '@material-ui/core';
-import {Account, MetaDataMain, AdditionalInformation} from '@oceanprotocol/squid';
-import {asset, assetWithCompute} from '../../data/asset';
+import {Account, MetaDataMain, AdditionalInformation, MetaData} from '@oceanprotocol/squid';
+import {asset, assetWithCompute, DataAdditionalInformation} from '../../data/asset';
 import {createStyles, makeStyles, Theme, useTheme} from '@material-ui/core/styles';
 import {Tags} from '../../data/Tag';
 
@@ -68,6 +68,9 @@ const CreateAsset = () => {
     const theme = useTheme();
 
     const {instance} = useContext(MyOceanContext);
+    const [mainMetaData, setMainMetaData] = useState < MetaDataMain > (asset.main);
+
+    const [additionInformation, setAdditionInformation] = useState < AdditionalInformation > (DataAdditionalInformation)
 
     const createAsset = async () => {
 
@@ -75,8 +78,11 @@ const CreateAsset = () => {
         if (accounts !== undefined) {
             console.log('accounts---', accounts)
             console.log('ocean---', instance ?. compute)
-
-            const ddo = await instance ?. assets.create(asset, accounts[0])
+            const newAsset: MetaData = {
+                main: mainMetaData,
+                additionalInformation: additionInformation
+            }
+            const ddo = await instance ?. assets.create(newAsset, accounts[0])
             console.log('Asset successfully submitted.')
             console.log(ddo)
         } else {
@@ -100,18 +106,27 @@ const CreateAsset = () => {
         }
     }
 
+    const getFiles = () => {
+        return <Grid item>
+            {
+            mainMetaData.files.map((file) => {
 
-    const handleSubmit = (event : React.FormEvent < HTMLFormElement >) => {}
-    const [mainMetaData, setMainMetaData] = useState < MetaDataMain > ({
-        name: 'name',
-        type: 'dataset',
-        dateCreated: '',
-        author: 'author',
-        license: 'license',
-        price: '10',
-        files: []
-    });
-    const [additionInformation, setAdditionInformation] = useState < AdditionalInformation > ({tags: []})
+                return <div>
+                    <TextField value={
+                            file.url
+                        }
+                        label="File"></TextField>
+                </div>
+        })
+        } </Grid>
+    }
+
+    const addFile = () => {}
+
+    const handleSubmit = (event : React.FormEvent < HTMLFormElement >) => {
+        event.preventDefault()
+        createAsset()
+    }
 
     // const handleChange = (event : React.ChangeEvent) => {
     //     setAdditionInformation((p) => ({
@@ -119,6 +134,8 @@ const CreateAsset = () => {
     //         event.target.value as string[]
     //     }));
     // };
+
+    const getMetaData = () => {}
     return (
         <div className={
             classes.root
@@ -131,159 +148,106 @@ const CreateAsset = () => {
 
                     <Grid item container
                         spacing={3}>
-
                         <Grid item>
                             <TextField value={
                                     mainMetaData.name
                                 }
                                 label="Name"
                                 onChange={
-                                    (e) => setMainMetaData((prevstate) => ({
-                                        ...prevstate,
-                                        name: e.target.value
-                                    }))
+                                    (event) => {
+                                        const {value} = event.target;
+                                        setMainMetaData((prevstate) => ({
+                                            ...prevstate,
+                                            name: value
+                                        }))
+                                    }
                             }></TextField>
-                        </Grid>
-                        <Grid item>
-                            <TextField value={
-                                    mainMetaData.author
-                                }
-                                label="Author"
-                                onChange={
-                                    (e) => setMainMetaData((prevstate) => ({
-                                        ...prevstate,
-                                        author: e.target.value
-                                    }))
-                            }></TextField>
-                        </Grid>
-                        <Grid item>
-                            <TextField value={
-                                    mainMetaData.license
-                                }
-                                label="License"
-                                onChange={
-                                    (e) => setMainMetaData((prevstate) => ({
-                                        ...prevstate,
-                                        license: e.target.value
-                                    }))
-                            }></TextField>
-                        </Grid>
-                        <Grid item>
-                            <TextField value={
-                                    mainMetaData.price
-                                }
-                                label="Price"
-                                onChange={
-                                    (e) => setMainMetaData((prevstate) => ({
-                                        ...prevstate,
-                                        price: e.target.value
-                                    }))
-                            }></TextField>
-                        </Grid>
                     </Grid>
                     <Grid item>
-                        <Typography variant="h6">
-                            Additional info
-                        </Typography>
-                    </Grid>
-                    <Grid item container
-                        spacing={3}>
+                        <TextField value={
+                                mainMetaData.author
+                            }
+                            label="Author"
+                            onChange={
+                                (event) => {
+                                    const {value} = event.target;
+                                    setMainMetaData((prevstate) => ({
+                                        ...prevstate,
+                                        author: value
+                                    }))
+                                }
+                        }></TextField>
+                </Grid>
+                <Grid item>
+                    <TextField value={
+                            mainMetaData.license
+                        }
+                        label="License"
+                        onChange={
+                            (event) => {
+                                const {value} = event.target;
+                                setMainMetaData((prevstate) => ({
+                                    ...prevstate,
+                                    license: value
+                                }))
+                            }
+                    }></TextField>
+            </Grid>
+            <Grid item>
+                <TextField value={
+                        mainMetaData.price
+                    }
+                    label="Price"
+                    onChange={
+                        (event) => {
+                            const {value} = event.target;
+                            setMainMetaData((prevstate) => ({
+                                ...prevstate,
+                                price: value
+                            }))
+                        }
+                }></TextField>
+        </Grid>
+    </Grid>
+    <Grid item container
+        spacing={1}>
+        {
+        getFiles()
+    } </Grid>
+    <Grid item>
+        <Typography variant="h6">
+            Additional info
+        </Typography>
+    </Grid>
+    <Grid item container
+        spacing={3}>
 
-                        <Grid item>
-                            <TextField label="Description"
-                                onChange={
-                                    (e) => setAdditionInformation((prevstate) => ({
-                                        ...prevstate,
-                                        description: e.target.value
-                                    }))
-                            }></TextField>
-                        </Grid>
-                        <Grid item>
-                            <TextField label="CopyrightHolder"
-                                onChange={
-                                    (e) => setAdditionInformation((prevstate) => ({
-                                        ...prevstate,
-                                        copyrightHolder: e.target.value
-                                    }))
-                            }></TextField>
-                        </Grid>
-                        <Grid item>
-                            <TextField value={
-                                    mainMetaData.license
-                                }
-                                label="License"
-                                onChange={
-                                    (e) => setMainMetaData((prevstate) => ({
-                                        ...prevstate,
-                                        license: e.target.value
-                                    }))
-                            }></TextField>
-                        </Grid>
-                        <Grid item>
-                            <TextField value={
-                                    mainMetaData.price
-                                }
-                                label="Price"
-                                onChange={
-                                    (e) => setMainMetaData((prevstate) => ({
-                                        ...prevstate,
-                                        price: e.target.value
-                                    }))
-                            }></TextField>
-                        </Grid>
-                    </Grid>
-                    {/* <Grid item container>
-                        <FormControl className={
-                            classes.formControl
-                        }>
-                            <InputLabel id="demo-mutiple-chip-label">Chip</InputLabel>
-                            <Select labelId="demo-mutiple-chip-label" id="demo-mutiple-chip" multiple
-                                value={
-                                    additionInformation.tags
-                                }
-                                onChange={handleChange}
-                                input={
-                                    <Input
-                                id="select-multiple-chip"/>
-                                }
-                                renderValue={
-                                    (selected) => (
-                                        <div className={
-                                            classes.chips
-                                        }>
-                                            {
-                                            (selected as string[]).map((value) => (
-                                                <Chip key={value}
-                                                    label={value}
-                                                    className={
-                                                        classes.chip
-                                                    }/>
-                                            ))
-                                        } </div>
-                                    )
-                                }
-                                MenuProps={MenuProps}>
-                                {
-                                Tags.map((name) => (
-                                    <MenuItem key={name}
-                                        value={name}
-                                        style={
-                                            getStyles(name, additionInformation.tags ? additionInformation.tags : [], theme)
-                                    }>
-                                        {name} </MenuItem>
-                                ))
-                            } </Select>
-                        </FormControl>
-                    </Grid> */} </Grid>
+        <Grid item>
+            <TextField label="Description"
+                onChange={
+                    (e) => {
+                        const {value} = e.target;
+                        setAdditionInformation((prevstate) => ({
+                            ...prevstate,
+                            description: value
+                        }))
+                    }
+            }></TextField>
+    </Grid>
+    <Grid item>
+        <TextField label="CopyrightHolder"
+            onChange={
+                (e) => {
+                    const {value} = e.target;
 
-
-                <Button type="submit" variant="contained"
-                    onClick={createAsset}>Create</Button>
-                <br/>
-                <Button type="submit" variant="contained"
-                    onClick={createAssetWithCompute}>Create with compute</Button>
-            </form>
-        </div>
+                    setAdditionInformation((prevstate) => ({
+                        ...prevstate,
+                        copyrightHolder: value
+                    }))
+                }
+        }></TextField>
+</Grid></Grid></Grid><Button type="submit" variant="contained">Create</Button><br/><Button type="submit" variant="contained"
+    onClick={createAssetWithCompute}>Create with compute</Button></form></div>
 
     )
 }
