@@ -53,6 +53,8 @@ const ViewDetailedAsset = () => {
         if (web3 == null || contract == null) 
             return;
         
+
+
         const accounts: String[] = await web3.eth.getAccounts();
         const {unStake} = contract.methods;
         await unStake(asset.id).send({from: accounts[0]});
@@ -62,6 +64,8 @@ const ViewDetailedAsset = () => {
         if (web3 == null || contract == null) 
             return;
         
+
+
         const accounts: String[] = await web3.eth.getAccounts();
         const {addStake} = contract.methods;
         await addStake(stakeAmount, asset.id).send({from: accounts[0]});
@@ -71,39 +75,47 @@ const ViewDetailedAsset = () => {
         <div className={
             classes.root
         }>
-            <Grid container>
-                <Grid item>
-                    <Paper>Asstet details</Paper>
+            <Grid container
+                spacing={3}>
+                <Grid item
+                    xs={12}>
+                    <Paper className={
+                        classes.paper
+                    }>
+                        <Typography>
+                            Asstet details</Typography>
+                    </Paper>
                 </Grid>
-                <Grid item>
-                    <Paper>
+                <Grid item
+                    xs={12}>
+                    <Paper className={
+                        classes.paper
+                    }>
                         <Typography>{
                             asset.id
                         }</Typography>
                     </Paper>
                 </Grid>
+                <Grid item
+                    xs={3}>
+                    <TextField type="number" label="Amount"
+                        onChange={
+                            (event) => {
+                                setStakeAmount(parseInt(event.target.value))
+                            }
+                        }/>
 
-                <Grid item container>
-
-                    <Grid item>
-                        <TextField type="number"
-                            onChange={
-                                (event) => {
-                                    setStakeAmount(parseInt(event.target.value))
-                                }
-                            }/>
-
-                    </Grid>
-
-                <Grid item>
-                    <Paper>
-                        <Button variant="contained" color="primary"
-                            onClick={addStake}>Stake</Button>
-                        <Button variant="contained" color="primary"
-                            onClick={unStakeToken}>UnStake</Button>
-                    </Paper>
                 </Grid>
+            <Grid item
+                xs={3}>
+                <Button variant="contained" color="primary"
+                    onClick={addStake}>Stake</Button>
+            </Grid>
+            <Grid item
+                xs={3}>
 
+                <Button variant="contained" color="primary"
+                    onClick={unStakeToken}>UnStake</Button>
             </Grid>
         </Grid>
     </div>
