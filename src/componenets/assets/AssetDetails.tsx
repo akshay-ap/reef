@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react'
 import {DDO} from '@oceanprotocol/squid'
 import {Account} from '@oceanprotocol/squid';
-import {useHistory, Route} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import {setSelectedAsset} from "../../slices/selected-asset";
 import {
@@ -11,11 +11,9 @@ import {
     Typography,
     CardActions,
     Button,
-    makeStyles,
-    IconButton
+    makeStyles
 } from '@material-ui/core'
 import {MyOceanContext} from '../../OceanContext';
-import ViewDetailedAsset from './ViewDetailedAsset';
 
 const useStyles = makeStyles({
     title: {

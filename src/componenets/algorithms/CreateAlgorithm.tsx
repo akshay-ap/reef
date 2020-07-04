@@ -13,12 +13,10 @@ import {
     MetaDataMain,
     AdditionalInformation,
     MetaData,
-    CreateProgressStep,
-    File
+    CreateProgressStep
 } from '@oceanprotocol/squid';
 import {assetAlgo, assetWithCompute, DataAdditionalInformation} from '../../data/asset';
 import {createStyles, makeStyles, Theme, useTheme} from '@material-ui/core/styles';
-import {Tags} from '../../data/Tag';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const useStyles = makeStyles((theme : Theme) => createStyles({

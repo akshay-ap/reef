@@ -1,36 +1,92 @@
 import React, {useEffect, useContext, useState} from 'react';
 import {MyOceanContext} from '../../OceanContext';
 import {DDO} from '@oceanprotocol/squid';
-import {Grid} from '@material-ui/core';
+import {
+    Grid,
+    Paper,
+    Typography,
+    TextField,
+    Button,
+    makeStyles,
+    Theme,
+    createStyles
+} from '@material-ui/core';
 import AssetDetails from '../assets/AssetDetails';
+
+const useStyles = makeStyles((theme : Theme) => createStyles({
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.primary
+    },
+    testField: {
+        paddingRight: theme.spacing(2),
+        textAlign: 'center',
+        width: '300px',
+        color: theme.palette.text.primary
+    }
+}),);
 
 const ViewAlgorithms = () => {
     const {instance} = useContext(MyOceanContext)
     const [assets, setAssets] = useState < DDO[] > ([]);
+    const [search, setSearch] = useState < string > ('xzyabc123');
+    const classes = useStyles();
 
-
-    useEffect(() => {
+    const getData = () => {
         console.log('loading assets...')
-        // const q: SearchQuery = { // text: 'algo-xzyabc123',
-        //     query: {
-        //         type: 'algorithm'
-        //     }
-        // }
-        const result = instance ?. assets.search('algo')
+        const result = instance ?. assets.search(search)
         if (result !== undefined) {
             result.then((r) => {
-                const a = r.results.filter(r => r.service.find(e => e.attributes.main.type === 'algorithm'))
-                setAssets(a)
-                console.log('alogrithm found', a)
-            })
+                console.log('alogrithm found', r)
+                if (r.results != undefined) {
+                    const a = r.results.filter(r => r.service.find(e => e.attributes && e.attributes.main.type === 'algorithm'))
+                    setAssets(a)
+                } else {
+                    console.log('result undefined')
 
+                }
+
+            })
 
         } else {
             console.log('result undefined')
         }
-    }, [instance])
+    }
+
+    useEffect(() => {}, [])
     return (
-        <div>ViewAlgorithms<div>
+        <div>
+            <Grid container
+                spacing={3}>
+                <Grid item>
+                    <Paper className={
+                        classes.paper
+                    }>
+                        <Typography>
+                            ViewAlogs
+                        </Typography>
+                    </Paper>
+                </Grid>
+                <Grid item>
+                    <TextField id="outlined-basic" label="Search" variant="outlined"
+                        value={search}
+                        className={
+                            classes.testField
+                        }
+                        onChange={
+                            (e) => {
+                                setSearch(e.target.value)
+                            }
+                        }/>
+                    <Button variant="contained" color="primary"
+                        onClick={getData}>
+                        Search
+                    </Button>
+                </Grid>
+
+            </Grid>
+            <div>
                 <Grid container>
                     <Grid container direction="column">
                         <Grid item container

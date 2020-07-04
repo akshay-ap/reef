@@ -3,8 +3,6 @@ import {MyOceanContext} from '../../OceanContext';
 import {DDO} from '@oceanprotocol/squid';
 import {
     Grid,
-    Card,
-    CardContent,
     Typography,
     TextField,
     Button,
