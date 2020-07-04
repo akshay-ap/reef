@@ -4,10 +4,11 @@ import Web3 from "web3";
 
 export interface MyOceanContextInterface {
     loading: boolean,
-    instance: Ocean | null
+    instance: Ocean | null,
+    web3: Web3 | null
 }
 
-export const MyOceanContext = React.createContext < MyOceanContextInterface > ({loading: false, instance: null})
+export const MyOceanContext = React.createContext < MyOceanContextInterface > ({loading: false, instance: null, web3: null})
 
 type Props = {
     children: React.ReactNode
@@ -64,7 +65,7 @@ export const MyProvider = ({children} : Props) => {
         temp()
     }, [])
 
-    const get = () => ({loading: loading, instance: data})
+    const get = () => ({loading: loading, instance: data, web3: web3})
 
     const {Provider} = MyOceanContext
     return (
