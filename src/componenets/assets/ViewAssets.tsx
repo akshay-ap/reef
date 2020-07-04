@@ -3,11 +3,14 @@ import {MyOceanContext} from '../../OceanContext';
 import {DDO} from '@oceanprotocol/squid';
 import {Grid, Card, CardContent, Typography} from '@material-ui/core';
 import AssetDetails from './AssetDetails';
+import {useSelector, useDispatch} from 'react-redux';
+import {RootState} from '../../redux';
+import {setAssetListInfo} from '../../slices/asset-list';
 
 const ViewAssets = () => {
     const {instance} = useContext(MyOceanContext)
-    const [assets, setAssets] = useState < DDO[] > ([]);
-    // const classes = useStyles();
+    const {assets} = useSelector((state : RootState) => state.assetList);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         console.log('loading assets...')
@@ -16,7 +19,7 @@ const ViewAssets = () => {
             result.then((r) => {
                 const a = r.results.filter(r => r.service.find(e => e.attributes.main.type === 'dataset'))
                 console.log(a)
-                setAssets(a)
+                dispatch(setAssetListInfo(a));
             })
 
         } else {
