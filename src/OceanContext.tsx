@@ -1,11 +1,15 @@
 import React, {useState, useEffect} from "react";
 import {Ocean, Config} from "@oceanprotocol/squid";
 import Web3 from "web3";
+import {AbiItem} from 'web3-utils';
+import {Contract} from 'web3-eth-contract';
+import StakeApp from "./abi/StakeApp.json";
 
 export interface MyOceanContextInterface {
     loading: boolean,
     instance: Ocean | null,
-    web3: Web3 | null
+    web3: Web3 | null,
+    stakeApp?: Contract
 }
 
 export const MyOceanContext = React.createContext < MyOceanContextInterface > ({loading: false, instance: null, web3: null})
@@ -52,7 +56,18 @@ const config: Config = {
 export const MyProvider = ({children} : Props) => {
     const [data, setData] = useState < Ocean | null | any > (null)
     const [loading, setLoading] = useState < boolean > (true);
+    const [contract, setContract] = useState < Contract > ();
 
+    const setUpContract = async () => {
+        const networkId = await web3 ?. eth.net.getId();
+        if (web3 !== null) {
+            let parsed: AbiItem | AbiItem[] = StakeApp.abi as AbiItem | AbiItem[];
+            let meta = new web3.eth.Contract(parsed, '0xA641cc999Bb2d2935c9608c860041c49463fc418');
+            console.log('this.meta', meta)
+            setContract(meta);
+        }
+
+    }
     useEffect(() => {
         async function temp() {
             setLoading(true)
@@ -63,9 +78,10 @@ export const MyProvider = ({children} : Props) => {
             setLoading(false)
         }
         temp()
+        setUpContract()
     }, [])
 
-    const get = () => ({loading: loading, instance: data, web3: web3})
+    const get = () => ({loading: loading, instance: data, web3: web3, stakeApp: contract})
 
     const {Provider} = MyOceanContext
     return (
