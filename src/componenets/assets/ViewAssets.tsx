@@ -8,24 +8,36 @@ import {RootState} from '../../redux';
 import {setAssetListInfo} from '../../slices/asset-list';
 
 const ViewAssets = () => {
-    const {instance} = useContext(MyOceanContext)
+    const {instance, stakeApp, web3} = useContext(MyOceanContext)
     const {assets} = useSelector((state : RootState) => state.assetList);
     const dispatch = useDispatch();
+    const {getAllStakes} = stakeApp ?. methods;
 
-    useEffect(() => {
+    const getData = async () => {
         console.log('loading assets...')
         const result = instance ?. assets.search('xzyabc123')
-        if (result !== undefined) {
-            result.then((r) => {
-                const a = r.results.filter(r => r.service.find(e => e.attributes.main.type === 'dataset'))
-                console.log(a)
-                dispatch(setAssetListInfo(a));
+        if (result !== undefined && web3 !== null) {
+            const accounts: String[] = await web3.eth.getAccounts();
+
+            result.then(async (r) => {
+                const a = r.results.filter(r => r.service.find(e => e.attributes.main.type === 'dataset'));
+                const dids: String[] = a.map(ddo => ddo.id);
+                const res = await getAllStakes(dids).call({from: accounts[0]});
+                // const res2 = res.map((r : Object, index : number) => [
+                //     r.amount, r.count, dids[index]
+                // ])
+                // .then(res => console.log(res)).catch(err => console.log(err));
+                console.log(res)
+                dispatch(setAssetListInfo(a, []));
             })
 
         } else {
             console.log('result undefined')
         }
-    }, [instance])
+    }
+    useEffect(() => {
+        getData()
+    }, [])
 
     return (
         <div>
@@ -36,7 +48,6 @@ const ViewAssets = () => {
                         <Typography>
                             ViewAssets
                         </Typography>
-
                     </CardContent>
                 </Card>
             </Grid>
