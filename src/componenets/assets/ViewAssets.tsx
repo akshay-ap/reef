@@ -26,7 +26,7 @@ const ViewAssets = () => {
 
     return (
         <div>
-            <Grid item
+            <Grid container
                 spacing={3}>
                 <Card>
                     <CardContent>
@@ -41,7 +41,7 @@ const ViewAssets = () => {
             <div>
                 <Grid container>
                     <Grid container direction="column">
-                        <Grid item container
+                        <Grid container
                             spacing={3}>
                             {
                             assets.map((value : DDO) => (
