@@ -5,6 +5,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {ThemeProvider, createMuiTheme} from '@material-ui/core/styles'
 import {MyProvider} from './OceanContext';
+import {Provider} from 'react-redux';
+import store from './redux';
 
 const theme = createMuiTheme({
     palette: {
@@ -19,7 +21,9 @@ ReactDOM.render (
     <React.StrictMode>
         <ThemeProvider theme={theme}>
             <MyProvider>
-                <App/>
+                <Provider store={store}>
+                    <App/>
+                </Provider>
             </MyProvider>
         </ThemeProvider>
     </React.StrictMode>,

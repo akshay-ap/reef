@@ -1,6 +1,9 @@
 import React, {useContext, useState} from 'react'
 import {DDO} from '@oceanprotocol/squid'
 import {Account} from '@oceanprotocol/squid';
+import {useHistory, Route} from 'react-router-dom';
+import {useDispatch} from "react-redux";
+import {setSelectedAsset} from "../../slices/selected-asset";
 import {
     Card,
     CardHeader,
@@ -12,8 +15,8 @@ import {
     IconButton
 } from '@material-ui/core'
 import {MyOceanContext} from '../../OceanContext';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import ViewDetailedAsset from './ViewDetailedAsset';
+
 const useStyles = makeStyles({
     title: {
         fontSize: 14
@@ -30,12 +33,19 @@ const useStyles = makeStyles({
 const AssetDetails = ({assetInfo} : {
     assetInfo: DDO
 }) => {
+    const history = useHistory()
+    const dispatch = useDispatch();
     const [asset] = useState < DDO > (assetInfo)
     const classes = useStyles();
     const {instance} = useContext(MyOceanContext)
     const runComputeJob = () => {
         alert('Compute')
     }
+
+    const setAsset = (asset : DDO) => {
+        dispatch(setSelectedAsset(asset));
+    };
+
     const isComputable = () => {
         const compute = asset.service.find(e => e.type === 'compute')
         if (compute !== undefined) {
@@ -100,9 +110,17 @@ const AssetDetails = ({assetInfo} : {
                 <Button size="small" color="primary" variant="contained"
                     className={
                         classes.button
+                    }
+
+                    onClick={
+                        () => {
+                            setAsset(asset)
+                            history.push('/asset/detials')
+                        }
                 }>
                     View
                 </Button>
+
 
                 <Button size="small" color="primary" variant="contained"
                     className={
@@ -117,12 +135,11 @@ const AssetDetails = ({assetInfo} : {
                 </Button>
                 {
                 isComputable()
-            }
-                <IconButton><ThumbUpIcon/></IconButton>
-                <IconButton><ThumbDownIcon/></IconButton>
-
-            </CardActions>
+            } </CardActions>
         </Card>
+
     )
 }
-export default AssetDetails
+export
+default
+AssetDetails

@@ -14,6 +14,7 @@ import TitleAppBar from './componenets/TitleAppBar';
 import {CssBaseline, Toolbar} from '@material-ui/core';
 import {MyOceanContext} from './OceanContext';
 import ViewAssets from './componenets/assets/ViewAssets';
+import ViewDetailedAsset from './componenets/assets/ViewDetailedAsset';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -79,6 +80,8 @@ function App() {
                         <Route path="/jobs">
                             <ViewJobs/>
                         </Route>
+                        <Route path="/asset/detials"
+                            component={ViewDetailedAsset}></Route>
                     </Switch>
                 </div>
             </Router>
