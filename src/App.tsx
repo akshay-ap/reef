@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import './App.css';
-import {Switch, BrowserRouter as Router, Route} from "react-router-dom";
+import {Switch, BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 import Compute from './componenets/compute/Compute';
 import ViewCompute from './componenets/compute/ViewCompute';
 import ViewAlgorithms from './componenets/algorithms/ViewAlgorithms';
@@ -41,7 +41,9 @@ function App() {
         if (loading) 
             return <div>Loading</div>
 
+
         
+
 
         return <div className={
             classes.root
@@ -57,7 +59,7 @@ function App() {
                     <Switch>
                         <Route path="/"
                             exact={true}>
-                            <Main/>
+                            <Redirect to="/assets/view"/>
                         </Route>
                         <Route path="/assets/view">
                             <ViewAssets/>

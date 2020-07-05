@@ -2,9 +2,9 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AppThunk} from "../redux";
 import {DDO} from "@oceanprotocol/squid";
 
-interface AssetListState {
+interface AlgoListState {
     isLoading: boolean;
-    assets: DDO[];
+    algos: DDO[];
     stakes: StakeInterFaceMap;
     myStakes: MyStakeInterfaceMap
 }
@@ -32,34 +32,34 @@ export interface MyStakeInterface {
     assetAddress: string
 }
 
-const initialState: AssetListState = {
+const initialState: AlgoListState = {
     isLoading: false,
-    assets: [],
+    algos: [],
     stakes: {},
     myStakes: {}
 };
 
-const startLoadingReducer = (state : AssetListState) => {
+const startLoadingReducer = (state : AlgoListState) => {
     state.isLoading = true;
 };
 
-const finishLoadingReducer = (state : AssetListState) => {
+const finishLoadingReducer = (state : AlgoListState) => {
     state.isLoading = false;
 };
-const setAssetReducer = (state : AssetListState, {payload} : PayloadAction < DDO[] >) => {
-    state.assets = payload;
+const setAssetReducer = (state : AlgoListState, {payload} : PayloadAction < DDO[] >) => {
+    state.algos = payload;
 };
 
-const setStakesReducer = (state : AssetListState, {payload} : PayloadAction < StakeInterFaceMap >) => {
+const setStakesReducer = (state : AlgoListState, {payload} : PayloadAction < StakeInterFaceMap >) => {
     state.stakes = payload;
 };
 
-const setMyStakesReducer = (state : AssetListState, {payload} : PayloadAction < MyStakeInterfaceMap >) => {
+const setMyStakesReducer = (state : AlgoListState, {payload} : PayloadAction < MyStakeInterfaceMap >) => {
     state.myStakes = payload;
 };
 
-const assetListSlice = createSlice({
-    name: "assetList",
+const algoListSlice = createSlice({
+    name: "algoList",
     initialState,
     reducers: {
         startLoading: startLoadingReducer,
@@ -76,12 +76,12 @@ export const {
     setAsset,
     setStakes,
     setMyStakes
-} = assetListSlice.actions;
+} = algoListSlice.actions;
 
-export const setAssetListInfo = (asset : DDO[], stakes : StakeInterFaceMap, myStakes : MyStakeInterfaceMap) : AppThunk => async (dispatch) => {
-    dispatch(setAsset(asset))
+export const setAlgoListInfo = (algo : DDO[], stakes : StakeInterFaceMap, myStakes : MyStakeInterfaceMap) : AppThunk => async (dispatch) => {
+    dispatch(setAsset(algo))
     dispatch(setStakes(stakes))
     dispatch(setMyStakes(myStakes))
 };
 
-export default assetListSlice.reducer;
+export default algoListSlice.reducer;

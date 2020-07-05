@@ -83,7 +83,9 @@ const ViewAssets = () => {
         }
     }
     useEffect(() => {
-        getData()
+        if (assets === []) {
+            getData()
+        }
     }, [])
 
     return (

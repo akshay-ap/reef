@@ -128,10 +128,10 @@ const ViewDetailedAsset = () => {
                             myStakes[asset.id] ? myStakes[asset.id].amount : 0
                         }</Typography>
                         <Typography>Unique stakers: {
-                            stakes[asset.id].count
+                            stakes[asset.id] ? stakes[asset.id].count : 0
                         }</Typography>
                         <Typography>Total staker amount: {
-                            stakes[asset.id].amount
+                            stakes[asset.id] ? stakes[asset.id].amount : 0
                         }</Typography>
                     </Paper>
                 </Grid>
