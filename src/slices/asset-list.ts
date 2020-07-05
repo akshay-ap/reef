@@ -8,6 +8,10 @@ interface AssetListState {
     assets: DDO[];
     stakes: StakeInterFaceMap;
     myStakes: MyStakeInterfaceMap;
+    ranks: RanksInterface
+}
+export interface RanksInterface {
+[key: string]: number
 }
 
 export interface StakeInterFaceMap {
@@ -37,7 +41,8 @@ const initialState: AssetListState = {
     isLoading: false,
     assets: [],
     stakes: {},
-    myStakes: {}
+    myStakes: {},
+    ranks: {}
 };
 
 const startLoadingReducer = (state : AssetListState) => {
@@ -55,6 +60,11 @@ const setStakesReducer = (state : AssetListState, {payload} : PayloadAction < St
     state.stakes = payload;
 };
 
+
+const setRanksReducer = (state : AssetListState, {payload} : PayloadAction < RanksInterface >) => {
+    state.ranks = payload;
+};
+
 const setMyStakesReducer = (state : AssetListState, {payload} : PayloadAction < MyStakeInterfaceMap >) => {
     state.myStakes = payload;
 };
@@ -68,7 +78,8 @@ const assetListSlice = createSlice({
         finishLoading: finishLoadingReducer,
         setAsset: setAssetReducer,
         setStakes: setStakesReducer,
-        setMyStakes: setMyStakesReducer
+        setMyStakes: setMyStakesReducer,
+        setRanks: setRanksReducer
     }
 });
 
@@ -77,15 +88,21 @@ export const {
     finishLoading,
     setAsset,
     setStakes,
-    setMyStakes
+    setMyStakes,
+    setRanks
 } = assetListSlice.actions;
 
 export const setAssetListInfo = (asset : DDO[], stakes : StakeInterFaceMap, myStakes : MyStakeInterfaceMap) : AppThunk => async (dispatch) => {
 
-    const res: string[] = getRankedDataSet(stakes);
+
+    const res: RanksInterface = getRankedDataSet(stakes);
+
+    const keysSorted: string[] = Object.keys(res).sort((a, b) => {
+        return res[a] - res[b]
+    }).reverse();
 
     const rankedDDOs: DDO[] = []
-    res.forEach((e : string) => {
+    keysSorted.forEach((e : string) => {
         const f: DDO | undefined = asset.find((a => {
             return a.id === e
         }));
@@ -97,6 +114,8 @@ export const setAssetListInfo = (asset : DDO[], stakes : StakeInterFaceMap, mySt
     dispatch(setAsset(rankedDDOs))
     dispatch(setStakes(stakes))
     dispatch(setMyStakes(myStakes))
+    dispatch(setRanks(res))
+
 };
 
 export default assetListSlice.reducer;

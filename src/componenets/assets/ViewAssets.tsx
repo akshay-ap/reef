@@ -41,7 +41,7 @@ const ViewAssets = () => {
     const classes = useStyles();
 
     const {instance, stakeApp, web3} = useContext(MyOceanContext)
-    const {assets} = useSelector((state : RootState) => state.assetList);
+    const {assets, ranks} = useSelector((state : RootState) => state.assetList);
     const dispatch = useDispatch();
     const {getAllStakes, getMyStakes} = stakeApp ?. methods;
     const [search, setSearch] = useState < string > ('xzyabc123');
@@ -127,7 +127,10 @@ const ViewAssets = () => {
                                         value.id
                                 }>
                                     <AssetDetails assetInfo={value}
-                                        type="dataset"></AssetDetails>
+                                        type="dataset"
+                                        rank={
+                                            ranks[value.id]
+                                    }></AssetDetails>
                                 </Grid>
                             ))
                         } </Grid>

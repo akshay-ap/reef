@@ -20,6 +20,7 @@ export const getAverageScore = (count : number[], stakes : number[]) : number[] 
         throw new Error('Unequal array lengths');
     
 
+
     const a: number[] = normalizeArray(count);
     const b: number[] = normalizeArray(stakes);
 
@@ -35,7 +36,9 @@ export const normalizeAndAverage = (count : number[], stakes : number[]) : numbe
     return getAverageScore(normalizeArray(count), normalizeArray(stakes))
 }
 
-export const getRankedDataSet = (data : StakeInterFaceMap) : string[] => {
+export const getRankedDataSet = (data : StakeInterFaceMap) : {
+[key: string]: number
+} => {
 
     const myKeys: string[] = Object.keys(data);
     let counts: number[] = [];
@@ -55,10 +58,10 @@ export const getRankedDataSet = (data : StakeInterFaceMap) : string[] => {
 
     res.forEach((r : number, index : number) => res2[myKeys[index]] = r);
     console.log('ranks', myKeys, res)
-    const keysSorted: string[] = Object.keys(res2).sort((a, b) => {
-        return res2[a] - res2[b]
-    });
-    return keysSorted.reverse()
+    // const keysSorted: string[] = Object.keys(res2).sort((a, b) => {
+    //     return res2[a] - res2[b]
+    // });
+    return res2
 }
 
 export default normalizeArray

@@ -28,9 +28,10 @@ const useStyles = makeStyles({
     }
 });
 
-const AssetDetails = ({assetInfo, type} : {
+const AssetDetails = ({assetInfo, type, rank} : {
     assetInfo: DDO,
-    type: string
+    type: string,
+    rank: number
 }) => {
     const history = useHistory()
     const dispatch = useDispatch();
@@ -89,7 +90,7 @@ const AssetDetails = ({assetInfo, type} : {
                 }/>
 
             <CardContent>
-
+                <Typography>Rank score: {rank} </Typography>
                 <Typography className={
                         classes.title
                     }

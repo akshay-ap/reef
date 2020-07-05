@@ -2,12 +2,14 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AppThunk} from "../redux";
 import {DDO} from "@oceanprotocol/squid";
 import {getRankedDataSet} from "../utils/normailize";
+import {RanksInterface, setRanks} from "./asset-list";
 
 interface AlgoListState {
     isLoading: boolean;
     algos: DDO[];
     algoStakes: StakeInterFaceMap;
-    myAlgoStakes: MyStakeInterfaceMap
+    myAlgoStakes: MyStakeInterfaceMap;
+    ranks: RanksInterface;
 }
 
 export interface StakeInterFaceMap {
@@ -37,7 +39,8 @@ const initialState: AlgoListState = {
     isLoading: false,
     algos: [],
     algoStakes: {},
-    myAlgoStakes: {}
+    myAlgoStakes: {},
+    ranks: {}
 };
 
 const startLoadingReducer = (state : AlgoListState) => {
@@ -59,6 +62,10 @@ const setMyStakesReducer = (state : AlgoListState, {payload} : PayloadAction < M
     state.myAlgoStakes = payload;
 };
 
+const setAlgoRanksReducer = (state : AlgoListState, {payload} : PayloadAction < RanksInterface >) => {
+    state.ranks = payload;
+};
+
 const algoListSlice = createSlice({
     name: "algoList",
     initialState,
@@ -67,7 +74,8 @@ const algoListSlice = createSlice({
         finishLoading: finishLoadingReducer,
         setAsset: setAssetReducer,
         setStakes: setStakesReducer,
-        setMyStakes: setMyStakesReducer
+        setMyStakes: setMyStakesReducer,
+        setAlgoRanks: setAlgoRanksReducer
     }
 });
 
@@ -81,10 +89,14 @@ export const {
 
 export const setAlgoListInfo = (algo : DDO[], stakes : StakeInterFaceMap, myStakes : MyStakeInterfaceMap) : AppThunk => async (dispatch) => {
 
-    const result: string[] = getRankedDataSet(stakes);
+    const res = getRankedDataSet(stakes);
+
+    const keysSorted: string[] = Object.keys(res).sort((a, b) => {
+        return res[a] - res[b]
+    }).reverse();
 
     const rankedDDOs: DDO[] = []
-    result.forEach((e : string) => {
+    keysSorted.forEach((e : string) => {
         const f: DDO | undefined = algo.find((a => {
             return a.id === e
         }));
@@ -97,6 +109,7 @@ export const setAlgoListInfo = (algo : DDO[], stakes : StakeInterFaceMap, myStak
     dispatch(setAsset(rankedDDOs))
     dispatch(setStakes(stakes))
     dispatch(setMyStakes(myStakes))
+    dispatch(setRanks(res))
 };
 
 export default algoListSlice.reducer;

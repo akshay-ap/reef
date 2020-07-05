@@ -40,7 +40,7 @@ const ViewAlgorithms = () => {
     const classes = useStyles();
 
     const {instance, stakeApp, web3} = useContext(MyOceanContext)
-    const {algos} = useSelector((state : RootState) => state.algoList);
+    const {algos, ranks} = useSelector((state : RootState) => state.algoList);
     const dispatch = useDispatch();
     const {getAllStakes, getMyStakes} = stakeApp ?. methods;
     const [search, setSearch] = useState < string > ('xzyabc123');
@@ -51,7 +51,7 @@ const ViewAlgorithms = () => {
         if (result !== undefined && web3 !== null) {
             const accounts: String[] = await web3.eth.getAccounts();
             result.then(async (r) => {
-                const a = r.results.filter(r => r.service.find(e => e.attributes.main.type === 'algorithm'));
+                const a = r.results.filter(r => r.service.find(e => e.attributes ?. main.type === 'algorithm'));
                 const dids: string[] = a.map(ddo => ddo.id);
                 const allStakes = await getAllStakes(dids).call({from: accounts[0]});
                 const r1: StakeInterFaceMap = {}
@@ -124,7 +124,10 @@ const ViewAlgorithms = () => {
                                         value.id
                                 }>
                                     <AssetDetails assetInfo={value}
-                                        type="algorithm"></AssetDetails>
+                                        type="algorithm"
+                                        rank={
+                                            ranks[value.id]
+                                    }></AssetDetails>
                                 </Grid>
                             ))
                         } </Grid>
