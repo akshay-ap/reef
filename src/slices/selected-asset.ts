@@ -6,12 +6,17 @@ interface SelectedAssetState {
     isLoading: boolean;
     asset: DDO;
     type: string;
+    selectDatasetForCompute: string;
+    selectAlgorithmForCompute: string;
+
 }
 
 const initialState: SelectedAssetState = {
     isLoading: false,
     asset: new DDO(),
-    type: ''
+    type: '',
+    selectDatasetForCompute: '',
+    selectAlgorithmForCompute: ''
 };
 
 const startLoadingReducer = (state : SelectedAssetState) => {
@@ -28,8 +33,17 @@ const setAssetReducer = (state : SelectedAssetState, {payload} : PayloadAction <
 
 const setTypeReducer = (state : SelectedAssetState, {payload} : PayloadAction < string >) => {
     state.type = payload;
-
 };
+
+const setDatasetForComputeReducer = (state : SelectedAssetState, {payload} : PayloadAction < string >) => {
+    state.selectDatasetForCompute = payload;
+};
+
+const selectAlgorithmForComputeReducer = (state : SelectedAssetState, {payload} : PayloadAction < string >) => {
+    state.selectAlgorithmForCompute = payload;
+};
+
+
 const selectedAssetSlice = createSlice({
     name: "selectedAsset",
     initialState,
@@ -37,16 +51,33 @@ const selectedAssetSlice = createSlice({
         startLoading: startLoadingReducer,
         finishLoading: finishLoadingReducer,
         setAsset: setAssetReducer,
-        setType: setTypeReducer
+        setType: setTypeReducer,
+        datasetForCompute: setDatasetForComputeReducer,
+        algorithmForCompute: selectAlgorithmForComputeReducer
     }
 });
 
-export const {startLoading, finishLoading, setAsset, setType} = selectedAssetSlice.actions;
+export const {
+    startLoading,
+    finishLoading,
+    setAsset,
+    setType,
+    algorithmForCompute,
+    datasetForCompute
+} = selectedAssetSlice.actions;
 
 export const setSelectedAsset = (asset : DDO, type : string) : AppThunk => async (dispatch) => {
     dispatch(setAsset(asset));
     dispatch(setType(type));
-
 };
+
+export const setSelectedAlgoForCompute = (did : string) : AppThunk => async (dispatch) => {
+    dispatch(algorithmForCompute(did));
+};
+
+export const setSelectedDataForCompute = (did : string) : AppThunk => async (dispatch) => {
+    dispatch(datasetForCompute(did));
+};
+
 
 export default selectedAssetSlice.reducer;

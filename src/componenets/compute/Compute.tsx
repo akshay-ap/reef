@@ -10,8 +10,11 @@ import {
     Paper,
     makeStyles,
     Theme,
-    createStyles
+    createStyles,
+    TextField
 } from '@material-ui/core';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux';
 
 const useStyles = makeStyles((theme : Theme) => createStyles({
     paper: {
@@ -23,12 +26,12 @@ const useStyles = makeStyles((theme : Theme) => createStyles({
 
 const Compute = () => {
     const classes = useStyles();
-
-    const [ddoAssetId, setDdoAssetId] = useState('')
+    const {selectAlgorithmForCompute, selectDatasetForCompute} = useSelector((state : RootState) => state.selectedAsset);
+    const [ddoAssetId, setDdoAssetId] = useState(selectDatasetForCompute)
     const [jobStatus, setJobStatus] = useState('')
     const [jobId, setJobId] = useState('')
     const [agreementId, setAgreementId] = useState('')
-    const [ddoAlgorithmId, setDdoAlgorithmId] = useState('')
+    const [ddoAlgorithmId, setDdoAlgorithmId] = useState(selectAlgorithmForCompute)
     const [isAlgoInputVisible, setIsAlgoInputVisible] = useState < string | boolean > ('')
     const [textRawAlgo, setTextRawAlgo] = useState('')
     const [publishLogState, setPublishLogState] = useState(false)
@@ -127,12 +130,10 @@ const Compute = () => {
             console.error(error.message)
         }
     }
-    // order and start the compute service with an algorithm published as an asset
     async function startWithPublishedAlgo() {
         return startCompute(ddoAlgorithmId)
     }
 
-    // order and start the compute service with a passed raw algorithm
     async function startWithRawAlgo() {
         rawAlgoMeta.rawcode = textRawAlgo
         return startCompute(undefined, rawAlgoMeta)
@@ -186,23 +187,28 @@ const Compute = () => {
 
 
         <ComputeSection>
-            <h3>1. Publish Dataset</h3>
-            <Button color="primary" variant="contained"
-                onClick={publish}>Publish dataset with compute service</Button>
-
+            <Typography variant="h6">Selected Dataset</Typography>
             <p>
                 <Label>Asset DID</Label>
-                <code id="ddoAssetId"> {ddoAssetId}</code>
+                <TextField value={ddoAssetId}
+                    fullWidth={true}
+                    onChange={
+                        e => setDdoAssetId(e.target.value)
+                    }/>
             </p>
         </ComputeSection>
 
         <ComputeSection>
-            <h3>2. Publish Algorithm</h3>
-            <Button color="primary" variant="contained"
-                onClick={publishalgo}>Publish algorithm</Button>
+            <Typography variant="h6">Selected algorithm</Typography>
+
             <p>
                 <Label>Algorithm DID</Label>
-                <code id="ddoAlgorithmId"> {ddoAlgorithmId}</code>
+
+                <TextField value={ddoAlgorithmId}
+                    fullWidth={true}
+                    onChange={
+                        e => setDdoAlgorithmId(e.target.value)
+                    }/>
             </p>
         </ComputeSection>
 
@@ -223,25 +229,6 @@ const Compute = () => {
                     Publish Algorithm Logs into the Marketplace
                 </Label>
             </p>
-
-            <div>
-                <Button color="primary" variant="contained"
-                    onClick={showDivAlgo}>Show/Hide Raw Algorithm</Button>
-                <p style={
-                    {
-                        display: isAlgoInputVisible ? 'block' : 'none'
-                    }
-                }>
-                    <Label>Raw Algorithm</Label>
-                    <textarea style={
-                            {width: '100%'}
-                        }
-
-                        value={textRawAlgo}
-                        onChange={updateRawAlgoCode}/>
-                </p>
-            </div>
-
             <p>
                 <Label>Compute Job ID</Label>
                 <code> {jobId}</code>
@@ -254,18 +241,9 @@ const Compute = () => {
             }>
                 Order and start compute service with published algorithm
             </Button>
-            <Button color="primary" variant="contained"
-                onClick={startWithRawAlgo}
-                disabled={
-                    !ddoAssetId
-            }>
-                Order and start compute service with raw algorithm
-            </Button>
         </ComputeSection>
         <ComputeSection>
             <h3>4. Get Compute Job Status</h3>
-
-
             <code> {jobStatus}</code>
 
             <Button color="primary" variant="contained"

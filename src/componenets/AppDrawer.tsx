@@ -26,82 +26,73 @@ const userStyles = makeStyles({
 const AppDrawer = () => {
     const history = useHistory()
     const classes = userStyles()
-    return (
-        <Drawer variant="permanent" anchor="left"
-            className={
-                classes.drawer
-            }
-            classes={
-                {paper: classes.drawerPaper}
-        }>
-            <Toolbar/>
-            <List>
-                <ListItem button
-                    onClick={
-                        () => history.push('/')
-                }>
-                    <ListItemText primary={"Home"}/>
-                </ListItem>
-            </List>
-            <Divider/>
-            <List>
-                <ListItem>
-                    <StorageIcon/>
-                </ListItem>
-                <ListItem button
-                    onClick={
-                        () => history.push('/assets/view')
-                }>
-                    <ListItemText primary={"View datasets"}/>
-                </ListItem>
-                <ListItem button
-                    onClick={
-                        () => history.push('/assets/create')
-                }>
-                    <ListItemText primary={"Create dataset"}/>
-                </ListItem>
-            </List>
-            <Divider/>
-            <List>
-                <ListItem button
-                    onClick={
-                        () => history.push('/algorithms/view')
-                }>
-                    <ListItemText primary={"View algorithms"}/>
-                </ListItem>
-                <ListItem button
-                    onClick={
-                        () => history.push('/algorithms/create')
-                }>
-                    <ListItemText primary={"Create algorithm"}/>
-                </ListItem>
-            </List>
-            <Divider/>
-            <List>
-                <ListItem button
-                    onClick={
-                        () => history.push('/compute/view')
-                }>
-                    <ListItemText primary={"View compute"}/>
-                </ListItem>
-                <ListItem button
-                    onClick={
-                        () => history.push('/compute/create')
-                }>
-                    <ListItemText primary={"Create compute"}/>
-                </ListItem>
-            </List>
-            <Divider/>
-            <List>
-                <ListItem button
-                    onClick={
-                        () => history.push('/jobs')
-                }>
-                    <ListItemText primary={"View Jobs"}/>
-                </ListItem>
-            </List>
-        </Drawer>
-    )
+    return (<Drawer variant="permanent" anchor="left"
+        className={
+            classes.drawer
+        }
+        classes={
+            {paper: classes.drawerPaper}
+    }>
+        <Toolbar/>
+        <List>
+            <ListItem button
+                onClick={
+                    () => history.push('/')
+            }>
+                <ListItemText primary={"Home"}/>
+            </ListItem>
+        </List>
+        <Divider/>
+        <List>
+            <ListItem>
+                <StorageIcon/>
+            </ListItem>
+            <ListItem button
+                onClick={
+                    () => history.push('/assets/view')
+            }>
+                <ListItemText primary={"View datasets"}/>
+            </ListItem>
+            <ListItem button
+                onClick={
+                    () => history.push('/assets/create')
+            }>
+                <ListItemText primary={"Create dataset"}/>
+            </ListItem>
+        </List>
+        <Divider/>
+        <List>
+            <ListItem button
+                onClick={
+                    () => history.push('/algorithms/view')
+            }>
+                <ListItemText primary={"View algorithms"}/>
+            </ListItem>
+            <ListItem button
+                onClick={
+                    () => history.push('/algorithms/create')
+            }>
+                <ListItemText primary={"Create algorithm"}/>
+            </ListItem>
+        </List>
+        <Divider/>
+        <List>
+            <ListItem button
+                onClick={
+                    () => history.push('/compute/create')
+            }>
+                <ListItemText primary={"Create compute"}/>
+            </ListItem>
+            <ListItem button
+                onClick={
+                    () => history.push('/jobs')
+            }>
+                <ListItemText primary={"View Jobs"}/>
+            </ListItem>
+        </List>
+        <Divider/>
+
+    </Drawer>)
 }
 
 export default AppDrawer

@@ -1,4 +1,4 @@
-import {MyStakeInterfaceMap, StakeInterFaceMap, StakeInterface} from "../slices/asset-list";
+import {StakeInterFaceMap} from "../slices/asset-list";
 
 export const normalizeArray = (scores : number[]) : number[] => {
     const maxScore = Math.max(...scores);
