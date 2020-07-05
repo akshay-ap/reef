@@ -81,64 +81,58 @@ const ViewAssets = () => {
     }, [])
 
 
-    return (
-        <div>
-            <Grid container
-                spacing={3}>
-                <Grid item>
-                    <Paper className={
-                        classes.paper
-                    }>
-                        <Typography>
-                            ViewAssets
-                        </Typography>
-                    </Paper>
-                </Grid>
-                <Grid item>
-                    <TextField id="outlined-basic" label="Search" variant="outlined"
-                        value={search}
-                        className={
-                            classes.testField
+    return (<div>
+        <Paper className={
+            classes.paper
+        }>
+            <Typography>
+                ViewAssets
+            </Typography>
+        </Paper>
+        <br/>
+        <Grid container
+            spacing={3}>
+            <Grid item>
+                <TextField id="outlined-basic" label="Search" variant="outlined"
+                    value={search}
+                    className={
+                        classes.testField
+                    }
+                    onChange={
+                        (e) => {
+                            setSearch(e.target.value)
                         }
-                        onChange={
-                            (e) => {
-                                setSearch(e.target.value)
-                            }
-                        }/>
-                    <Button variant="contained" color="primary"
-                        onClick={getData}>
-                        Search
-                    </Button>
-                </Grid>
-
+                    }/>
+                <Button variant="contained" color="primary"
+                    onClick={getData}>
+                    Search
+                </Button>
             </Grid>
-            <br/>
-            <div>
-                <Grid container>
-                    <Grid container direction="column">
-                        <Grid container
-                            spacing={3}>
-                            {
-                            assets.map((value : DDO) => (
-                                <Grid item
-                                    xs={12}
-                                    sm={4}
-                                    key={
-                                        value.id
-                                }>
-                                    <AssetDetails assetInfo={value}
-                                        type="dataset"
-                                        rank={
-                                            ranks[value.id]
-                                    }></AssetDetails>
-                                </Grid>
-                            ))
-                        } </Grid>
-                    </Grid>
+
+        </Grid>
+        <br/>
+        <div>
+            <Grid container>
+                <Grid container direction="column">
+                    <Grid container
+                        spacing={3}> {
+                        assets.map((value : DDO) => (<Grid item
+                            xs={12}
+                            sm={4}
+                            key={
+                                value.id
+                        }>
+                            <AssetDetails assetInfo={value}
+                                type="dataset"
+                                rank={
+                                    ranks[value.id]
+                            }></AssetDetails>
+                        </Grid>))
+                    } </Grid>
                 </Grid>
-            </div>
+            </Grid>
         </div>
-    )
+    </div>)
 }
 
 export default ViewAssets
