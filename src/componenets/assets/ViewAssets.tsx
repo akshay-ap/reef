@@ -14,7 +14,13 @@ import {
 import AssetDetails from './AssetDetails';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../../redux';
-import {setAssetListInfo, StakeInterFaceMap, StakeInterface} from '../../slices/asset-list';
+import {
+    setAssetListInfo,
+    StakeInterFaceMap,
+    StakeInterface,
+    MyStakeInterfaceMap,
+    MyStakeInterface
+} from '../../slices/asset-list';
 import {count} from 'console';
 
 const useStyles = makeStyles((theme : Theme) => createStyles({
@@ -38,9 +44,17 @@ const ViewAssets = () => {
     const {instance, stakeApp, web3} = useContext(MyOceanContext)
     const {assets} = useSelector((state : RootState) => state.assetList);
     const dispatch = useDispatch();
-    const {getAllStakes} = stakeApp ?. methods;
+    const {getAllStakes, getMyStakes} = stakeApp ?. methods;
     const [search, setSearch] = useState < string > ('xzyabc123');
 
+    // const getMyAllStakes = async () => {
+
+    //     if (web3 !== null) {
+    //         const accounts: String[] = await web3.eth.getAccounts();
+    //         // res.map((r : Object) => console.log(r["amount"], r["assetAddress"]));
+    //         console.log('mystakes', res);
+    //     }
+    // }
     const getData = async () => {
         console.log('loading assets...')
         const result = instance ?. assets.search(search)
@@ -50,12 +64,19 @@ const ViewAssets = () => {
             result.then(async (r) => {
                 const a = r.results.filter(r => r.service.find(e => e.attributes.main.type === 'dataset'));
                 const dids: string[] = a.map(ddo => ddo.id);
-                const res = await getAllStakes(dids).call({from: accounts[0]});
-                const r2: StakeInterFaceMap = {}
-                res.forEach((element : StakeInterface, index : number) => {
-                    r2[dids[index]] = element
+                const allStakes = await getAllStakes(dids).call({from: accounts[0]});
+                const r1: StakeInterFaceMap = {}
+
+                allStakes.forEach((element : StakeInterface, index : number) => {
+                    r1[dids[index]] = element
                 });
-                dispatch(setAssetListInfo(a, r2));
+
+                const myAllStakes = await getMyStakes().call({from: accounts[0]});
+                const r2: MyStakeInterfaceMap = {}
+                myAllStakes.forEach((element : MyStakeInterface, index : number) => {
+                    r2[element.assetAddress] = element
+                });
+                dispatch(setAssetListInfo(a, r1, r2));
             })
         } else {
             console.log('result undefined')

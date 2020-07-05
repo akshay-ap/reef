@@ -32,29 +32,22 @@ const useStyles = makeStyles((theme : Theme) => createStyles({
 }),);
 const ViewDetailedAsset = () => {
     const {asset} = useSelector((state : RootState) => state.selectedAsset);
-    const {stakes} = useSelector((state : RootState) => state.assetList);
+    const {stakes, myStakes} = useSelector((state : RootState) => state.assetList);
 
     const classes = useStyles();
     const {web3, stakeApp} = useContext(MyOceanContext);
     const [stakeAmount, setStakeAmount] = useState < number > (0);
-    const {getMyStakes} = stakeApp ?. methods;
-    const [myStake, setMyStake] = useState < number > (0);
+    const s: boolean = myStakes[asset.id] ? (parseInt(myStakes[asset.id].amount) > 0 ? true : false) : false;
+    const [unStakeable] = useState < boolean > (s);
     console.log(asset)
     // const [metaData, setMetaData] = useState < MetaData | undefined > (asset.service.find(e => e.type === 'metadata'));
 
-    const getStakeForAsset = async () => {
 
-        if (web3 !== null) {
-            const accounts: String[] = await web3.eth.getAccounts();
-            const res = await getMyStakes().call({from: accounts[0]});
-            // res.map((r : Object) => console.log(r["amount"], r["assetAddress"]));
-            // console.log(res);
-        }
-    }
     const unStakeToken = async () => {
         if (web3 == null || stakeApp == null) 
             return;
         
+
 
         const accounts: String[] = await web3.eth.getAccounts();
         const {unStake} = stakeApp.methods;
@@ -72,9 +65,9 @@ const ViewDetailedAsset = () => {
         await addStake(stakeAmount, asset.id).send({from: accounts[0]});
     }
 
-    useEffect(() => {
-        getStakeForAsset()
-    }, [])
+    // useEffect(() => {
+    //     getStakeForAsset()
+    // }, [])
 
     return (
         <div className={
@@ -131,7 +124,9 @@ const ViewDetailedAsset = () => {
                     <Paper className={
                         classes.paperInfo
                     }>
-                        <Typography>My stakes: 0</Typography>
+                        <Typography>My stakes: {
+                            myStakes[asset.id] ? myStakes[asset.id].amount : 0
+                        }</Typography>
                         <Typography>Unique stakers: {
                             stakes[asset.id].count
                         }</Typography>
@@ -148,17 +143,22 @@ const ViewDetailedAsset = () => {
                                 setStakeAmount(parseInt(event.target.value))
                             }
                         }/>
-
                 </Grid>
             <Grid item
                 xs={3}>
                 <Button variant="contained" color="primary"
+                    disabled={
+                        stakeAmount <= 0
+                    }
                     onClick={addStake}>Stake</Button>
             </Grid>
             <Grid item
                 xs={3}>
 
                 <Button variant="contained" color="primary"
+                    disabled={
+                        !unStakeable
+                    }
                     onClick={unStakeToken}>UnStake</Button>
             </Grid>
         </Grid>
