@@ -1,5 +1,4 @@
 import React, {useEffect, useContext, useState} from 'react';
-import StakeApp from "../../abi/StakeApp.json";
 import {
     Grid,
     Paper,
@@ -13,7 +12,6 @@ import {
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/index";
 import {MyOceanContext} from '../../OceanContext';
-import {File} from '@oceanprotocol/squid';
 
 const useStyles = makeStyles((theme : Theme) => createStyles({
     root: {
@@ -34,6 +32,8 @@ const useStyles = makeStyles((theme : Theme) => createStyles({
 }),);
 const ViewDetailedAsset = () => {
     const {asset} = useSelector((state : RootState) => state.selectedAsset);
+    const {stakes} = useSelector((state : RootState) => state.assetList);
+
     const classes = useStyles();
     const {web3, stakeApp} = useContext(MyOceanContext);
     const [stakeAmount, setStakeAmount] = useState < number > (0);
@@ -55,7 +55,6 @@ const ViewDetailedAsset = () => {
         if (web3 == null || stakeApp == null) 
             return;
         
-
 
         const accounts: String[] = await web3.eth.getAccounts();
         const {unStake} = stakeApp.methods;
@@ -133,8 +132,12 @@ const ViewDetailedAsset = () => {
                         classes.paperInfo
                     }>
                         <Typography>My stakes: 0</Typography>
-                        <Typography>Unique stakers: 0</Typography>
-                        <Typography>Total staker amount: 0</Typography>
+                        <Typography>Unique stakers: {
+                            stakes[asset.id].count
+                        }</Typography>
+                        <Typography>Total staker amount: {
+                            stakes[asset.id].amount
+                        }</Typography>
                     </Paper>
                 </Grid>
                 <Grid item

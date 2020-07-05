@@ -5,13 +5,25 @@ import {DDO} from "@oceanprotocol/squid";
 interface AssetListState {
     isLoading: boolean;
     assets: DDO[];
-    stakes: string[];
+    stakes: StakeInterFaceMap;
 }
+
+export interface StakeInterFaceMap {
+[key: string]: StakeInterface;
+}
+
+export interface StakeInterface {
+    0: string;
+    1: string;
+    amount: string;
+    count: string
+}
+
 
 const initialState: AssetListState = {
     isLoading: false,
     assets: [],
-    stakes: []
+    stakes: {}
 };
 
 const startLoadingReducer = (state : AssetListState) => {
@@ -25,7 +37,7 @@ const setAssetReducer = (state : AssetListState, {payload} : PayloadAction < DDO
     state.assets = payload;
 };
 
-const setStakesReducer = (state : AssetListState, {payload} : PayloadAction < string[] >) => {
+const setStakesReducer = (state : AssetListState, {payload} : PayloadAction < StakeInterFaceMap >) => {
     state.stakes = payload;
 };
 
@@ -42,7 +54,7 @@ const assetListSlice = createSlice({
 
 export const {startLoading, finishLoading, setAsset, setStakes} = assetListSlice.actions;
 
-export const setAssetListInfo = (asset : DDO[], stakes : string[]) : AppThunk => async (dispatch) => {
+export const setAssetListInfo = (asset : DDO[], stakes : StakeInterFaceMap) : AppThunk => async (dispatch) => {
     dispatch(setAsset(asset))
     dispatch(setStakes(stakes))
 

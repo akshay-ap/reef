@@ -14,7 +14,8 @@ import {
 import AssetDetails from './AssetDetails';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../../redux';
-import {setAssetListInfo} from '../../slices/asset-list';
+import {setAssetListInfo, StakeInterFaceMap, StakeInterface} from '../../slices/asset-list';
+import {count} from 'console';
 
 const useStyles = makeStyles((theme : Theme) => createStyles({
     paper: {
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme : Theme) => createStyles({
         color: theme.palette.text.primary
     }
 }),);
+
 
 const ViewAssets = () => {
     const classes = useStyles();
@@ -47,16 +49,14 @@ const ViewAssets = () => {
 
             result.then(async (r) => {
                 const a = r.results.filter(r => r.service.find(e => e.attributes.main.type === 'dataset'));
-                const dids: String[] = a.map(ddo => ddo.id);
+                const dids: string[] = a.map(ddo => ddo.id);
                 const res = await getAllStakes(dids).call({from: accounts[0]});
-                // const res2 = res.map((r : Object, index : number) => [
-                //     r.amount, r.count, dids[index]
-                // ])
-                // .then(res => console.log(res)).catch(err => console.log(err));
-                console.log(res)
-                dispatch(setAssetListInfo(a, []));
+                const r2: StakeInterFaceMap = {}
+                res.forEach((element : StakeInterface, index : number) => {
+                    r2[dids[index]] = element
+                });
+                dispatch(setAssetListInfo(a, r2));
             })
-
         } else {
             console.log('result undefined')
         }
