@@ -5,8 +5,8 @@ import {DDO} from "@oceanprotocol/squid";
 interface AlgoListState {
     isLoading: boolean;
     algos: DDO[];
-    stakes: StakeInterFaceMap;
-    myStakes: MyStakeInterfaceMap
+    algoStakes: StakeInterFaceMap;
+    myAlgoStakes: MyStakeInterfaceMap
 }
 
 export interface StakeInterFaceMap {
@@ -35,8 +35,8 @@ export interface MyStakeInterface {
 const initialState: AlgoListState = {
     isLoading: false,
     algos: [],
-    stakes: {},
-    myStakes: {}
+    algoStakes: {},
+    myAlgoStakes: {}
 };
 
 const startLoadingReducer = (state : AlgoListState) => {
@@ -51,11 +51,11 @@ const setAssetReducer = (state : AlgoListState, {payload} : PayloadAction < DDO[
 };
 
 const setStakesReducer = (state : AlgoListState, {payload} : PayloadAction < StakeInterFaceMap >) => {
-    state.stakes = payload;
+    state.algoStakes = payload;
 };
 
 const setMyStakesReducer = (state : AlgoListState, {payload} : PayloadAction < MyStakeInterfaceMap >) => {
-    state.myStakes = payload;
+    state.myAlgoStakes = payload;
 };
 
 const algoListSlice = createSlice({

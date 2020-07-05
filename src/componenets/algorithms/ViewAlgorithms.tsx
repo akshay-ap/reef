@@ -51,7 +51,7 @@ const ViewAlgorithms = () => {
         if (result !== undefined && web3 !== null) {
             const accounts: String[] = await web3.eth.getAccounts();
             result.then(async (r) => {
-                const a = r.results.filter(r => r.service.find(e => e.attributes.main.type === 'dataset'));
+                const a = r.results.filter(r => r.service.find(e => e.attributes.main.type === 'algorithm'));
                 const dids: string[] = a.map(ddo => ddo.id);
                 const allStakes = await getAllStakes(dids).call({from: accounts[0]});
                 const r1: StakeInterFaceMap = {}
@@ -66,6 +66,11 @@ const ViewAlgorithms = () => {
                     r2[element.assetAddress] = element
                 });
                 dispatch(setAlgoListInfo(a, r1, r2));
+                console.log('algos loaded...')
+                console.log('all algo stakes loaded...', r1)
+                console.log('my algo stakes loaded...', r2)
+
+
             })
         } else {
             console.log('result undefined')
@@ -118,7 +123,8 @@ const ViewAlgorithms = () => {
                                     key={
                                         value.id
                                 }>
-                                    <AssetDetails assetInfo={value}></AssetDetails>
+                                    <AssetDetails assetInfo={value}
+                                        type="algorithm"></AssetDetails>
                                 </Grid>
                             ))
                         } </Grid>

@@ -28,8 +28,9 @@ const useStyles = makeStyles({
     }
 });
 
-const AssetDetails = ({assetInfo} : {
-    assetInfo: DDO
+const AssetDetails = ({assetInfo, type} : {
+    assetInfo: DDO,
+    type: string
 }) => {
     const history = useHistory()
     const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const AssetDetails = ({assetInfo} : {
     }
 
     const setAsset = (asset : DDO) => {
-        dispatch(setSelectedAsset(asset));
+        dispatch(setSelectedAsset(asset, type));
     };
 
     const isComputable = () => {
@@ -113,7 +114,7 @@ const AssetDetails = ({assetInfo} : {
                     onClick={
                         () => {
                             setAsset(asset)
-                            history.push('/asset/detials')
+                            history.push('/asset/details')
                         }
                 }>
                     View

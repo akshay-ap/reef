@@ -76,6 +76,7 @@ const ViewAssets = () => {
                 myAllStakes.forEach((element : MyStakeInterface, index : number) => {
                     r2[element.assetAddress] = element
                 });
+                console.log("my dataset stakes", r2)
                 dispatch(setAssetListInfo(a, r1, r2));
             })
         } else {
@@ -133,7 +134,8 @@ const ViewAssets = () => {
                                     key={
                                         value.id
                                 }>
-                                    <AssetDetails assetInfo={value}></AssetDetails>
+                                    <AssetDetails assetInfo={value}
+                                        type="dataset"></AssetDetails>
                                 </Grid>
                             ))
                         } </Grid>

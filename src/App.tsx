@@ -82,7 +82,7 @@ function App() {
                         <Route path="/jobs">
                             <ViewJobs/>
                         </Route>
-                        <Route path="/asset/detials"
+                        <Route path="/asset/details"
                             component={ViewDetailedAsset}></Route>
                     </Switch>
                 </div>

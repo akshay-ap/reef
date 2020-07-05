@@ -1,4 +1,4 @@
-import React, {useEffect, useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {
     Grid,
     Paper,
@@ -12,6 +12,7 @@ import {
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/index";
 import {MyOceanContext} from '../../OceanContext';
+import {StakeInterFaceMap, MyStakeInterface, MyStakeInterfaceMap} from '../../slices/asset-list';
 
 const useStyles = makeStyles((theme : Theme) => createStyles({
     root: {
@@ -31,8 +32,12 @@ const useStyles = makeStyles((theme : Theme) => createStyles({
 
 }),);
 const ViewDetailedAsset = () => {
-    const {asset} = useSelector((state : RootState) => state.selectedAsset);
+    const {asset, type} = useSelector((state : RootState) => state.selectedAsset);
     const {stakes, myStakes} = useSelector((state : RootState) => state.assetList);
+    const {algoStakes, myAlgoStakes} = useSelector((state : RootState) => state.algoList);
+
+    const [stakeInfo, setStakeInfo] = useState < StakeInterFaceMap > (type == "dataset" ? stakes : algoStakes);
+    const [myStakeInfo, setMyStakeInfo] = useState < MyStakeInterfaceMap > (type == "dataset" ? myStakes : myAlgoStakes);
 
     const classes = useStyles();
     const {web3, stakeApp} = useContext(MyOceanContext);
@@ -41,7 +46,12 @@ const ViewDetailedAsset = () => {
     const [unStakeable] = useState < boolean > (s);
     console.log(asset)
     // const [metaData, setMetaData] = useState < MetaData | undefined > (asset.service.find(e => e.type === 'metadata'));
-
+    // useEffect(() => {
+    //     if (type == 'alogrithm') {
+    //         setStakeInfo(algoStakes);
+    //         setMyStakeInfo(myAlgoStakes);
+    //     }
+    // }, []);
 
     const unStakeToken = async () => {
         if (web3 == null || stakeApp == null) 
@@ -64,10 +74,6 @@ const ViewDetailedAsset = () => {
         const {addStake} = stakeApp.methods;
         await addStake(stakeAmount, asset.id).send({from: accounts[0]});
     }
-
-    // useEffect(() => {
-    //     getStakeForAsset()
-    // }, [])
 
     return (
         <div className={
@@ -125,13 +131,13 @@ const ViewDetailedAsset = () => {
                         classes.paperInfo
                     }>
                         <Typography>My stakes: {
-                            myStakes[asset.id] ? myStakes[asset.id].amount : 0
+                            myStakeInfo[asset.id] ? myStakeInfo[asset.id].amount : 0
                         }</Typography>
                         <Typography>Unique stakers: {
-                            stakes[asset.id] ? stakes[asset.id].count : 0
+                            stakeInfo[asset.id] ? stakeInfo[asset.id].count : 0
                         }</Typography>
-                        <Typography>Total staker amount: {
-                            stakes[asset.id] ? stakes[asset.id].amount : 0
+                        <Typography>Total stakes amount: {
+                            stakeInfo[asset.id] ? stakeInfo[asset.id].amount : 0
                         }</Typography>
                     </Paper>
                 </Grid>
