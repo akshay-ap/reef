@@ -1,12 +1,13 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AppThunk} from "../redux";
 import {DDO} from "@oceanprotocol/squid";
+import {getRankedDataSet} from "../utils/normailize";
 
 interface AssetListState {
     isLoading: boolean;
     assets: DDO[];
     stakes: StakeInterFaceMap;
-    myStakes: MyStakeInterfaceMap
+    myStakes: MyStakeInterfaceMap;
 }
 
 export interface StakeInterFaceMap {
@@ -58,6 +59,7 @@ const setMyStakesReducer = (state : AssetListState, {payload} : PayloadAction < 
     state.myStakes = payload;
 };
 
+
 const assetListSlice = createSlice({
     name: "assetList",
     initialState,
@@ -79,7 +81,20 @@ export const {
 } = assetListSlice.actions;
 
 export const setAssetListInfo = (asset : DDO[], stakes : StakeInterFaceMap, myStakes : MyStakeInterfaceMap) : AppThunk => async (dispatch) => {
-    dispatch(setAsset(asset))
+
+    const res: string[] = getRankedDataSet(stakes);
+
+    const rankedDDOs: DDO[] = []
+    res.forEach((e : string) => {
+        const f: DDO | undefined = asset.find((a => {
+            return a.id === e
+        }));
+        if (f !== undefined) {
+            rankedDDOs.push(f);
+        }
+    })
+
+    dispatch(setAsset(rankedDDOs))
     dispatch(setStakes(stakes))
     dispatch(setMyStakes(myStakes))
 };

@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AppThunk} from "../redux";
 import {DDO} from "@oceanprotocol/squid";
+import {getRankedDataSet} from "../utils/normailize";
 
 interface AlgoListState {
     isLoading: boolean;
@@ -79,7 +80,21 @@ export const {
 } = algoListSlice.actions;
 
 export const setAlgoListInfo = (algo : DDO[], stakes : StakeInterFaceMap, myStakes : MyStakeInterfaceMap) : AppThunk => async (dispatch) => {
-    dispatch(setAsset(algo))
+
+    const result: string[] = getRankedDataSet(stakes);
+
+    const rankedDDOs: DDO[] = []
+    result.forEach((e : string) => {
+        const f: DDO | undefined = algo.find((a => {
+            return a.id === e
+        }));
+        if (f !== undefined) {
+            rankedDDOs.push(f);
+        }
+    })
+
+
+    dispatch(setAsset(rankedDDOs))
     dispatch(setStakes(stakes))
     dispatch(setMyStakes(myStakes))
 };

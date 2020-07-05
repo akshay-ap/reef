@@ -21,7 +21,6 @@ import {
     MyStakeInterfaceMap,
     MyStakeInterface
 } from '../../slices/asset-list';
-import {count} from 'console';
 
 const useStyles = makeStyles((theme : Theme) => createStyles({
     paper: {
@@ -47,14 +46,6 @@ const ViewAssets = () => {
     const {getAllStakes, getMyStakes} = stakeApp ?. methods;
     const [search, setSearch] = useState < string > ('xzyabc123');
 
-    // const getMyAllStakes = async () => {
-
-    //     if (web3 !== null) {
-    //         const accounts: String[] = await web3.eth.getAccounts();
-    //         // res.map((r : Object) => console.log(r["amount"], r["assetAddress"]));
-    //         console.log('mystakes', res);
-    //     }
-    // }
     const getData = async () => {
         console.log('loading assets...')
         const result = instance ?. assets.search(search)
@@ -62,7 +53,7 @@ const ViewAssets = () => {
             const accounts: String[] = await web3.eth.getAccounts();
 
             result.then(async (r) => {
-                const a = r.results.filter(r => r.service.find(e => e.attributes.main.type === 'dataset'));
+                const a = r.results.filter(r => r.service.find(e => e.attributes ?. main.type === 'dataset'));
                 const dids: string[] = a.map(ddo => ddo.id);
                 const allStakes = await getAllStakes(dids).call({from: accounts[0]});
                 const r1: StakeInterFaceMap = {}
@@ -88,6 +79,7 @@ const ViewAssets = () => {
             getData()
         }
     }, [])
+
 
     return (
         <div>

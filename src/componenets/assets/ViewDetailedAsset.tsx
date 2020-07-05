@@ -44,14 +44,7 @@ const ViewDetailedAsset = () => {
     const [stakeAmount, setStakeAmount] = useState < number > (0);
     const s: boolean = myStakes[asset.id] ? (parseInt(myStakes[asset.id].amount) > 0 ? true : false) : false;
     const [unStakeable] = useState < boolean > (s);
-    console.log(asset)
-    // const [metaData, setMetaData] = useState < MetaData | undefined > (asset.service.find(e => e.type === 'metadata'));
-    // useEffect(() => {
-    //     if (type == 'alogrithm') {
-    //         setStakeInfo(algoStakes);
-    //         setMyStakeInfo(myAlgoStakes);
-    //     }
-    // }, []);
+
 
     const unStakeToken = async () => {
         if (web3 == null || stakeApp == null) 
