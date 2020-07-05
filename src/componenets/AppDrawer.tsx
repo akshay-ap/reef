@@ -85,7 +85,7 @@ const AppDrawer = () => {
             </ListItem>
             <ListItem button
                 onClick={
-                    () => history.push('/jobs')
+                    () => history.push('/compute/view')
             }>
                 <ListItemText primary={"View Jobs"}/>
             </ListItem>

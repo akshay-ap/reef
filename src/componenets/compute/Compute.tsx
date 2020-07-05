@@ -15,6 +15,7 @@ import {
 } from '@material-ui/core';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux';
+import {MyComputeJob} from './ViewCompute';
 
 const useStyles = makeStyles((theme : Theme) => createStyles({
     paper: {
@@ -38,7 +39,6 @@ const Compute = () => {
     const [publishOutputState, setPublishOutputState] = useState(false)
 
     const {instance} = useContext(MyOceanContext);
-    // publish a dataset and an algorithm
     const publish = async () => {
         try {
             const accounts = await instance ?. accounts.list()
@@ -123,6 +123,18 @@ const Compute = () => {
                 console.log('status undefined')
                 return;
             }
+            let jobs = localStorage.getItem('jobIds')
+            if (jobs === null) {
+                jobs = JSON.stringify([{
+                        jobId: status.jobId,
+                        agreementId: agreement
+                    }])
+            } else {
+                let parsed: MyComputeJob[] = JSON.parse(jobs)as MyComputeJob[]
+                jobs = JSON.stringify(parsed.push({jobId: status.jobId, agreementId: agreement}));
+            }
+            localStorage.setItem('jobIds', jobs)
+
             setJobId(status.jobId)
             console.log(status)
             alert('Compute job created. You can query for its status now.')
