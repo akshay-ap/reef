@@ -49,7 +49,9 @@ const ViewCompute = () => {
             if (status !== undefined) 
                 setJobStatus(status)
 
+
             
+
 
             console.log(status)
         } catch (error) {
@@ -68,6 +70,24 @@ const ViewCompute = () => {
             classes.paper
         }>
             <Typography>Status</Typography>
+            {
+            jobStatus.length > 0 ? <div>
+                <div>
+                    <span>Status text:</span>
+                    <span> {
+                        jobStatus[0].statusText
+                    }</span>
+                </div>
+                <div>
+                    <span>Job:</span>
+                    <span>
+                        <code> {
+                            jobStatus[0].jobId
+                        }</code>
+                    </span>
+                </div>
+            </div> : null
+        }
             {/* <div>{            Object.keys(jobStatus[0]).map((key, i) => {})
 }
             </div> */}
