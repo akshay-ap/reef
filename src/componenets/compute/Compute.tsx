@@ -4,8 +4,25 @@ import {assetAlgo, rawAlgoMeta} from './asset-compute'
 import {MyOceanContext} from '../../OceanContext';
 import {MetaDataAlgorithm} from '@oceanprotocol/squid';
 import {Output} from '@oceanprotocol/squid/dist/node/ocean/OceanCompute';
+import {
+    Button,
+    Typography,
+    Paper,
+    makeStyles,
+    Theme,
+    createStyles
+} from '@material-ui/core';
+
+const useStyles = makeStyles((theme : Theme) => createStyles({
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.primary
+    }
+}),);
 
 const Compute = () => {
+    const classes = useStyles();
 
     const [ddoAssetId, setDdoAssetId] = useState('')
     const [jobStatus, setJobStatus] = useState('')
@@ -137,31 +154,41 @@ const Compute = () => {
         }
     }
 
-    async function showDivAlgo() {
+    const showDivAlgo = async () => {
         setIsAlgoInputVisible(isAlgoInputVisible ? false : true)
     }
 
-    async function updateRawAlgoCode(event : React.ChangeEvent<HTMLTextAreaElement>) {
+    const updateRawAlgoCode = async (event : React.ChangeEvent<HTMLTextAreaElement>) => {
         setTextRawAlgo(event.target.value)
     }
 
-    async function updateDdoAssetId(event : React.ChangeEvent<HTMLInputElement>) {
+    const updateDdoAssetId = async (event : React.ChangeEvent<HTMLInputElement>) => {
         setDdoAssetId(event.target.value)
     }
 
-    async function handlePublishOutputState(event : React.ChangeEvent<HTMLInputElement>) {
+    const handlePublishOutputState = async (event : React.ChangeEvent<HTMLInputElement>) => {
         setPublishOutputState(event.target.checked)
     }
 
-    async function handlePublishLogState(event : React.ChangeEvent<HTMLInputElement>) {
+    const handlePublishLogState = async (event : React.ChangeEvent<HTMLInputElement>) => {
         setPublishLogState(event.target.checked)
     }
 
-    return (<div>Compute
+    return (<div>
+
+        <Paper className={
+            classes.paper
+        }>
+            <Typography>
+                Compute
+            </Typography>
+        </Paper>
+
 
         <ComputeSection>
             <h3>1. Publish Dataset</h3>
-            <button onClick={publish}>Publish dataset with compute service</button>
+            <Button color="primary" variant="contained"
+                onClick={publish}>Publish dataset with compute service</Button>
 
             <p>
                 <Label>Asset DID</Label>
@@ -171,7 +198,8 @@ const Compute = () => {
 
         <ComputeSection>
             <h3>2. Publish Algorithm</h3>
-            <button onClick={publishalgo}>Publish algorithm</button>
+            <Button color="primary" variant="contained"
+                onClick={publishalgo}>Publish algorithm</Button>
             <p>
                 <Label>Algorithm DID</Label>
                 <code id="ddoAlgorithmId"> {ddoAlgorithmId}</code>
@@ -197,7 +225,8 @@ const Compute = () => {
             </p>
 
             <div>
-                <button onClick={showDivAlgo}>Show/Hide Raw Algorithm</button>
+                <Button color="primary" variant="contained"
+                    onClick={showDivAlgo}>Show/Hide Raw Algorithm</Button>
                 <p style={
                     {
                         display: isAlgoInputVisible ? 'block' : 'none'
@@ -218,18 +247,20 @@ const Compute = () => {
                 <code> {jobId}</code>
             </p>
 
-            <button onClick={startWithPublishedAlgo}
+            <Button color="primary" variant="contained"
+                onClick={startWithPublishedAlgo}
                 disabled={
                     !ddoAssetId || !ddoAlgorithmId
             }>
                 Order and start compute service with published algorithm
-            </button>
-            <button onClick={startWithRawAlgo}
+            </Button>
+            <Button color="primary" variant="contained"
+                onClick={startWithRawAlgo}
                 disabled={
                     !ddoAssetId
             }>
                 Order and start compute service with raw algorithm
-            </button>
+            </Button>
         </ComputeSection>
         <ComputeSection>
             <h3>4. Get Compute Job Status</h3>
@@ -237,12 +268,13 @@ const Compute = () => {
 
             <code> {jobStatus}</code>
 
-            <button onClick={getStatus}
+            <Button color="primary" variant="contained"
+                onClick={getStatus}
                 disabled={
                     !jobId
             }>
                 Get Job Status
-            </button>
+            </Button>
         </ComputeSection>
 
     </div>)
