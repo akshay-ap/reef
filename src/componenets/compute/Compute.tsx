@@ -196,51 +196,50 @@ const Compute = () => {
 
         <ComputeSection>
             <Typography variant="h6">Selected Dataset</Typography>
-            <p>
-                <Label>Asset DID</Label>
-                <TextField value={ddoAssetId}
-                    fullWidth={true}
-                    onChange={
-                        e => setDdoAssetId(e.target.value)
-                    }/>
-            </p>
+
+            <Label>Asset DID</Label>
+            <TextField value={ddoAssetId}
+                fullWidth={true}
+                onChange={
+                    e => setDdoAssetId(e.target.value)
+                }/>
+
         </ComputeSection>
 
         <ComputeSection>
             <Typography variant="h6">Selected algorithm</Typography>
 
-            <p>
-                <Label>Algorithm DID</Label>
 
-                <TextField value={ddoAlgorithmId}
-                    fullWidth={true}
-                    onChange={
-                        e => setDdoAlgorithmId(e.target.value)
-                    }/>
-            </p>
+            <Label>Algorithm DID</Label>
+
+            <TextField value={ddoAlgorithmId}
+                fullWidth={true}
+                onChange={
+                    e => setDdoAlgorithmId(e.target.value)
+                }/>
+
         </ComputeSection>
 
         <ComputeSection>
             <h3>3. Start Compute Job</h3>
 
-            <p>
-                <Label>
-                    <input type="checkbox" id="publishOutputState"
-                        checked={publishOutputState}
-                        onChange={handlePublishOutputState}/>
-                    Publish Output into the Marketplace
-                </Label>
-                <Label>
-                    <input type="checkbox" id="publishLogState"
-                        checked={publishLogState}
-                        onChange={handlePublishLogState}/>
-                    Publish Algorithm Logs into the Marketplace
-                </Label>
-            </p>
-            <p>
-                <Label>Compute Job ID</Label>
-                <code> {jobId}</code>
-            </p>
+
+            <Label>
+                <input type="checkbox" id="publishOutputState"
+                    checked={publishOutputState}
+                    onChange={handlePublishOutputState}/>
+                Publish Output into the Marketplace
+            </Label>
+            <Label>
+                <input type="checkbox" id="publishLogState"
+                    checked={publishLogState}
+                    onChange={handlePublishLogState}/>
+                Publish Algorithm Logs into the Marketplace
+            </Label>
+
+            <Label>Compute Job ID</Label>
+            <code> {jobId}</code>
+
 
             <Button color="primary" variant="contained"
                 onClick={startWithPublishedAlgo}
