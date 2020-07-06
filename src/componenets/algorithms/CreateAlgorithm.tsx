@@ -226,6 +226,7 @@ const CreateAlgorithm = () => {
                             mainMetaData.name
                         }
                         label="Name"
+                        required={true}
                         onChange={
                             (event) => {
                                 const {value} = event.target;
@@ -241,6 +242,7 @@ const CreateAlgorithm = () => {
                         mainMetaData.author
                     }
                     label="Author"
+                    required={true}
                     onChange={
                         (event) => {
                             const {value} = event.target;
@@ -256,6 +258,7 @@ const CreateAlgorithm = () => {
                     mainMetaData.license
                 }
                 label="License"
+                required={true}
                 onChange={
                     (event) => {
                         const {value} = event.target;
@@ -270,6 +273,7 @@ const CreateAlgorithm = () => {
         <TextField value={
                 mainMetaData.price
             }
+            required={true}
             label="Price"
             onChange={
                 (event) => {

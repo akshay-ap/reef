@@ -213,6 +213,7 @@ const CreateAsset = () => {
                     <TextField value={
                             mainMetaData.name
                         }
+                        required={true}
                         label="Name"
                         onChange={
                             (event) => {
@@ -228,6 +229,8 @@ const CreateAsset = () => {
                 <TextField value={
                         mainMetaData.author
                     }
+                    required={true}
+
                     label="Author"
                     onChange={
                         (event) => {
@@ -244,6 +247,8 @@ const CreateAsset = () => {
                     mainMetaData.license
                 }
                 label="License"
+                required={true}
+
                 onChange={
                     (event) => {
                         const {value} = event.target;
@@ -259,6 +264,8 @@ const CreateAsset = () => {
                 mainMetaData.price
             }
             label="Price"
+            required={true}
+
             onChange={
                 (event) => {
                     const {value} = event.target;
