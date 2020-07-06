@@ -13,7 +13,8 @@ import {
     MetaDataMain,
     AdditionalInformation,
     MetaData,
-    CreateProgressStep
+    CreateProgressStep,
+    File
 } from '@oceanprotocol/squid';
 import {assetAlgo, DataAdditionalInformation} from '../../data/asset';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
@@ -123,42 +124,58 @@ const CreateAlgorithm = () => {
                                 }
                                 label="URL"
                                 onChange={
-                                    e => updateFileInfo(file.resourceId, e.target.value)
+                                    (event) => {
+                                        updateFileURLInfo(file.resourceId, event.target.value);
+                                    }
                                 }/>
                         </Grid>
-                        <Grid item>
-                            <TextField value={
-                                    file.contentType
+                    <Grid item>
+                        <TextField value={
+                                file.contentType
+                            }
+                            label="ContentType"
+                            onChange={
+                                (event) => {
+                                    updateFileContentInfo(file.resourceId, event.target.value);
                                 }
-                                label="ContentType"/>
-                        </Grid>
-                        <Grid item>
-                            <TextField value={
-                                    file.name
-                                }
-                                label="Name"/>
-                        </Grid>
-                        <Grid item>
-                            <TextField value={
-                                    file.resourceId
-                                }
-                                label="ResourceId"/>
-                        </Grid>
-                        <Grid item>
-                            <IconButton onClick={
-                                () => {
-                                    removeFile(file.resourceId)
-                                }
-                            }><DeleteForeverIcon/></IconButton>
-                        </Grid>
+                            }/>
                     </Grid>
-                </div>
+                <Grid item>
+                    <TextField value={
+                            file.name
+                        }
+                        label="Name"
+                        onChange={
+                            (event) => {
+                                updateFileNameInfo(file.resourceId, event.target.value);
+                            }
+                        }/>
+                </Grid>
+            <Grid item>
+                <TextField value={
+                        file.resourceId
+                    }
+                    InputProps={
+                        {readOnly: true}
+                    }
+                    label="ResourceId"/>
+            </Grid>
+            <Grid item>
+                <IconButton onClick={
+                    () => {
+                        removeFile(file.resourceId)
+                    }
+                }><DeleteForeverIcon/></IconButton>
+            </Grid>
+        </Grid>
+    </div>
         })
         }<br/>
-            <Button variant="contained"
+            <Button variant="contained" color='primary'
                 onClick={addFile}>Add</Button>
         </Paper>)
-    }
+    };
+
     const removeFile = (resourceId : string | undefined) => {
         const filesList = mainMetaData.files.filter(f => f.resourceId !== resourceId);
         setMainMetaData((prev) => {
@@ -167,16 +184,6 @@ const CreateAlgorithm = () => {
                 files: filesList
             }
         })
-    }
-
-    const updateFileInfo = (resourceId : string | undefined, value : string) => {
-        // const file = mainMetaData.files.find(f => f.resourceId === resourceId);
-        // setMainMetaData((prev) => {
-        //     return {
-        //         ...prev,
-        //         files: filesList
-        //     }
-        // })
     }
 
     const addFile = () => {
@@ -204,12 +211,41 @@ const CreateAlgorithm = () => {
         createAsset()
     }
 
-    // const handleChange = (event : React.ChangeEvent) => {
-    //     setAdditionInformation((p) => ({
-    //         ...p,
-    //         event.target.value as string[]
-    //     }));
-    // };
+    const updateFileURLInfo = (resourceId : string | undefined, value : string) => {
+        const index = mainMetaData.files.findIndex(f => f.resourceId === resourceId);
+        const files: File[] = mainMetaData.files;
+        files[index].url = value;
+        setMainMetaData((prev) => {
+            return {
+                ...prev,
+                files: files
+            }
+        });
+    };
+
+    const updateFileContentInfo = (resourceId : string | undefined, value : string) => {
+        const index = mainMetaData.files.findIndex(f => f.resourceId === resourceId);
+        const files: File[] = mainMetaData.files;
+        files[index].contentType = value;
+        setMainMetaData((prev) => {
+            return {
+                ...prev,
+                files: files
+            }
+        });
+    };
+
+    const updateFileNameInfo = (resourceId : string | undefined, value : string) => {
+        const index = mainMetaData.files.findIndex(f => f.resourceId === resourceId);
+        const files: File[] = mainMetaData.files;
+        files[index].name = value;
+        setMainMetaData((prev) => {
+            return {
+                ...prev,
+                files: files
+            }
+        });
+    };
 
     const getMetaData = () => {
         return (<Paper className={

@@ -50,8 +50,7 @@ const useStyles = makeStyles((theme : Theme) => createStyles({
     },
     noLabel: {
         marginTop: theme.spacing(3)
-    },
-    typograghy: {}
+    }
 }),);
 
 const CreateAsset = () => {
@@ -93,9 +92,7 @@ const CreateAsset = () => {
         return (<Paper className={
             classes.paper
         }>
-            <Typography className={
-                classes.typograghy
-            }>
+            <Typography>
                 Files
             </Typography>
             {
@@ -162,6 +159,7 @@ const CreateAsset = () => {
                 onClick={addFile}>Add</Button>
         </Paper>)
     };
+
 
     const removeFile = (resourceId : string | undefined) => {
         const filesList = mainMetaData.files.filter(f => f.resourceId !== resourceId);
