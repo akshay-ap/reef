@@ -4,6 +4,8 @@ import {assetAlgo, rawAlgoMeta} from './asset-compute'
 import {MyOceanContext} from '../../OceanContext';
 import {MetaDataAlgorithm} from '@oceanprotocol/squid';
 import {Output} from '@oceanprotocol/squid/dist/node/ocean/OceanCompute';
+import {ComputeOutput} from '../../config';
+
 import {
     Button,
     Typography,
@@ -100,14 +102,10 @@ const Compute = () => {
                 return;
             }
             const computeOutput: Output = {
+                ...ComputeOutput,
                 publishAlgorithmLog: publishLogState,
                 publishOutput: publishOutputState,
-                brizoAddress: '0x376817c638D2a04f475a73aF37f7B51A2862D567',
-                brizoUri: 'https://brizo.nile.dev-ocean.com',
-                metadataUri: 'https://aquarius.nile.dev-ocean.com',
-                nodeUri: 'https://nile.dev-ocean.com',
-                owner: accounts[0].getId(),
-                secretStoreUri: 'https://secret-store.nile.dev-ocean.com'
+                owner: accounts[0].getId()
             }
             console.log(computeOutput)
             // order the compute service

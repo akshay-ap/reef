@@ -4,7 +4,7 @@ import Web3 from "web3";
 import {AbiItem} from 'web3-utils';
 import {Contract} from 'web3-eth-contract';
 import StakeApp from "./abi/StakeApp.json";
-
+import {OceanConfig, STAKE_APP_CONTRACT_ADDRESS} from './config';
 export interface MyOceanContextInterface {
     loading: boolean,
     instance: Ocean | null,
@@ -12,7 +12,7 @@ export interface MyOceanContextInterface {
     stakeApp?: Contract
 }
 
-export const MyOceanContext = React.createContext < MyOceanContextInterface > ({loading: false, instance: null, web3: null})
+export const MyOceanContext = React.createContext<MyOceanContextInterface>({loading: false, instance: null, web3: null});
 
 type Props = {
     children: React.ReactNode
@@ -34,24 +34,10 @@ if (window.web3) {
 }
 
 const config: Config = {
-    web3Provider: web3,
-    nodeUri: 'https://nile.dev-ocean.com',
-    aquariusUri: 'https://aquarius.marketplace.dev-ocean.com',
-    brizoUri: 'https://brizo.marketplace.dev-ocean.com',
-    brizoAddress: '0x4aaab179035dc57b35e2ce066919048686f82972',
-    secretStoreUri: 'https://secret-store.nile.dev-ocean.com',
-    verbose: true
-}
+    ...OceanConfig,
+    web3Provider: web3
 
-// const config: Config = {
-//     web3Provider: web3,
-//     nodeUri: 'http://localhost:8545',
-//     aquariusUri: 'http://aquarius:5000',
-//     brizoUri: 'http://localhost:8030',
-//     brizoAddress: '0x068Ed00cF0441e4829D9784fCBe7b9e26D4BD8d0',
-//     secretStoreUri: 'http://localhost:12001',
-//     verbose: true
-// }
+}
 
 export const MyProvider = ({children} : Props) => {
     const [data, setData] = useState < Ocean | null | any > (null)
@@ -62,7 +48,7 @@ export const MyProvider = ({children} : Props) => {
         const networkId = await web3 ?. eth.net.getId();
         if (web3 !== null) {
             let parsed: AbiItem | AbiItem[] = StakeApp.abi as AbiItem | AbiItem[];
-            let meta = new web3.eth.Contract(parsed, '0xA641cc999Bb2d2935c9608c860041c49463fc418');
+            let meta = new web3.eth.Contract(parsed, STAKE_APP_CONTRACT_ADDRESS);
             console.log('this.meta', meta)
             setContract(meta);
         }
@@ -84,10 +70,7 @@ export const MyProvider = ({children} : Props) => {
     const get = () => ({loading: loading, instance: data, web3: web3, stakeApp: contract})
 
     const {Provider} = MyOceanContext
-    return (
-        <Provider value={
-            get()
-        }>
-            {children} </Provider>
-    )
+    return (<Provider value={
+        get()
+    }> {children} </Provider>)
 }
