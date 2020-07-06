@@ -18,6 +18,17 @@ To change the ocean network and contract addresses, uris please check: `src/conf
 Runs the app in the development mode conntected to Ocean Nile network.
 Open [http://localhost:3006](http://localhost:3006) to view it in the browser.
 
+### Ranking
+
+Two variables considered for staking:
+
+    1. Total amount of staked ocean tokens
+    2. Count of unique accounts who have added stakes.
+
+### Staking contract
+
+Link: [Staking ](https://github.com/akshay-ap/StakeToken)
+
 ### Demo images:
 
 1. View datasets:
