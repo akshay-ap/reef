@@ -10,6 +10,7 @@ export const asset: MetaData = {
         price: '0',
         files: [
             {
+
                 contentType: 'application/zip',
                 resourceId: 'fd5',
                 url: 'https://s3.amazonaws.com/datacommons-seeding-us-east/10_Monkey_Species_Small/assets/training.zip'
@@ -124,6 +125,7 @@ export const assetAlgo: MetaData = {
         files: [
             {
                 index: 0,
+                resourceId: '1',
                 contentType: 'application/text',
                 contentLength: '12057507',
                 compression: 'zip',

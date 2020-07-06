@@ -28,11 +28,11 @@ const useStyles = makeStyles((theme : Theme) => createStyles({
 const Compute = () => {
     const classes = useStyles();
     const {selectAlgorithmForCompute, selectDatasetForCompute} = useSelector((state : RootState) => state.selectedAsset);
-    const [ddoAssetId, setDdoAssetId] = useState(selectDatasetForCompute)
+    const [ddoAssetId, setDdoAssetId] = useState(selectDatasetForCompute === '' ? 'did:op:5db23da44aee4c8b805a1e15758745680fe127c0090c42f38640d791153f7f10' : selectDatasetForCompute)
     const [jobStatus, setJobStatus] = useState('')
     const [jobId, setJobId] = useState('')
     const [agreementId, setAgreementId] = useState('')
-    const [ddoAlgorithmId, setDdoAlgorithmId] = useState(selectAlgorithmForCompute)
+    const [ddoAlgorithmId, setDdoAlgorithmId] = useState(selectAlgorithmForCompute === '' ? 'did:op:8b6383814d9b400c88033b4e653ae4697c6e09bc0c5f422995044189303135ec' : selectAlgorithmForCompute)
     // const [isAlgoInputVisible, setIsAlgoInputVisible] = useState < string | boolean > ('')
     // const [textRawAlgo, setTextRawAlgo] = useState('')
     const [publishLogState, setPublishLogState] = useState(false)
@@ -213,6 +213,7 @@ const Compute = () => {
             <Label>Algorithm DID</Label>
 
             <TextField value={ddoAlgorithmId}
+
                 fullWidth={true}
                 onChange={
                     e => setDdoAlgorithmId(e.target.value)
@@ -222,8 +223,6 @@ const Compute = () => {
 
         <ComputeSection>
             <h3>3. Start Compute Job</h3>
-
-
             <Label>
                 <input type="checkbox" id="publishOutputState"
                     checked={publishOutputState}
