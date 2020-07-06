@@ -15,8 +15,8 @@ import {
     MetaData,
     CreateProgressStep
 } from '@oceanprotocol/squid';
-import {assetAlgo, assetWithCompute, DataAdditionalInformation} from '../../data/asset';
-import {createStyles, makeStyles, Theme, useTheme} from '@material-ui/core/styles';
+import {assetAlgo, DataAdditionalInformation} from '../../data/asset';
+import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const useStyles = makeStyles((theme : Theme) => createStyles({
@@ -45,28 +45,9 @@ const useStyles = makeStyles((theme : Theme) => createStyles({
     }
 }),);
 
-function getStyles(name : string, personName : string[], theme : Theme) {
-    return {
-        fontWeight: personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
-    };
-}
-
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250
-        }
-    }
-};
-
 
 const CreateAlgorithm = () => {
     const classes = useStyles();
-    const theme = useTheme();
 
     const {instance} = useContext(MyOceanContext);
     const [mainMetaData, setMainMetaData] = useState < MetaDataMain > (assetAlgo.main);
@@ -99,24 +80,24 @@ const CreateAlgorithm = () => {
         }
     }
 
-    const createAssetWithCompute = async () => {
+    // const createAssetWithCompute = async () => {
 
-        const accounts: Account[] | undefined = await instance ?. accounts.list()
-        if (accounts !== undefined) {
-            const service = await instance ?. compute.createComputeServiceAttributes(accounts[0], '0', '2020-03-10T10:00:00Z')
-            if (service !== undefined) {
-                const ddoAssetNew = await instance ?. assets.create(assetWithCompute, accounts[0], [service])
-                console.log(ddoAssetNew)
+    //     const accounts: Account[] | undefined = await instance ?. accounts.list()
+    //     if (accounts !== undefined) {
+    //         const service = await instance ?. compute.createComputeServiceAttributes(accounts[0], '0', '2020-03-10T10:00:00Z')
+    //         if (service !== undefined) {
+    //             const ddoAssetNew = await instance ?. assets.create(assetWithCompute, accounts[0], [service])
+    //             console.log(ddoAssetNew)
 
-            }
-            console.log('Asset with compute successfully submitted.')
-        } else {
-            console.log("No accounts")
-        }
-    }
+    //         }
+    //         console.log('Asset with compute successfully submitted.')
+    //     } else {
+    //         console.log("No accounts")
+    //     }
+    // }
 
     const getFiles = () => {
-        return <Paper className={
+        return (<Paper className={
             classes.paper
         }>
             <Typography>
@@ -169,7 +150,7 @@ const CreateAlgorithm = () => {
         }<br/>
             <Button variant="contained"
                 onClick={addFile}>Add</Button>
-        </Paper>
+        </Paper>)
     }
     const removeFile = (resourceId : string | undefined) => {
         const filesList = mainMetaData.files.filter(f => f.resourceId !== resourceId);
@@ -224,78 +205,75 @@ const CreateAlgorithm = () => {
     // };
 
     const getMetaData = () => {
-        return (
-            <Paper className={
-                classes.paper
-            }>
-                <Typography>
-                    MetaData
-                </Typography>
-                <br/>
-                <Grid item container
-                    spacing={3}>
-                    <Grid item>
-                        <TextField value={
-                                mainMetaData.name
-                            }
-                            label="Name"
-                            onChange={
-                                (event) => {
-                                    const {value} = event.target;
-                                    setMainMetaData((prevstate) => ({
-                                        ...prevstate,
-                                        name: value
-                                    }))
-                                }
-                        }></TextField>
-                </Grid>
+        return (<Paper className={
+            classes.paper
+        }>
+            <Typography>
+                MetaData
+            </Typography>
+            <br/>
+            <Grid item container
+                spacing={3}>
                 <Grid item>
                     <TextField value={
-                            mainMetaData.author
+                            mainMetaData.name
                         }
-                        label="Author"
+                        label="Name"
                         onChange={
                             (event) => {
                                 const {value} = event.target;
                                 setMainMetaData((prevstate) => ({
                                     ...prevstate,
-                                    author: value
+                                    name: value
                                 }))
                             }
                     }></TextField>
             </Grid>
             <Grid item>
                 <TextField value={
-                        mainMetaData.license
+                        mainMetaData.author
                     }
-                    label="License"
+                    label="Author"
                     onChange={
                         (event) => {
                             const {value} = event.target;
                             setMainMetaData((prevstate) => ({
                                 ...prevstate,
-                                license: value
+                                author: value
                             }))
                         }
                 }></TextField>
         </Grid>
         <Grid item>
             <TextField value={
-                    mainMetaData.price
+                    mainMetaData.license
                 }
-                label="Price"
+                label="License"
                 onChange={
                     (event) => {
                         const {value} = event.target;
                         setMainMetaData((prevstate) => ({
                             ...prevstate,
-                            price: value
+                            license: value
                         }))
                     }
             }></TextField>
     </Grid>
-</Grid></Paper>
-        )
+    <Grid item>
+        <TextField value={
+                mainMetaData.price
+            }
+            label="Price"
+            onChange={
+                (event) => {
+                    const {value} = event.target;
+                    setMainMetaData((prevstate) => ({
+                        ...prevstate,
+                        price: value
+                    }))
+                }
+        }></TextField>
+</Grid></Grid></Paper>)
     }
 
     const getAdditionalInfo = () => {
@@ -337,49 +315,43 @@ const CreateAlgorithm = () => {
     </Grid>
 </Paper>
     }
-    return (
-        <div className={
-            classes.root
-        }>
-            <form onSubmit={handleSubmit}>
-                {/* 
+    return (<div className={
+        classes.root
+    }>
+        <form onSubmit={handleSubmit}> {/* 
                <Button type="submit" variant="contained"
                     onClick={createAssetWithCompute}>Create with compute</Button> */}
 
-                <div className={
-                    classes.root
-                }>
-                    <Grid container
-                        spacing={3}>
-                        <Grid item
-                            xs={3}>
-                            <Paper className={
-                                classes.paper
-                            }>CreateAsset</Paper>
-                        </Grid>
-                        <Grid item
-                            xs={12}>
-                            {
-                            getMetaData()
-                        } </Grid>
-                        <Grid item
-                            xs={12}>
-                            {
-                            getAdditionalInfo()
-                        } </Grid>
-                        <Grid item
-                            xs={12}>
-                            {
-                            getFiles()
-                        } </Grid>
-                        <Grid item
-                            xs={3}>
-                            <Button type="submit" variant="contained">Create</Button>
-                        </Grid>
+            <div className={
+                classes.root
+            }>
+                <Grid container
+                    spacing={3}>
+                    <Grid item
+                        xs={3}>
+                        <Paper className={
+                            classes.paper
+                        }>CreateAsset</Paper>
                     </Grid>
-                </div>
-            </form>
-        </div>
-    )
+                    <Grid item
+                        xs={12}> {
+                        getMetaData()
+                    } </Grid>
+                    <Grid item
+                        xs={12}> {
+                        getAdditionalInfo()
+                    } </Grid>
+                    <Grid item
+                        xs={12}> {
+                        getFiles()
+                    } </Grid>
+                    <Grid item
+                        xs={3}>
+                        <Button type="submit" variant="contained">Create</Button>
+                    </Grid>
+                </Grid>
+            </div>
+        </form>
+    </div>)
 }
 export default CreateAlgorithm

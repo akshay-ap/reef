@@ -1,6 +1,4 @@
 import React, {useState, useContext, ReactNode} from 'react';
-import asset from './asset'
-import {assetAlgo, rawAlgoMeta} from './asset-compute'
 import {MyOceanContext} from '../../OceanContext';
 import {MetaDataAlgorithm} from '@oceanprotocol/squid';
 import {Output} from '@oceanprotocol/squid/dist/node/ocean/OceanCompute';
@@ -35,64 +33,64 @@ const Compute = () => {
     const [jobId, setJobId] = useState('')
     const [agreementId, setAgreementId] = useState('')
     const [ddoAlgorithmId, setDdoAlgorithmId] = useState(selectAlgorithmForCompute)
-    const [isAlgoInputVisible, setIsAlgoInputVisible] = useState < string | boolean > ('')
-    const [textRawAlgo, setTextRawAlgo] = useState('')
+    // const [isAlgoInputVisible, setIsAlgoInputVisible] = useState < string | boolean > ('')
+    // const [textRawAlgo, setTextRawAlgo] = useState('')
     const [publishLogState, setPublishLogState] = useState(false)
     const [publishOutputState, setPublishOutputState] = useState(false)
 
     const {instance} = useContext(MyOceanContext);
-    const publish = async () => {
-        try {
-            const accounts = await instance ?. accounts.list()
-            if (accounts === undefined) {
-                console.log('accounts undefined')
-                return;
-            }
-            console.log('Publishing asset.')
+    // const publish = async () => {
+    //     try {
+    //         const accounts = await instance ?. accounts.list()
+    //         if (accounts === undefined) {
+    //             console.log('accounts undefined')
+    //             return;
+    //         }
+    //         console.log('Publishing asset.')
 
-            const service = await instance ?. compute.createComputeServiceAttributes(accounts[0], '0', '2020-03-10T10:00:00Z')
-            console.log(service)
-            if (service === undefined) {
-                console.log('service undefined')
-                return;
-            }
-            const ddoAssetNew = await instance ?. assets.create(asset, accounts[0], [service])
-            console.log('Asset successfully submitted.')
-            console.log(ddoAssetNew)
-            // keep track of this registered asset for consumption later on
-            if (ddoAssetNew === undefined) {
-                console.log('ddoAssetNew undefined')
-                return;
-            }
-            setDdoAssetId(ddoAssetNew.id)
-            alert('Asset successfully submitted.')
-        } catch (error) {
-            console.error(error.message)
-        }
-    }
+    //         const service = await instance ?. compute.createComputeServiceAttributes(accounts[0], '0', '2020-03-10T10:00:00Z')
+    //         console.log(service)
+    //         if (service === undefined) {
+    //             console.log('service undefined')
+    //             return;
+    //         }
+    //         const ddoAssetNew = await instance ?. assets.create(asset, accounts[0], [service])
+    //         console.log('Asset successfully submitted.')
+    //         console.log(ddoAssetNew)
+    //         // keep track of this registered asset for consumption later on
+    //         if (ddoAssetNew === undefined) {
+    //             console.log('ddoAssetNew undefined')
+    //             return;
+    //         }
+    //         setDdoAssetId(ddoAssetNew.id)
+    //         alert('Asset successfully submitted.')
+    //     } catch (error) {
+    //         console.error(error.message)
+    //     }
+    // }
 
-    const publishalgo = async () => {
-        try {
-            const accounts = await instance ?. accounts.list()
-            console.log('Publishing algo.')
-            if (accounts === undefined) {
-                console.log('accounts undefined')
-                return;
-            }
-            const ddoAlgorithmNew = await instance ?. assets.create(assetAlgo, accounts[0])
-            console.log(ddoAlgorithmNew)
-            console.log('Algo asset successfully submitted.')
-            if (ddoAlgorithmNew === undefined) {
-                console.log('ddoAssetNew undefined')
-                return;
-            }
-            // keep track of this registered asset for consumption later on
-            setDdoAlgorithmId(ddoAlgorithmNew.id)
-            alert('Algorithm successfully submitted.')
-        } catch (error) {
-            console.error(error.message)
-        }
-    }
+    // const publishalgo = async () => {
+    //     try {
+    //         const accounts = await instance ?. accounts.list()
+    //         console.log('Publishing algo.')
+    //         if (accounts === undefined) {
+    //             console.log('accounts undefined')
+    //             return;
+    //         }
+    //         const ddoAlgorithmNew = await instance ?. assets.create(assetAlgo, accounts[0])
+    //         console.log(ddoAlgorithmNew)
+    //         console.log('Algo asset successfully submitted.')
+    //         if (ddoAlgorithmNew === undefined) {
+    //             console.log('ddoAssetNew undefined')
+    //             return;
+    //         }
+    //         // keep track of this registered asset for consumption later on
+    //         setDdoAlgorithmId(ddoAlgorithmNew.id)
+    //         alert('Algorithm successfully submitted.')
+    //     } catch (error) {
+    //         console.error(error.message)
+    //     }
+    // }
 
     const startCompute = async (algorithmId? : string, algorithmMeta? : MetaDataAlgorithm) => {
         try {
@@ -144,10 +142,10 @@ const Compute = () => {
         return startCompute(ddoAlgorithmId)
     }
 
-    async function startWithRawAlgo() {
-        rawAlgoMeta.rawcode = textRawAlgo
-        return startCompute(undefined, rawAlgoMeta)
-    }
+    // async function startWithRawAlgo() {
+    //     rawAlgoMeta.rawcode = textRawAlgo
+    //     return startCompute(undefined, rawAlgoMeta)
+    // }
 
     const getStatus = async () => {
         try {
@@ -165,17 +163,17 @@ const Compute = () => {
         }
     }
 
-    const showDivAlgo = async () => {
-        setIsAlgoInputVisible(isAlgoInputVisible ? false : true)
-    }
+    // const showDivAlgo = async () => {
+    //     setIsAlgoInputVisible(isAlgoInputVisible ? false : true)
+    // }
 
-    const updateRawAlgoCode = async (event : React.ChangeEvent<HTMLTextAreaElement>) => {
-        setTextRawAlgo(event.target.value)
-    }
+    // const updateRawAlgoCode = async (event : React.ChangeEvent<HTMLTextAreaElement>) => {
+    //     setTextRawAlgo(event.target.value)
+    // }
 
-    const updateDdoAssetId = async (event : React.ChangeEvent<HTMLInputElement>) => {
-        setDdoAssetId(event.target.value)
-    }
+    // const updateDdoAssetId = async (event : React.ChangeEvent<HTMLInputElement>) => {
+    //     setDdoAssetId(event.target.value)
+    // }
 
     const handlePublishOutputState = async (event : React.ChangeEvent<HTMLInputElement>) => {
         setPublishOutputState(event.target.checked)

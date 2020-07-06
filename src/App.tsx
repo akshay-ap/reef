@@ -9,7 +9,6 @@ import CreateAsset from './componenets/assets/CreateAsset';
 import ViewJobs from './componenets/Jobs/ViewJobs';
 import AppDrawer from './componenets/AppDrawer';
 import {makeStyles} from '@material-ui/core/styles';
-import {Main} from './componenets/Main';
 import TitleAppBar from './componenets/TitleAppBar';
 import {CssBaseline, Toolbar} from '@material-ui/core';
 import {MyOceanContext} from './OceanContext';
@@ -34,18 +33,16 @@ function App() {
     const classes = useStyles()
     const {loading} = useContext(MyOceanContext)
     if (window.ethereum === undefined) {
-        return <div>No wallet</div>;
+        return (<div>No wallet</div>);
     }
 
     const getUI = () => {
         if (loading) 
-            return <div>Loading</div>
-
-
+            return (<div>Loading</div>);
         
 
 
-        return <div className={
+        return (<div className={
             classes.root
         }>
             <CssBaseline/>
@@ -87,7 +84,7 @@ function App() {
                     </Switch>
                 </div>
             </Router>
-        </div>
+        </div>);
     }
     return(getUI());
 }

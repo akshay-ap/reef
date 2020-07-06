@@ -44,8 +44,7 @@ export const MyProvider = ({children} : Props) => {
     const [loading, setLoading] = useState < boolean > (true);
     const [contract, setContract] = useState < Contract > ();
 
-    const setUpContract = async () => {
-        const networkId = await web3 ?. eth.net.getId();
+    const setUpContract = async () => { // const networkId = await web3 ?. eth.net.getId();
         if (web3 !== null) {
             let parsed: AbiItem | AbiItem[] = StakeApp.abi as AbiItem | AbiItem[];
             let meta = new web3.eth.Contract(parsed, STAKE_APP_CONTRACT_ADDRESS);
