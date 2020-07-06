@@ -4,12 +4,15 @@ import Web3 from "web3";
 import {AbiItem} from 'web3-utils';
 import {Contract} from 'web3-eth-contract';
 import StakeApp from "./abi/StakeApp.json";
-import {OceanConfig, STAKE_APP_CONTRACT_ADDRESS} from './config';
+import IERC20 from "./abi/IERC20.json";
+
+import {OceanConfig, STAKE_APP_CONTRACT_ADDRESS, OCEAN_TOKEN_CONTRACT_ADDRESS} from './config';
 export interface MyOceanContextInterface {
     loading: boolean,
     instance: Ocean | null,
     web3: Web3 | null,
-    stakeApp?: Contract
+    stakeApp?: Contract,
+    oceanContract?: Contract
 }
 
 export const MyOceanContext = React.createContext<MyOceanContextInterface>({loading: false, instance: null, web3: null});
@@ -43,15 +46,22 @@ export const MyProvider = ({children} : Props) => {
     const [data, setData] = useState < Ocean | null | any > (null)
     const [loading, setLoading] = useState < boolean > (true);
     const [contract, setContract] = useState < Contract > ();
+    const [oceanContract, setOceanContract] = useState < Contract > ();
 
     const setUpContract = async () => { // const networkId = await web3 ?. eth.net.getId();
-        if (web3 !== null) {
+        if (web3 !== null) { // Setup stake app contract
             let parsed: AbiItem | AbiItem[] = StakeApp.abi as AbiItem | AbiItem[];
-            let meta = new web3.eth.Contract(parsed, STAKE_APP_CONTRACT_ADDRESS);
-            console.log('this.meta', meta)
-            setContract(meta);
-        }
+            let stakeAppContract = new web3.eth.Contract(parsed, STAKE_APP_CONTRACT_ADDRESS);
+            console.log('stake app contract: ', stakeAppContract)
+            setContract(stakeAppContract);
 
+            // Setup ocean token contract
+            let oceanParsed: AbiItem | AbiItem[] = IERC20.abi as AbiItem | AbiItem[];
+            let oceanTokenContract = new web3.eth.Contract(oceanParsed, OCEAN_TOKEN_CONTRACT_ADDRESS);
+            console.log('ocean token Contract:', oceanTokenContract)
+            setOceanContract(oceanTokenContract);
+
+        }
     }
     useEffect(() => {
         async function temp() {
@@ -66,7 +76,13 @@ export const MyProvider = ({children} : Props) => {
         setUpContract()
     }, [])
 
-    const get = () => ({loading: loading, instance: data, web3: web3, stakeApp: contract})
+    const get = () => ({
+        loading: loading,
+        instance: data,
+        web3: web3,
+        stakeApp: contract,
+        oceanContract: oceanContract
+    })
 
     const {Provider} = MyOceanContext
     return (<Provider value={

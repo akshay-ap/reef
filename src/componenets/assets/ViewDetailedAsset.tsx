@@ -14,6 +14,7 @@ import {RootState} from "../../redux/index";
 import {MyOceanContext} from '../../OceanContext';
 import {StakeInterFaceMap, MyStakeInterfaceMap} from '../../slices/asset-list';
 import {setSelectedAlgoForCompute, setSelectedDataForCompute} from '../../slices/selected-asset';
+import {STAKE_APP_CONTRACT_ADDRESS, MAX_APPROVAL_AMOUNT} from '../../config';
 
 const useStyles = makeStyles((theme : Theme) => createStyles({
     root: {
@@ -41,7 +42,7 @@ const ViewDetailedAsset = () => {
     const [myStakeInfo] = useState < MyStakeInterfaceMap > (type === "dataset" ? myStakes : myAlgoStakes);
 
     const classes = useStyles();
-    const {web3, stakeApp} = useContext(MyOceanContext);
+    const {web3, stakeApp, oceanContract} = useContext(MyOceanContext);
     const [stakeAmount, setStakeAmount] = useState < number > (0);
     const s: boolean = myStakes[asset.id] ? (parseInt(myStakes[asset.id].amount) > 0 ? true : false) : false;
     const [unStakeable] = useState < boolean > (s);
@@ -68,10 +69,28 @@ const ViewDetailedAsset = () => {
             return;
         
 
-
+        await approve();
+        console.log('approval');
         const accounts: String[] = await web3.eth.getAccounts();
         const {addStake} = stakeApp.methods;
         await addStake(stakeAmount, asset.id).send({from: accounts[0]});
+    }
+
+    const approve = async () => {
+        if (web3 === null) 
+            return;
+        
+
+
+        const accounts: String[] = await web3.eth.getAccounts();
+
+        if (accounts === undefined) 
+            return;
+        
+
+
+        const {approve} = oceanContract ?. methods;
+        await approve(STAKE_APP_CONTRACT_ADDRESS, MAX_APPROVAL_AMOUNT).send({from: accounts[0]});
     }
 
     return (<div className={
