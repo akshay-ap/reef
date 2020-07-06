@@ -51,13 +51,13 @@ const AppDrawer = () => {
                 onClick={
                     () => history.push('/assets/view')
             }>
-                <ListItemText primary={"View datasets"}/>
+                <ListItemText primary={"Search datasets"}/>
             </ListItem>
             <ListItem button
                 onClick={
                     () => history.push('/assets/create')
             }>
-                <ListItemText primary={"Create dataset"}/>
+                <ListItemText primary={"Publish dataset"}/>
             </ListItem>
         </List>
         <Divider/>
@@ -66,13 +66,13 @@ const AppDrawer = () => {
                 onClick={
                     () => history.push('/algorithms/view')
             }>
-                <ListItemText primary={"View algorithms"}/>
+                <ListItemText primary={"Search algorithms"}/>
             </ListItem>
             <ListItem button
                 onClick={
                     () => history.push('/algorithms/create')
             }>
-                <ListItemText primary={"Create algorithm"}/>
+                <ListItemText primary={"Publish algorithm"}/>
             </ListItem>
         </List>
         <Divider/>
@@ -87,7 +87,7 @@ const AppDrawer = () => {
                 onClick={
                     () => history.push('/compute/view')
             }>
-                <ListItemText primary={"View Jobs"}/>
+                <ListItemText primary={"View jobs"}/>
             </ListItem>
         </List>
         <Divider/>

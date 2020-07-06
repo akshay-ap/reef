@@ -79,64 +79,61 @@ const ViewAlgorithms = () => {
     }
 
     useEffect(() => {}, [])
-    return (
-        <div>
-            <Grid container
-                spacing={3}>
-                <Grid item>
-                    <Paper className={
-                        classes.paper
-                    }>
-                        <Typography>
-                            ViewAlogs
-                        </Typography>
-                    </Paper>
-                </Grid>
-                <Grid item>
-                    <TextField id="outlined-basic" label="Search" variant="outlined"
-                        value={search}
-                        className={
-                            classes.testField
-                        }
-                        onChange={
-                            (e) => {
-                                setSearch(e.target.value)
-                            }
-                        }/>
-                    <Button variant="contained" color="primary"
-                        onClick={getData}>
-                        Search
-                    </Button>
-                </Grid>
-
+    return (<div>
+        <Grid container
+            spacing={3}>
+            <Grid item>
+                <Paper className={
+                    classes.paper
+                }>
+                    <Typography>
+                        ViewAlogs
+                    </Typography>
+                </Paper>
             </Grid>
-            <div>
-                <Grid container>
-                    <Grid container direction="column">
-                        <Grid item container
-                            spacing={3}>
-                            {
-                            algos.map((value : DDO, index) => (
-                                <Grid item
-                                    xs={12}
-                                    sm={4}
-                                    key={
-                                        value.id
-                                }>
-                                    <AssetDetails assetInfo={value}
-                                        type="algorithm"
-                                        rank={
-                                            ranks[value.id]
-                                    }></AssetDetails>
-                                </Grid>
-                            ))
-                        } </Grid>
-                    </Grid>
-                </Grid>
-            </div>
-        </div>
+            <Grid item>
+                <TextField id="outlined-basic" label="Search" variant="outlined"
+                    value={search}
+                    className={
+                        classes.testField
+                    }
+                    onChange={
+                        (e) => {
+                            setSearch(e.target.value)
+                        }
+                    }/>
+                <Button variant="contained" color="primary"
+                    onClick={getData}>
+                    Search
+                </Button>
+            </Grid>
 
-    )
+        </Grid>
+        <div>
+            <Grid container>
+                <Grid container direction="column">
+                    <Grid item container
+                        spacing={3}> {
+                        algos.map((value : DDO, index : number) => (<Grid item
+                            xs={12}
+                            sm={4}
+                            key={
+                                value.id
+                        }>
+                            <AssetDetails assetInfo={value}
+                                type="algorithm"
+                                rank={
+                                    ranks[value.id]
+                                }
+                                rankNumber={
+                                    index + 1
+                            }></AssetDetails>
+                        </Grid>))
+                    } </Grid>
+                </Grid>
+            </Grid>
+        </div>
+    </div>)
 }
 
 export default ViewAlgorithms

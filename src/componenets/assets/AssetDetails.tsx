@@ -11,7 +11,8 @@ import {
     Typography,
     CardActions,
     Button,
-    makeStyles
+    makeStyles,
+    Avatar
 } from '@material-ui/core'
 import {MyOceanContext} from '../../OceanContext';
 
@@ -20,18 +21,25 @@ const useStyles = makeStyles({
         fontSize: 14
     },
     card: {
-        background: 'linear-gradient(45deg, #64b5f6 30%, #e3f2fd 90%)'
+        background: '#bbdefb'
     },
     button: {
         backgroundColor: '#1a237e',
         color: 'white'
+    },
+    avatar: {
+        backgroundColor: '#bbdefb'
+    },
+    cardHeader: {
+        backgroundColor: '#3f51b5'
     }
 });
 
-const AssetDetails = ({assetInfo, type, rank} : {
+const AssetDetails = ({assetInfo, type, rank, rankNumber} : {
     assetInfo: DDO,
     type: string,
-    rank: number
+    rank: number,
+    rankNumber: number
 }) => {
     const history = useHistory()
     const dispatch = useDispatch();
@@ -49,20 +57,17 @@ const AssetDetails = ({assetInfo, type, rank} : {
     const isComputable = () => {
         const compute = asset.service.find(e => e.type === 'compute')
         if (compute !== undefined) {
-            return (
-                <Button size="small" color="primary" variant="contained"
-                    className={
-                        classes.button
-                    }
-                    onClick={runComputeJob}>Compute</Button>
-            )
+            return (<Button size="small" color="primary" variant="contained"
+                className={
+                    classes.button
+                }
+                onClick={runComputeJob}>Compute</Button>)
         } else {
             return null
         }
 
     }
     const consume = async (consumeAsset : DDO) => {
-        console.log('------------')
         const accounts: Account[] | undefined = await instance ?. accounts.list()
         if (accounts) {
             const agreement = await instance ?. assets.order(consumeAsset.id, accounts[0])
@@ -76,69 +81,79 @@ const AssetDetails = ({assetInfo, type, rank} : {
         }
         // consume it
     }
-    return (
-        <Card variant="outlined"
-            className={
-                classes.card
+    return (<Card variant="outlined"
+        className={
+            classes.card
+        }
+        raised={true}>
+        <CardHeader avatar={
+                (<Avatar aria-label="recipe"
+                    className={
+                        classes.avatar
+                }>
+                    <Typography color='primary'> {rankNumber}</Typography>
+                </Avatar>)
             }
-            raised={true}>
-            <CardHeader title={
-                    assetInfo.service.find(e => e.type === 'metadata') ?. attributes.main.name
+            title={
+                assetInfo.service.find(e => e.type === 'metadata') ?. attributes.main.name
+            }
+            action={
+                <div></div>
+            }
+            className={
+                classes.cardHeader
+            }/>
+
+        <CardContent>
+            <Typography>Rank score: {
+                Math.round((rank + Number.EPSILON) * 100) / 100
+            } </Typography>
+            <Typography className={
+                    classes.title
                 }
-                action={
-                    <div></div>
-                }/>
+                color="textSecondary">
+                Price: {
+                assetInfo.service.find(e => e.type === 'metadata') ?. attributes.main.price
+            }</Typography>
+            <Typography className={
+                    classes.title
+                }
+                color="textSecondary">
+                Author: {
+                assetInfo.service.find(e => e.type === 'metadata') ?. attributes.main.author
+            } </Typography>
+        </CardContent>
+        <CardActions>
+            <Button size="small" color="primary" variant="contained"
+                className={
+                    classes.button
+                }
 
-            <CardContent>
-                <Typography>Rank score: {rank} </Typography>
-                <Typography className={
-                        classes.title
+                onClick={
+                    () => {
+                        setAsset(asset)
+                        history.push('/asset/details')
                     }
-                    color="textSecondary">
-                    Price: {
-                    assetInfo.service.find(e => e.type === 'metadata') ?. attributes.main.price
-                }</Typography>
-                <Typography className={
-                        classes.title
+            }>
+                View
+            </Button>
+
+
+            <Button size="small" color="primary" variant="contained"
+                className={
+                    classes.button
+                }
+                onClick={
+                    () => {
+                        consume(assetInfo)
                     }
-                    color="textSecondary">
-                    Author: {
-                    assetInfo.service.find(e => e.type === 'metadata') ?. attributes.main.author
-                } </Typography>
-            </CardContent>
-            <CardActions>
-                <Button size="small" color="primary" variant="contained"
-                    className={
-                        classes.button
-                    }
-
-                    onClick={
-                        () => {
-                            setAsset(asset)
-                            history.push('/asset/details')
-                        }
-                }>
-                    View
-                </Button>
-
-
-                <Button size="small" color="primary" variant="contained"
-                    className={
-                        classes.button
-                    }
-                    onClick={
-                        () => {
-                            consume(assetInfo)
-                        }
-                }>
-                    Consume
-                </Button>
-                {
-                isComputable()
-            } </CardActions>
-        </Card>
-
-    )
+            }>
+                Consume
+            </Button>
+            {
+            isComputable()
+        } </CardActions>
+    </Card>)
 }
 export
 default

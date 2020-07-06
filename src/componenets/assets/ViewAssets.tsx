@@ -116,7 +116,7 @@ const ViewAssets = () => {
                 <Grid container direction="column">
                     <Grid container
                         spacing={3}> {
-                        assets.map((value : DDO) => (<Grid item
+                        assets.map((value : DDO, index : number) => (<Grid item
                             xs={12}
                             sm={4}
                             key={
@@ -126,6 +126,9 @@ const ViewAssets = () => {
                                 type="dataset"
                                 rank={
                                     ranks[value.id]
+                                }
+                                rankNumber={
+                                    index + 1
                             }></AssetDetails>
                         </Grid>))
                     } </Grid>
