@@ -28,6 +28,12 @@ const useStyles = makeStyles((theme : Theme) => createStyles({
         textAlign: 'center',
         color: theme.palette.text.primary
     },
+    paperTitle: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.primary,
+        backgroundColor: '#c5cae9'
+    },
     testField: {
         paddingRight: theme.spacing(2),
         textAlign: 'center',
@@ -80,17 +86,17 @@ const ViewAlgorithms = () => {
 
     useEffect(() => {}, [])
     return (<div>
+        <Paper className={
+            classes.paperTitle
+        }>
+            <Typography>
+                Search algorithms
+            </Typography>
+        </Paper>
+        <br/>
         <Grid container
             spacing={3}>
-            <Grid item>
-                <Paper className={
-                    classes.paper
-                }>
-                    <Typography>
-                        ViewAlogs
-                    </Typography>
-                </Paper>
-            </Grid>
+
             <Grid item>
                 <TextField id="outlined-basic" label="Search" variant="outlined"
                     value={search}

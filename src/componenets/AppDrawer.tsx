@@ -19,7 +19,12 @@ const userStyles = makeStyles({
         flexShrink: 0
     },
     drawerPaper: {
-        width: drawerWidth
+        width: drawerWidth,
+        backgroundColor: '#e8eaf6'
+    },
+
+    icon: {
+        alignContent: 'center'
     }
 })
 
@@ -43,10 +48,9 @@ const AppDrawer = () => {
             </ListItem>
         </List>
         <Divider/>
-        <List>
-            <ListItem>
+        <List> {/* <ListItem alignItems='center'>
                 <StorageIcon/>
-            </ListItem>
+            </ListItem> */}
             <ListItem button
                 onClick={
                     () => history.push('/assets/view')

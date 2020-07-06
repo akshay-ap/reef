@@ -26,7 +26,8 @@ const useStyles = makeStyles((theme : Theme) => createStyles({
     paper: {
         padding: theme.spacing(2),
         textAlign: 'center',
-        color: theme.palette.text.primary
+        color: theme.palette.text.primary,
+        backgroundColor: '#c5cae9'
     },
     testField: {
         paddingRight: theme.spacing(2),
@@ -86,7 +87,7 @@ const ViewAssets = () => {
             classes.paper
         }>
             <Typography>
-                ViewAssets
+                Search Datasets
             </Typography>
         </Paper>
         <br/>

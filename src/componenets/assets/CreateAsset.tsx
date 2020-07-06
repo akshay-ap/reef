@@ -26,7 +26,14 @@ const useStyles = makeStyles((theme : Theme) => createStyles({
     paper: {
         padding: theme.spacing(2),
         textAlign: 'center',
-        color: theme.palette.text.primary
+        color: theme.palette.text.primary,
+        backgroundColor: '#e8eaf6'
+    },
+    paperTitle: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.primary,
+        backgroundColor: '#c5cae9'
     },
     formControl: {
         margin: theme.spacing(1),
@@ -42,7 +49,8 @@ const useStyles = makeStyles((theme : Theme) => createStyles({
     },
     noLabel: {
         marginTop: theme.spacing(3)
-    }
+    },
+    typograghy: {}
 }),);
 
 const CreateAsset = () => {
@@ -83,7 +91,9 @@ const CreateAsset = () => {
         return (<Paper className={
             classes.paper
         }>
-            <Typography>
+            <Typography className={
+                classes.typograghy
+            }>
                 Files
             </Typography>
             {
@@ -131,7 +141,7 @@ const CreateAsset = () => {
                 </div>
         })
         }<br/>
-            <Button variant="contained"
+            <Button variant="contained" color='primary'
                 onClick={addFile}>Add</Button>
         </Paper>)
     };
@@ -303,6 +313,14 @@ const CreateAsset = () => {
     return (<div className={
         classes.root
     }>
+        <Paper className={
+            classes.paperTitle
+        }>
+            <Typography>
+                Publish asset
+            </Typography>
+        </Paper>
+        <br/>
         <form onSubmit={handleSubmit}> {/* 
                <Button type="submit" variant="contained"
                     onClick={createAssetWithCompute}>Create with compute</Button> */}
@@ -312,12 +330,6 @@ const CreateAsset = () => {
             }>
                 <Grid container
                     spacing={3}>
-                    <Grid item
-                        xs={3}>
-                        <Paper className={
-                            classes.paper
-                        }>CreateAsset</Paper>
-                    </Grid>
                     <Grid item
                         xs={12}> {
                         getMetaData()
@@ -332,7 +344,7 @@ const CreateAsset = () => {
                     } </Grid>
                     <Grid item
                         xs={3}>
-                        <Button type="submit" variant="contained">Create</Button>
+                        <Button type="submit" variant="contained" color='primary'>Create</Button>
                     </Grid>
                 </Grid>
             </div>

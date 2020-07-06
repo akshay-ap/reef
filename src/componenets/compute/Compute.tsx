@@ -21,7 +21,14 @@ const useStyles = makeStyles((theme : Theme) => createStyles({
     paper: {
         padding: theme.spacing(2),
         textAlign: 'center',
-        color: theme.palette.text.primary
+        color: theme.palette.text.primary,
+        backgroundColor: '#e8eaf6'
+    },
+    paperTitle: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.primary,
+        backgroundColor: '#c5cae9'
     }
 }),);
 
@@ -186,81 +193,99 @@ const Compute = () => {
     return (<div>
 
         <Paper className={
-            classes.paper
+            classes.paperTitle
         }>
             <Typography>
                 Compute
             </Typography>
         </Paper>
+        <br/>
+        <Paper className={
+            classes.paper
+        }>
+            <ComputeSection>
+                <Typography variant="h6">Selected Dataset</Typography>
+
+                <Label>Asset DID</Label>
+                <TextField value={ddoAssetId}
+                    fullWidth={true}
+                    onChange={
+                        e => setDdoAssetId(e.target.value)
+                    }/>
+
+            </ComputeSection>
+
+        </Paper>
+        <br/>
+
+        <Paper className={
+            classes.paper
+        }>
+            <ComputeSection>
+                <Typography variant="h6">Selected algorithm</Typography>
 
 
-        <ComputeSection>
-            <Typography variant="h6">Selected Dataset</Typography>
+                <Label>Algorithm DID</Label>
 
-            <Label>Asset DID</Label>
-            <TextField value={ddoAssetId}
-                fullWidth={true}
-                onChange={
-                    e => setDdoAssetId(e.target.value)
-                }/>
+                <TextField value={ddoAlgorithmId}
 
-        </ComputeSection>
+                    fullWidth={true}
+                    onChange={
+                        e => setDdoAlgorithmId(e.target.value)
+                    }/>
 
-        <ComputeSection>
-            <Typography variant="h6">Selected algorithm</Typography>
+            </ComputeSection>
 
+        </Paper>
+        <br/>
+        <Paper className={
+            classes.paper
+        }>
+            <ComputeSection>
+                <Typography variant="h6">Start Compute Job</Typography>
 
-            <Label>Algorithm DID</Label>
+                {/* <Label>
+                    <input type="checkbox" id="publishOutputState"
+                        checked={publishOutputState}
+                        onChange={handlePublishOutputState}/>
+                    Publish Output into the Marketplace
+                </Label>
+                <Label>
+                    <input type="checkbox" id="publishLogState"
+                        checked={publishLogState}
+                        onChange={handlePublishLogState}/>
+                    Publish Algorithm Logs into the Marketplace
+                </Label> */}
 
-            <TextField value={ddoAlgorithmId}
-
-                fullWidth={true}
-                onChange={
-                    e => setDdoAlgorithmId(e.target.value)
-                }/>
-
-        </ComputeSection>
-
-        <ComputeSection>
-            <h3>3. Start Compute Job</h3>
-            <Label>
-                <input type="checkbox" id="publishOutputState"
-                    checked={publishOutputState}
-                    onChange={handlePublishOutputState}/>
-                Publish Output into the Marketplace
-            </Label>
-            <Label>
-                <input type="checkbox" id="publishLogState"
-                    checked={publishLogState}
-                    onChange={handlePublishLogState}/>
-                Publish Algorithm Logs into the Marketplace
-            </Label>
-
-            <Label>Compute Job ID</Label>
-            <code> {jobId}</code>
+                <Label>Compute Job ID</Label>
+                <code> {jobId}</code>
 
 
-            <Button color="primary" variant="contained"
-                onClick={startWithPublishedAlgo}
-                disabled={
-                    !ddoAssetId || !ddoAlgorithmId
-            }>
-                Order and start compute service with published algorithm
-            </Button>
-        </ComputeSection>
-        <ComputeSection>
-            <h3>4. Get Compute Job Status</h3>
-            <code> {jobStatus}</code>
-
-            <Button color="primary" variant="contained"
-                onClick={getStatus}
-                disabled={
-                    !jobId
-            }>
-                Get Job Status
-            </Button>
-        </ComputeSection>
-
+                <Button color="primary" variant="contained"
+                    onClick={startWithPublishedAlgo}
+                    disabled={
+                        !ddoAssetId || !ddoAlgorithmId
+                }>
+                    Order and start compute service with published algorithm
+                </Button>
+            </ComputeSection>
+        </Paper>
+        <br/>
+        <Paper className={
+            classes.paper
+        }>
+            <ComputeSection>
+                <Typography variant="h6">View Job Status</Typography>
+                <code> {jobStatus}</code>
+                <Button color="primary" variant="contained"
+                    onClick={getStatus}
+                    disabled={
+                        !jobId
+                }>
+                    View Job Status
+                </Button>
+            </ComputeSection>
+        </Paper>
     </div>)
 
 }
@@ -277,7 +302,7 @@ const ComputeSection = ({children} : {
                 margin: '1rem auto'
             }
         }> {children} </div>
-        <hr/>
+
     </>)
 }
 
