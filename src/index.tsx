@@ -7,6 +7,7 @@ import {ThemeProvider, createMuiTheme} from '@material-ui/core/styles'
 import {MyProvider} from './OceanContext';
 import {Provider} from 'react-redux';
 import store from './redux';
+import {SnackbarProvider} from 'notistack';
 
 const theme = createMuiTheme({
     // palette: {
@@ -21,7 +22,9 @@ ReactDOM.render (<React.StrictMode>
     <ThemeProvider theme={theme}>
         <MyProvider>
             <Provider store={store}>
-                <App/>
+                <SnackbarProvider maxSnack={3}>
+                    <App/>
+                </SnackbarProvider>
             </Provider>
         </MyProvider>
     </ThemeProvider>

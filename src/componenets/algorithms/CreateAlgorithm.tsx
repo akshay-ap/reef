@@ -19,6 +19,7 @@ import {
 import {assetAlgo, DataAdditionalInformation} from '../../data/asset';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import {useSnackbar} from 'notistack';
 
 const useStyles = makeStyles((theme : Theme) => createStyles({
     root: {
@@ -56,6 +57,7 @@ const useStyles = makeStyles((theme : Theme) => createStyles({
 
 const CreateAlgorithm = () => {
     const classes = useStyles();
+    const {enqueueSnackbar} = useSnackbar();
 
     const {instance} = useContext(MyOceanContext);
     const [mainMetaData, setMainMetaData] = useState < MetaDataMain > (assetAlgo.main);
@@ -76,12 +78,9 @@ const CreateAlgorithm = () => {
             p ?. then(d => {
                 console.log('d', d)
             })
-            p ?. subscribe((x : CreateProgressStep) => {
-                console.log('x', x)
+            p ?. subscribe((p : CreateProgressStep) => {
+                enqueueSnackbar(CreateProgressStep[p], {variant: 'info'});
             })
-            // .subscribe((p : CreateProgressStep) => {
-            //     console.log('Asset successfully submitted.', p)
-            // })
 
         } else {
             console.log("No accounts")
