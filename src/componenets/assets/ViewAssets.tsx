@@ -45,7 +45,7 @@ const ViewAssets = () => {
     const {assets, ranks} = useSelector((state : RootState) => state.assetList);
     const dispatch = useDispatch();
     const {getAllStakes, getMyStakes} = stakeApp ?. methods;
-    const [search, setSearch] = useState < string > ('xzyabc123');
+    const [search, setSearch] = useState < string > ('user names');
 
     const getData = async () => {
         console.log('loading assets...')
