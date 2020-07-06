@@ -3,6 +3,7 @@ import {MyOceanContext} from '../../OceanContext';
 import {MetaDataAlgorithm} from '@oceanprotocol/squid';
 import {Output} from '@oceanprotocol/squid/dist/node/ocean/OceanCompute';
 import {ComputeOutput} from '../../config';
+import {useSnackbar} from 'notistack';
 
 import {
     Button,
@@ -33,6 +34,8 @@ const useStyles = makeStyles((theme : Theme) => createStyles({
 }),);
 
 const Compute = () => {
+    const {enqueueSnackbar} = useSnackbar();
+
     const classes = useStyles();
     const {selectAlgorithmForCompute, selectDatasetForCompute} = useSelector((state : RootState) => state.selectedAsset);
     const [ddoAssetId, setDdoAssetId] = useState(selectDatasetForCompute === '' ? 'did:op:5db23da44aee4c8b805a1e15758745680fe127c0090c42f38640d791153f7f10' : selectDatasetForCompute)
@@ -101,6 +104,8 @@ const Compute = () => {
 
     const startCompute = async (algorithmId? : string, algorithmMeta? : MetaDataAlgorithm) => {
         try {
+
+            enqueueSnackbar('Start creating compute job', {variant: 'info'});
             const accounts = await instance ?. accounts.list()
             if (accounts === undefined) {
                 console.log('accounts undefined')
@@ -119,6 +124,7 @@ const Compute = () => {
                 console.log('agreement undefined')
                 return;
             }
+            enqueueSnackbar('Agreement created', {variant: 'info'});
             setAgreementId(agreement)
             // start a compute job
             const status = await instance ?. compute.start(accounts[0], agreement, algorithmId, algorithmMeta, computeOutput)
@@ -126,18 +132,26 @@ const Compute = () => {
                 console.log('status undefined')
                 return;
             }
+
+            enqueueSnackbar('Jobid created', {variant: 'info'});
             let jobs = localStorage.getItem('jobIds')
+            let p_jobs: string = ''
             if (jobs === null) {
-                jobs = JSON.stringify([{
+                p_jobs = JSON.stringify([{
                         jobId: status.jobId,
                         agreementId: agreement
                     }])
             } else {
-                let parsed: MyComputeJob[] = JSON.parse(jobs)as MyComputeJob[]
-                jobs = JSON.stringify(parsed.push({jobId: status.jobId, agreementId: agreement}));
+                let parsed: MyComputeJob[] = JSON.parse(jobs);
+                console.log('parsed...', parsed);
+                let newJob: MyComputeJob = {
+                    jobId: status.jobId,
+                    agreementId: agreement
+                }
+                p_jobs = JSON.stringify(parsed.push(newJob));
             }
-            localStorage.setItem('jobIds', jobs)
-
+            console.log('Storing jobs: ', p_jobs)
+            localStorage.setItem('jobIds', p_jobs)
             setJobId(status.jobId)
             console.log(status)
             alert('Compute job created. You can query for its status now.')

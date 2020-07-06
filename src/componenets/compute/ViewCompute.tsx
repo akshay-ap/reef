@@ -101,7 +101,8 @@ const ViewCompute = () => {
       } */} </Paper>
 
         <List> {
-            jobIds.map((e : {
+            jobIds && jobIds.length > 0 ? jobIds.map((e
+            : {
                 jobId: string,
                 agreementId: string
             }) => {
@@ -132,7 +133,7 @@ const ViewCompute = () => {
                             variant="contained">View Status</Button>
                     </Paper>
                 </div>
-        })
+        }) : "No Jobs found"
         } </List>
     </div>)
 }

@@ -32,4 +32,13 @@ Link: [Staking ](https://github.com/akshay-ap/StakeToken)
 ### Demo images:
 
 1. View datasets:
-    ![alt text](images/view_assets.png)
+    ![View asset](images/view_assets.png)
+
+2. Publish asset:
+    ![Publish asset](images/publish.png)
+
+3. View asset:
+    ![Asset detials](images/asset_details.png)
+
+4. Create compute job:
+    ![Compute](images/compute.png)
