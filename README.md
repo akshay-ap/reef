@@ -91,3 +91,5 @@ Link: [Staking ](https://github.com/akshay-ap/StakeToken)
 2. Fix `view Jobs`.
 
 3. Improve compute-to-data feature.
+
+4. Add more factors for ranking.
