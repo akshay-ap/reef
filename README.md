@@ -1,6 +1,6 @@
 # Reef - (Algorank and staking on Ocean assets)
 
-### User can:
+### User can
 
     1. Search for published datasets/algorithms
     2. Publish dataset/algorithms
@@ -29,7 +29,17 @@ Two variables considered for staking:
 
 Link: [Staking ](https://github.com/akshay-ap/StakeToken)
 
-### Demo images:
+### Deployment
+
+1. Deploy the Staking contract. [See the steps mentioned here](https://github.com/akshay-ap/StakeToken)
+
+2. Replace the [STAKE_APP_CONTRACT_ADDRESS](https://github.com/akshay-ap/reef/blob/40f71d87d3f6af3faab51cf7f1c6b03695eed6eb/src/config.ts#L21) in `src/confing.ts`
+
+3. Replace the [OCEAN_TOKEN_CONTRACT_ADDRESS](https://github.com/akshay-ap/reef/blob/40f71d87d3f6af3faab51cf7f1c6b03695eed6eb/src/config.ts#L22)
+
+4. Change Ocean network related config [Link](https://github.com/akshay-ap/reef/blob/master/src/config.ts).
+
+### Demo images
 
 1. View datasets:
     ![View asset](images/view_assets.png)
