@@ -39,6 +39,36 @@ Link: [Staking ](https://github.com/akshay-ap/StakeToken)
 
 4. Change Ocean network related config [Link](https://github.com/akshay-ap/reef/blob/master/src/config.ts).
 
+### Ranking logic
+
+    The `StakeApp` contract stores the stakes users (ERC20 tokens). The application decides the rank of the alogrithm/dataset based on 2 factors: 
+        a. Total stakes of ERC20 tokens on each asset (dataset/algorithm).
+        b. Count of unique user addresses who have staked the tokens on each asset.
+    Equal weight is given to both the above two factors and the score for each `algorithm`/`dataset` is calculated. The assets are ranked from highest to lowest score.
+
+    Formula:
+    1. Normalize the list of count of unique addresses who have staked on assets.
+    2. Normalize the list of amount of stakes on assets.
+    3. Calculate the average of above two list.
+
+    e.g.
+
+#### Input
+
+| Asset_ID | Count of unique addresses who added stakes | Total amount staked |
+|----------|--------------------------------------------|---------------------|
+| A        | 4                                          | 40000               |
+| B        | 10                                         | 35000               |
+| C        | 2                                          | 500000              |
+
+#### Result
+
+| Asset_ID | Normalized Score of Count of addresses | Total amount staked | Average | Rank |
+|----------|----------------------------------------|---------------------|---------|------|
+| A        | 0.25                                   | 0.010752688         | 0.13037 | 2    |
+| B        | 1                                      | 0                   | 0.5     | 1    |
+| C        | 0                                      | 1                   | 0.5     | 1    |
+
 ### Demo images
 
 1. View datasets:
@@ -52,3 +82,12 @@ Link: [Staking ](https://github.com/akshay-ap/StakeToken)
 
 4. Create compute job:
     ![Compute](images/compute.png)
+
+
+### To do
+
+1. Add loading bar in whole application.
+
+2. Fix `view Jobs`.
+
+3. Improve compute-to-data feature.
