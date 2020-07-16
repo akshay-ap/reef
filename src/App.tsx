@@ -15,16 +15,12 @@ import ViewJobs from "./componenets/Jobs/ViewJobs";
 import AppDrawer from "./componenets/AppDrawer";
 import { makeStyles } from "@material-ui/core/styles";
 import TitleAppBar from "./componenets/TitleAppBar";
-import {
-  CssBaseline,
-  Toolbar,
-  Grid,
-  Paper,
-  Typography,
-} from "@material-ui/core";
+import { CssBaseline, Toolbar, Typography } from "@material-ui/core";
 import { MyOceanContext } from "./OceanContext";
 import ViewAssets from "./componenets/assets/ViewAssets";
 import ViewDetailedAsset from "./componenets/assets/ViewDetailedAsset";
+import { NoWallet } from "./componenets/other/NoWallet";
+import { NotConnectedToOceanNetwork } from "./componenets/other/NotConnectToOceanNetwork";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -47,32 +43,15 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
-  const { loading } = useContext(MyOceanContext);
+  const { loading, instance } = useContext(MyOceanContext);
   if (window.ethereum === undefined) {
-    return (
-      <div>
-        <Grid
-          container
-          spacing={0}
-          direction="column"
-          alignItems="center"
-          justify="center"
-          style={{ minHeight: "100vh" }}
-        >
-          <Grid item xs={3}>
-            <Paper className={classes.paper}>
-              <Typography> No Wallet</Typography>
-            </Paper>
-          </Grid>
-        </Grid>
-      </div>
-    );
+    return <NoWallet />;
   }
 
   const getUI = () => {
     if (loading) return <div>Loading</div>;
 
-    return (
+    return instance?.keeper?.connected ? (
       <div className={classes.root}>
         <CssBaseline />
         <TitleAppBar />
@@ -113,6 +92,8 @@ function App() {
           </div>
         </Router>
       </div>
+    ) : (
+      <NotConnectedToOceanNetwork />
     );
   };
   return getUI();

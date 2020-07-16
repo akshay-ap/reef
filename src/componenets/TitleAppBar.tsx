@@ -22,8 +22,7 @@ const TitleAppBar = () => {
   const { instance } = useContext(MyOceanContext);
   const getStatus = (): String => {
     if (instance === undefined) return "Not connected";
-
-    return instance?.keeper.connected ? "Connected" : "Not Connected";
+    return instance?.keeper?.connected ? "Connected" : "Not Connected";
   };
 
   return (
