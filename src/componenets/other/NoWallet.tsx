@@ -37,6 +37,9 @@ export const NoWallet = () => {
           <Paper className={classes.paper}>
             <ErrorIcon />
             <Typography> No Wallet</Typography>
+            <Typography variant="caption" display="block" gutterBottom>
+              Hint: Please install Metamask extension
+            </Typography>
           </Paper>
         </Grid>
       </Grid>

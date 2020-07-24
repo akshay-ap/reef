@@ -42,6 +42,14 @@ export const NotConnectedToOceanNetwork = () => {
               Hint: Please check of wallet (Metamask) is connected to ocean
               network
             </Typography>
+            <Typography>
+              <a
+                href="https://docs.oceanprotocol.com/tutorials/connect-to-networks/#connect-to-the-nile-testnet"
+                target="_blank"
+              >
+                Click here to connect to Ocean network
+              </a>
+            </Typography>
           </Paper>
         </Grid>
       </Grid>
