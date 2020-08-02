@@ -46,6 +46,11 @@ const useStyles = makeStyles((theme: Theme) =>
       color: "white",
       textAlign: "center",
     },
+    stakesCardHeader: {
+      backgroundColor: theme.palette.secondary.main,
+      color: "black",
+      textAlign: "center",
+    },
   })
 );
 const ViewDetailedAsset = () => {
@@ -111,6 +116,21 @@ const ViewDetailedAsset = () => {
     await approve(STAKE_APP_CONTRACT_ADDRESS, MAX_APPROVAL_AMOUNT).send({
       from: accounts[0],
     });
+  };
+
+  const getStakesCard = (title: String, amount: string) => {
+    return (
+      <Card>
+        <CardHeader
+          titleTypographyProps={{ variant: "button" }}
+          title={title}
+          className={classes.stakesCardHeader}
+        />
+        <CardContent>
+          <Typography>{amount}</Typography>
+        </CardContent>
+      </Card>
+    );
   };
 
   return (
@@ -181,18 +201,26 @@ const ViewDetailedAsset = () => {
               className={classes.cardHeader}
             ></CardHeader>
             <CardContent>
-              <Typography>
-                My stakes:
-                {myStakeInfo[asset.id] ? myStakeInfo[asset.id].amount : 0}
-              </Typography>
-              <Typography>
-                Unique stakers:
-                {stakeInfo[asset.id] ? stakeInfo[asset.id].count : 0}
-              </Typography>
-              <Typography>
-                Total stakes amount:
-                {stakeInfo[asset.id] ? stakeInfo[asset.id].amount : 0}
-              </Typography>
+              <Grid container spacing={4}>
+                <Grid item xs={4}>
+                  {getStakesCard(
+                    "My stakes",
+                    myStakeInfo[asset.id] ? myStakeInfo[asset.id].amount : "0"
+                  )}
+                </Grid>
+                <Grid item xs={4}>
+                  {getStakesCard(
+                    "Unique stakers",
+                    stakeInfo[asset.id] ? stakeInfo[asset.id].count : "0"
+                  )}
+                </Grid>
+                <Grid item xs={4}>
+                  {getStakesCard(
+                    "Total stakes amount",
+                    stakeInfo[asset.id] ? stakeInfo[asset.id].amount : "0"
+                  )}
+                </Grid>
+              </Grid>
             </CardContent>
           </Card>
         </Grid>

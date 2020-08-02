@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
       background: "white",
     },
     avatar: {
-      backgroundColor: theme.palette.secondary.light,
+      backgroundColor: theme.palette.secondary.main,
     },
     cardHeader: {
       backgroundColor: theme.palette.primary.main,
