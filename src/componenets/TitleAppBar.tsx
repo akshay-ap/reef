@@ -1,13 +1,20 @@
 import React, { useContext } from "react";
-import { AppBar, Toolbar, Typography, makeStyles } from "@material-ui/core";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  makeStyles,
+  Theme,
+} from "@material-ui/core";
 import { MyOceanContext } from "../OceanContext";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: "flex",
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+    background: "primary",
   },
   title: {
     flexGrow: 1,
@@ -29,7 +36,12 @@ const TitleAppBar = () => {
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" noWrap className={classes.title}>
+          <Typography
+            variant="h6"
+            noWrap
+            className={classes.title}
+            align="left"
+          >
             AlgoRank
           </Typography>
           <Typography className={classes.status}>

@@ -3,7 +3,6 @@ import { MyOceanContext } from "../../OceanContext";
 import { DDO } from "@oceanprotocol/squid";
 import {
   Grid,
-  Typography,
   TextField,
   Button,
   Paper,
@@ -24,6 +23,7 @@ import {
 } from "../../slices/asset-list";
 import { useSnackbar } from "notistack";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { SectionHeader } from "../other/SectionHeader";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -100,9 +100,7 @@ const ViewAssets = () => {
 
   return (
     <div>
-      <Paper className={classes.paper}>
-        <Typography>Search Datasets</Typography>
-      </Paper>
+      <SectionHeader title="Search Datasets" />
       <br />
       <Grid container spacing={2}>
         <Grid item xs={10}>
@@ -122,7 +120,7 @@ const ViewAssets = () => {
           <Button
             fullWidth
             variant="contained"
-            color="primary"
+            color="secondary"
             onClick={getData}
           >
             Search

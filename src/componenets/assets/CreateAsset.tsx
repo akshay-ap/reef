@@ -3,10 +3,13 @@ import { MyOceanContext } from "../../OceanContext";
 import {
   Button,
   TextField,
-  Typography,
   Grid,
   Paper,
   IconButton,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
 } from "@material-ui/core";
 import {
   Account,
@@ -20,17 +23,12 @@ import { asset, DataAdditionalInformation } from "../../data/asset";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import { useSnackbar } from "notistack";
+import { SectionHeader } from "../other/SectionHeader";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
-    },
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: "center",
-      color: theme.palette.text.primary,
-      backgroundColor: "#e8eaf6",
     },
     paperTitle: {
       padding: theme.spacing(2),
@@ -52,6 +50,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     noLabel: {
       marginTop: theme.spacing(3),
+    },
+    cardHeader: {
+      backgroundColor: theme.palette.primary.main,
+      color: "white",
+      textAlign: "center",
     },
   })
 );
@@ -91,67 +94,70 @@ const CreateAsset = () => {
 
   const getFiles = () => {
     return (
-      <Paper className={classes.paper}>
-        <Typography>Files</Typography>
-        {mainMetaData.files.map((file, index) => {
-          return (
-            <div key={file.resourceId}>
-              <Grid item container spacing={3}>
-                <Grid item>
-                  <TextField
-                    value={file.url}
-                    label="URL"
-                    onChange={(event) => {
-                      updateFileURLInfo(file.resourceId, event.target.value);
-                    }}
-                  />
+      <Card>
+        <CardHeader title="Files" className={classes.cardHeader}></CardHeader>
+        <CardContent>
+          {mainMetaData.files.map((file, index) => {
+            return (
+              <div key={file.resourceId}>
+                <Grid item container spacing={3}>
+                  <Grid item>
+                    <TextField
+                      value={file.url}
+                      label="URL"
+                      onChange={(event) => {
+                        updateFileURLInfo(file.resourceId, event.target.value);
+                      }}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      value={file.contentType}
+                      label="ContentType"
+                      onChange={(event) => {
+                        updateFileContentInfo(
+                          file.resourceId,
+                          event.target.value
+                        );
+                      }}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      value={file.name}
+                      label="Name"
+                      onChange={(event) => {
+                        updateFileNameInfo(file.resourceId, event.target.value);
+                      }}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      value={file.resourceId}
+                      InputProps={{ readOnly: true }}
+                      label="ResourceId"
+                    />
+                  </Grid>
+                  <Grid item>
+                    <IconButton
+                      onClick={() => {
+                        removeFile(file.resourceId);
+                      }}
+                    >
+                      <DeleteForeverIcon />
+                    </IconButton>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <TextField
-                    value={file.contentType}
-                    label="ContentType"
-                    onChange={(event) => {
-                      updateFileContentInfo(
-                        file.resourceId,
-                        event.target.value
-                      );
-                    }}
-                  />
-                </Grid>
-                <Grid item>
-                  <TextField
-                    value={file.name}
-                    label="Name"
-                    onChange={(event) => {
-                      updateFileNameInfo(file.resourceId, event.target.value);
-                    }}
-                  />
-                </Grid>
-                <Grid item>
-                  <TextField
-                    value={file.resourceId}
-                    InputProps={{ readOnly: true }}
-                    label="ResourceId"
-                  />
-                </Grid>
-                <Grid item>
-                  <IconButton
-                    onClick={() => {
-                      removeFile(file.resourceId);
-                    }}
-                  >
-                    <DeleteForeverIcon />
-                  </IconButton>
-                </Grid>
-              </Grid>
-            </div>
-          );
-        })}
-        <br />
-        <Button variant="contained" color="primary" onClick={addFile}>
-          Add
-        </Button>
-      </Paper>
+              </div>
+            );
+          })}
+        </CardContent>
+        <CardActions>
+          <Button variant="contained" color="secondary" onClick={addFile}>
+            Add
+          </Button>
+        </CardActions>
+      </Card>
     );
   };
 
@@ -245,133 +251,133 @@ const CreateAsset = () => {
 
   const getMetaData = () => {
     return (
-      <Paper className={classes.paper}>
-        <Typography>MetaData</Typography>
-        <br />
-        <Grid item container spacing={3}>
-          <Grid item>
-            <TextField
-              value={mainMetaData.name}
-              required={true}
-              label="Name"
-              onChange={(event) => {
-                const { value } = event.target;
-                setMainMetaData((prevstate) => ({
-                  ...prevstate,
-                  name: value,
-                }));
-              }}
-            ></TextField>
+      <Card>
+        <CardHeader
+          title="MetaData"
+          className={classes.cardHeader}
+        ></CardHeader>
+        <CardContent>
+          <Grid item container spacing={3}>
+            <Grid item>
+              <TextField
+                value={mainMetaData.name}
+                required={true}
+                label="Name"
+                onChange={(event) => {
+                  const { value } = event.target;
+                  setMainMetaData((prevstate) => ({
+                    ...prevstate,
+                    name: value,
+                  }));
+                }}
+              ></TextField>
+            </Grid>
+            <Grid item>
+              <TextField
+                value={mainMetaData.author}
+                required={true}
+                label="Author"
+                onChange={(event) => {
+                  const { value } = event.target;
+                  setMainMetaData((prevstate) => ({
+                    ...prevstate,
+                    author: value,
+                  }));
+                }}
+              ></TextField>
+            </Grid>
+            <Grid item>
+              <TextField
+                value={mainMetaData.license}
+                label="License"
+                required={true}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  setMainMetaData((prevstate) => ({
+                    ...prevstate,
+                    license: value,
+                  }));
+                }}
+              ></TextField>
+            </Grid>
+            <Grid item>
+              <TextField
+                value={mainMetaData.price}
+                label="Price"
+                required={true}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  setMainMetaData((prevstate) => ({
+                    ...prevstate,
+                    price: value,
+                  }));
+                }}
+              ></TextField>
+            </Grid>
           </Grid>
-          <Grid item>
-            <TextField
-              value={mainMetaData.author}
-              required={true}
-              label="Author"
-              onChange={(event) => {
-                const { value } = event.target;
-                setMainMetaData((prevstate) => ({
-                  ...prevstate,
-                  author: value,
-                }));
-              }}
-            ></TextField>
-          </Grid>
-          <Grid item>
-            <TextField
-              value={mainMetaData.license}
-              label="License"
-              required={true}
-              onChange={(event) => {
-                const { value } = event.target;
-                setMainMetaData((prevstate) => ({
-                  ...prevstate,
-                  license: value,
-                }));
-              }}
-            ></TextField>
-          </Grid>
-          <Grid item>
-            <TextField
-              value={mainMetaData.price}
-              label="Price"
-              required={true}
-              onChange={(event) => {
-                const { value } = event.target;
-                setMainMetaData((prevstate) => ({
-                  ...prevstate,
-                  price: value,
-                }));
-              }}
-            ></TextField>
-          </Grid>
-        </Grid>
-      </Paper>
+        </CardContent>
+      </Card>
     );
   };
 
   const getAdditionalInfo = () => {
     return (
-      <Paper className={classes.paper}>
-        <Typography>Additional information</Typography>
-        <br />
-        <Grid item container spacing={3}>
-          <Grid item>
-            <TextField
-              label="Description"
-              onChange={(e) => {
-                const { value } = e.target;
-                setAdditionInformation((prevstate) => ({
-                  ...prevstate,
-                  description: value,
-                }));
-              }}
-            ></TextField>
-          </Grid>
-          <Grid item>
-            <TextField
-              label="CopyrightHolder"
-              onChange={(e) => {
-                const { value } = e.target;
+      <Card>
+        <CardHeader
+          title="Additional information"
+          className={classes.cardHeader}
+        ></CardHeader>
+        .
+        <CardContent>
+          <Grid item container spacing={3}>
+            <Grid item>
+              <TextField
+                label="Description"
+                onChange={(e) => {
+                  const { value } = e.target;
+                  setAdditionInformation((prevstate) => ({
+                    ...prevstate,
+                    description: value,
+                  }));
+                }}
+              ></TextField>
+            </Grid>
+            <Grid item>
+              <TextField
+                label="CopyrightHolder"
+                onChange={(e) => {
+                  const { value } = e.target;
 
-                setAdditionInformation((prevstate) => ({
-                  ...prevstate,
-                  copyrightHolder: value,
-                }));
-              }}
-            ></TextField>
+                  setAdditionInformation((prevstate) => ({
+                    ...prevstate,
+                    copyrightHolder: value,
+                  }));
+                }}
+              ></TextField>
+            </Grid>
           </Grid>
-        </Grid>
-      </Paper>
+        </CardContent>
+      </Card>
     );
   };
   return (
     <div className={classes.root}>
-      <Paper className={classes.paperTitle}>
-        <Typography>Publish asset</Typography>
-      </Paper>
+      <SectionHeader title="Publish dataset" />
       <br />
       <form onSubmit={handleSubmit}>
-        {" "}
-        {/* 
-               <Button type="submit" variant="contained"
-                    onClick={createAssetWithCompute}>Create with compute</Button> */}
         <div className={classes.root}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              {" "}
-              {getMetaData()}{" "}
+              {getMetaData()}
             </Grid>
             <Grid item xs={12}>
-              {" "}
-              {getAdditionalInfo()}{" "}
+              {getAdditionalInfo()}
             </Grid>
             <Grid item xs={12}>
-              {" "}
-              {getFiles()}{" "}
+              {getFiles()}
             </Grid>
             <Grid item xs={3}>
-              <Button type="submit" variant="contained" color="primary">
+              <Button type="submit" variant="contained" color="secondary">
                 Create
               </Button>
             </Grid>

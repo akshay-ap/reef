@@ -13,27 +13,28 @@ import {
   Button,
   makeStyles,
   Avatar,
+  Theme,
+  createStyles,
 } from "@material-ui/core";
 import { MyOceanContext } from "../../OceanContext";
 
-const useStyles = makeStyles({
-  title: {
-    fontSize: 14,
-  },
-  card: {
-    background: "#bbdefb",
-  },
-  button: {
-    backgroundColor: "#1a237e",
-    color: "white",
-  },
-  avatar: {
-    backgroundColor: "#bbdefb",
-  },
-  cardHeader: {
-    backgroundColor: "#3f51b5",
-  },
-});
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    title: {
+      fontSize: 14,
+    },
+    card: {
+      background: "white",
+    },
+    avatar: {
+      backgroundColor: theme.palette.secondary.light,
+    },
+    cardHeader: {
+      backgroundColor: theme.palette.primary.main,
+      color: "white",
+    },
+  })
+);
 
 const AssetDetails = ({
   assetInfo,
@@ -67,7 +68,7 @@ const AssetDetails = ({
           size="small"
           color="primary"
           variant="contained"
-          className={classes.button}
+          // className={classes.button}
           onClick={runComputeJob}
         >
           Compute
@@ -111,7 +112,6 @@ const AssetDetails = ({
           assetInfo.service.find((e) => e.type === "metadata")?.attributes.main
             .name
         }
-        action={<div></div>}
         className={classes.cardHeader}
       />
 
@@ -137,9 +137,8 @@ const AssetDetails = ({
       <CardActions>
         <Button
           size="small"
-          color="primary"
           variant="contained"
-          className={classes.button}
+          // className={classes.button}
           onClick={() => {
             setAsset(asset);
             history.push("/asset/details");
@@ -149,9 +148,8 @@ const AssetDetails = ({
         </Button>
         <Button
           size="small"
-          color="primary"
           variant="contained"
-          className={classes.button}
+          // className={classes.button}
           onClick={() => {
             consume(assetInfo);
           }}
