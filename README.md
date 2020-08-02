@@ -41,7 +41,7 @@ Link: [Staking ](https://github.com/akshay-ap/StakeToken)
 
 ### Ranking logic
 
-    The `StakeApp` contract stores the stakes users (ERC20 tokens). The application decides the rank of the alogrithm/dataset based on 2 factors: 
+    The `StakeApp` contract stores the stakes users (ERC20 tokens). The application decides the rank of the alogrithm/dataset based on 2 factors:
         a. Total stakes of ERC20 tokens on each asset (dataset/algorithm).
         b. Count of unique user addresses who have staked the tokens on each asset.
     Equal weight is given to both the above two factors and the score for each `algorithm`/`dataset` is calculated. The assets are ranked from highest to lowest score.
@@ -56,7 +56,7 @@ Link: [Staking ](https://github.com/akshay-ap/StakeToken)
 #### Input
 
 | Asset_ID | Count of unique addresses who added stakes | Total amount staked |
-|----------|--------------------------------------------|---------------------|
+| -------- | ------------------------------------------ | ------------------- |
 | A        | 4                                          | 40000               |
 | B        | 10                                         | 35000               |
 | C        | 2                                          | 500000              |
@@ -64,7 +64,7 @@ Link: [Staking ](https://github.com/akshay-ap/StakeToken)
 #### Result
 
 | Asset_ID | Normalized Score of Count of addresses | Total amount staked | Average | Rank |
-|----------|----------------------------------------|---------------------|---------|------|
+| -------- | -------------------------------------- | ------------------- | ------- | ---- |
 | A        | 0.25                                   | 0.010752688         | 0.13037 | 2    |
 | B        | 1                                      | 0                   | 0.5     | 1    |
 | C        | 0                                      | 1                   | 0.5     | 1    |
@@ -72,17 +72,16 @@ Link: [Staking ](https://github.com/akshay-ap/StakeToken)
 ### Demo images
 
 1. View datasets:
-    ![View asset](images/view_assets.png)
+   ![View asset](images/view_assets.jpg)
 
 2. Publish asset:
-    ![Publish asset](images/publish.png)
+   ![Publish asset](images/publish.jpg)
 
 3. View asset:
-    ![Asset detials](images/asset_details.png)
+   ![Asset detials](images/asset_details.jpg)
 
 4. Create compute job:
-    ![Compute](images/compute.png)
-
+   ![Compute](images/compute.png)
 
 ### To do
 

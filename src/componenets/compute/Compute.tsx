@@ -8,11 +8,13 @@ import { useSnackbar } from "notistack";
 import {
   Button,
   Typography,
-  Paper,
   makeStyles,
   Theme,
   createStyles,
   TextField,
+  CardHeader,
+  CardContent,
+  Card,
 } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux";
@@ -32,6 +34,11 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: "center",
       color: theme.palette.text.primary,
       backgroundColor: "#c5cae9",
+    },
+    cardHeader: {
+      backgroundColor: theme.palette.primary.main,
+      color: "white",
+      textAlign: "center",
     },
   })
 );
@@ -240,69 +247,58 @@ const Compute = () => {
       <SectionHeader title={"Compute"} />
 
       <br />
-      <Paper className={classes.paper}>
-        <ComputeSection>
-          <Typography variant="h6">Selected Dataset</Typography>
+      <Card>
+        <CardHeader title={"Selected Dataset"} className={classes.cardHeader} />
+        <CardContent>
+          <Typography variant="caption">Asset DID</Typography>
 
-          <Label>Asset DID</Label>
           <TextField
             value={ddoAssetId}
             fullWidth={true}
             onChange={(e) => setDdoAssetId(e.target.value)}
           />
-        </ComputeSection>
-      </Paper>
+        </CardContent>
+      </Card>
       <br />
-
-      <Paper className={classes.paper}>
-        <ComputeSection>
-          <Typography variant="h6">Selected algorithm</Typography>
-
-          <Label>Algorithm DID</Label>
-
+      <Card>
+        <CardHeader
+          title={"Selected algorithm"}
+          className={classes.cardHeader}
+        />
+        <CardContent>
+          <Typography variant="caption">Algorithm DID</Typography>
           <TextField
             value={ddoAlgorithmId}
             fullWidth={true}
             onChange={(e) => setDdoAlgorithmId(e.target.value)}
           />
-        </ComputeSection>
-      </Paper>
+        </CardContent>
+      </Card>
       <br />
-      <Paper className={classes.paper}>
-        <ComputeSection>
-          <Typography variant="h6">Start Compute Job</Typography>
-
-          {/* <Label>
-                    <input type="checkbox" id="publishOutputState"
-                        checked={publishOutputState}
-                        onChange={handlePublishOutputState}/>
-                    Publish Output into the Marketplace
-                </Label>
-                <Label>
-                    <input type="checkbox" id="publishLogState"
-                        checked={publishLogState}
-                        onChange={handlePublishLogState}/>
-                    Publish Algorithm Logs into the Marketplace
-                </Label> */}
-
-          <Label>Compute Job ID</Label>
+      <Card>
+        <CardHeader
+          title={"Start Compute Job"}
+          className={classes.cardHeader}
+        />
+        <CardContent>
+          <Typography variant="caption">Compute Job ID</Typography>
           <code> {jobId}</code>
-
           <Button
-            color="primary"
+            color="secondary"
             variant="contained"
             onClick={startWithPublishedAlgo}
             disabled={!ddoAssetId || !ddoAlgorithmId}
           >
             Order and start compute service with published algorithm
           </Button>
-        </ComputeSection>
-      </Paper>
+        </CardContent>
+      </Card>
       <br />
-      <Paper className={classes.paper}>
-        <ComputeSection>
-          <Typography variant="h6">View Job Status</Typography>
+      <Card>
+        <CardHeader title={"View Job Status"} className={classes.cardHeader} />
+        <CardContent>
           <code> {jobStatus}</code>
+
           <Button
             color="primary"
             variant="contained"
@@ -311,42 +307,9 @@ const Compute = () => {
           >
             View Job Status
           </Button>
-        </ComputeSection>
-      </Paper>
+        </CardContent>
+      </Card>
     </div>
-  );
-};
-
-const ComputeSection = ({ children }: { children: ReactNode }) => {
-  return (
-    <>
-      <div
-        style={{
-          textAlign: "left",
-          paddingBottom: "1rem",
-          maxWidth: "40rem",
-          margin: "1rem auto",
-        }}
-      >
-        {" "}
-        {children}{" "}
-      </div>
-    </>
-  );
-};
-
-const Label = ({ children, ...props }: { children: ReactNode }) => {
-  return (
-    <label
-      style={{
-        display: "block",
-        fontSize: "0.8rem",
-      }}
-      {...props}
-    >
-      {" "}
-      {children}{" "}
-    </label>
   );
 };
 

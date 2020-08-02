@@ -13,7 +13,7 @@ export const SectionHeader = ({ title }: { title: string }) => {
   const classes = useStyles();
   return (
     <Paper className={classes.paperTitle}>
-      <Typography variant="h3">{title}</Typography>
+      <Typography variant="h4">{title}</Typography>
     </Paper>
   );
 };
